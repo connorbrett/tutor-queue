@@ -119,5 +119,13 @@ app.post('/add/tutor',
     }
 );
 
+app.delete('/delete/queue', function (req, res) {
+    TutorRequest.deleteMany({}).exec((err, results) => {
+        console.log('Deleted users');
+        res.end('Deleted users');
+    });
+
+});
+
 
 app.listen(port, () => console.log('Node.js web server at port ' + port + ' is running..'));
