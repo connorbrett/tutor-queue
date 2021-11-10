@@ -75,6 +75,19 @@ app.get('/get/queue/all',
 );
 
 /*
+    Handles GET request from the browser to log in a user.
+*/
+app.get('/get/tutors',
+    function (req, res) {
+        Tutor.find({}, (err, result) => {
+            console.log(result);
+            if (err) res.end(err);
+            res.json(result);
+        });
+    }
+);
+
+/*
     Handles POST request from the browser to add a new user to the database.
 */
 app.post('/add/request',
@@ -115,16 +128,15 @@ app.post('/add/tutor',
             if (err) res.end(err);
             res.end('SAVED');
         });
-        res.end();
     }
 );
+
 
 app.delete('/delete/queue', function (req, res) {
     TutorRequest.deleteMany({}).exec((err, results) => {
         console.log('Deleted users');
         res.end('Deleted users');
     });
-
 });
 
 
