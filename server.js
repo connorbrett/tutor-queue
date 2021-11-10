@@ -15,7 +15,6 @@ const port = 3000;
 
 app.use(express.static('public_html'));
 app.use(bodyParser.json());
-app.use(cookieParser());
 app.set('json spaces', 2);
 
 
@@ -43,7 +42,7 @@ var TutorSchema = new Schema({
     name: String,
     email: String,
     courses: [String],
-    availability: Mixed
+    availability: Schema.Types.Mixed
 });
 
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
@@ -53,11 +52,24 @@ var Tutor = mongoose.model('Tutor', TutorSchema);
 /*
     Handles GET request from the browser to log in a user.
 */
-app.get('/queue',
+app.get('/get/queue',
     function (req, res) {
-        TutorRequest.findMany({ tutor: { $ne: null } }, (err, result) => {
+        TutorRequest.find({ tutor: { $ne: null } }, (err, result) => {
             console.log(result);
             if (err) res.end(err);
+        });
+    }
+);
+
+/*
+    Handles GET request from the browser to log in a user.
+*/
+app.get('/get/queue/all',
+    function (req, res) {
+        TutorRequest.find({}, (err, result) => {
+            console.log(result);
+            if (err) res.end(err);
+            res.json(result);
         });
     }
 );
@@ -78,7 +90,6 @@ app.post('/add/request',
             if (err) res.end(err);
             res.end('SAVED');
         });
-        res.end();
     }
 );
 
