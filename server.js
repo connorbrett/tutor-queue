@@ -98,21 +98,23 @@ app.get('/get/tutors',
 app.post('/add/request',
     function (req, res) {
         TutorRequest.findOne({ email: req.body.email }, (err, student) => {
+            console.log(student);
             if (err) res.err(err);
             if (student) {
                 res.end(`${student.name} already in queue.`);
+            } else {
+                var tutorRequest = new TutorRequest({
+                    name: req.body.name,
+                    email: req.body.email,
+                    course: req.body.courses,
+                    status: WAITING,
+                    submitted: new Date()
+                });
+                tutorRequest.save((err) => {
+                    if (err) res.end(err);
+                    res.end(`${req.body.name} added to queue.`);
+                });
             }
-            var tutorRequest = new TutorRequest({
-                name: req.body.name,
-                email: req.body.email,
-                course: req.body.courses,
-                status: WAITING,
-                submitted: new Date()
-            });
-            tutorRequest.save((err) => {
-                if (err) res.end(err);
-                res.end(`${student.name} added to queue.`);
-            });
         });
     }
 );
