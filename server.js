@@ -17,6 +17,11 @@ app.use(express.static('public_html'));
 app.use(bodyParser.json());
 app.set('json spaces', 2);
 
+const WAITING = 'WAITING';
+const INPROGRESS = 'IN PROGRESS';
+const COMPLETE = 'COMPLETE';
+
+
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
@@ -35,6 +40,7 @@ var TutorRequestSchema = new Schema({
     email: String,
     course: String,
     tutor: { type: mongoose.Schema.Types.ObjectId, ref: 'Tutor' },
+    status: String,
     submitted: Date
 });
 
@@ -42,7 +48,8 @@ var TutorSchema = new Schema({
     name: String,
     email: String,
     courses: [String],
-    availability: Schema.Types.Mixed
+    availability: Schema.Types.Mixed,
+    busy: Boolean
 });
 
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
@@ -54,9 +61,9 @@ var Tutor = mongoose.model('Tutor', TutorSchema);
 */
 app.get('/get/queue',
     function (req, res) {
-        TutorRequest.find({ tutor: { $ne: null } }, (err, result) => {
-            console.log(result);
+        TutorRequest.find({ status: WAITING }, (err, results) => {
             if (err) res.end(err);
+            res.json(results);
         });
     }
 );
@@ -66,10 +73,9 @@ app.get('/get/queue',
 */
 app.get('/get/queue/all',
     function (req, res) {
-        TutorRequest.find({}, (err, result) => {
-            console.log(result);
+        TutorRequest.find({}, (err, results) => {
             if (err) res.end(err);
-            res.json(result);
+            res.json(results);
         });
     }
 );
@@ -80,7 +86,6 @@ app.get('/get/queue/all',
 app.get('/get/tutors',
     function (req, res) {
         Tutor.find({}, (err, result) => {
-            console.log(result);
             if (err) res.end(err);
             res.json(result);
         });
@@ -92,17 +97,45 @@ app.get('/get/tutors',
 */
 app.post('/add/request',
     function (req, res) {
-        console.log(req.body);
-        var tutorRequest = new TutorRequest({
-            name: req.body.name,
-            email: req.body.email,
-            course: req.body.courses,
-            submitted: new Date()
+        TutorRequest.findOne({ email: req.body.email }, (err, student) => {
+            if (err) res.err(err);
+            if (student) {
+                res.end(`${student.name} already in queue.`);
+            }
+            var tutorRequest = new TutorRequest({
+                name: req.body.name,
+                email: req.body.email,
+                course: req.body.courses,
+                status: WAITING,
+                submitted: new Date()
+            });
+            tutorRequest.save((err) => {
+                if (err) res.end(err);
+                res.end(`${student.name} added to queue.`);
+            });
         });
-        tutorRequest.save((err) => {
-            if (err) res.end(err);
-            res.end('SAVED');
-        });
+    }
+);
+
+app.post('/complete/request',
+    function (req, res) {
+        var tutorEmail = req.body.tutorEmail;
+        var studentEmail = req.body.studentEmail;
+        Tutor.findOneAndUpdate(
+            { email: tutorEmail },
+            { busy: false },
+            (err, tutor) => {
+                if (err) res.end(err);
+                TutorRequest.findOneAndUpdate(
+                    { email: studentEmail },
+                    { status: COMPLETE },
+                    (err, student) => {
+                        if (err) res.end(err);
+                        res.end(`${student.name} request completed by ${tutor.name}`);
+                    }
+                );
+            }
+        );
     }
 );
 
@@ -122,22 +155,70 @@ app.post('/add/tutor',
             name: req.body.name,
             email: req.body.email,
             courses: req.body.courses,
-            availability: testAvailibility
+            availability: testAvailibility,
+            busy: false
         });
         tutor.save((err) => {
             if (err) res.end(err);
-            res.end('SAVED');
+            res.end('Tutor added');
         });
     }
 );
 
+app.post('/assign',
+    function (req, res) {
+        var tutorEmail = req.body.tutorEmail;
+        var studentEmail = req.body.studentEmail;
+        console.log(`assigning ${tutorEmail} to ${studentEmail}`);
+        Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
+            console.log('hi');
+            console.log(tutor);
+            if (err) res.end(err);
+            if (!tutor) {
+                res.end('Tutor not found');
+            }
+            if (tutor.busy) {
+                res.end(`Tutor ${tutor.name} busy, cannot help more than one student at a time.`);
+            }
+            var tutorID = tutor.id;
 
-app.delete('/delete/queue', function (req, res) {
-    TutorRequest.deleteMany({}).exec((err, results) => {
-        console.log('Deleted users');
-        res.end('Deleted users');
-    });
-});
+            TutorRequest.findOneAndUpdate(
+                { email: studentEmail },
+                {
+                    tutor: tutorID,
+                    status: INPROGRESS
+                },
+                (err, request) => {
+                    if (err) res.end(err);
+                    if (!request) {
+                        res.end(`${studentEmail} not found, ${tutorEmail} was not assigned`);
+                    }
+                    Tutor.findByIdAndUpdate(tutorID, { busy: true }, (err, result) => {
+                        res.end(`${tutorEmail} assigned to ${studentEmail}`);
+                    });
+                });
+        });
+    }
+);
+
+app.delete('/delete/queue',
+    function (req, res) {
+        TutorRequest.deleteMany({}).exec((err, results) => {
+            console.log('Deleted users');
+            res.end('Deleted users');
+        });
+    }
+);
+
+app.delete('/delete/tutor',
+    function (req, res) {
+        var email = req.body.email;
+        Tutor.deleteOne({ email: email }).exec((err, results) => {
+            console.log('Deleted tutor');
+            res.end('Deleted tutor');
+        });
+    }
+);
 
 
 app.listen(port, () => console.log('Node.js web server at port ' + port + ' is running..'));
