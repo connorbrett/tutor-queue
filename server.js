@@ -8,6 +8,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
 const availabilitySchedule = require('availability-schedule');
 
 const app = express();
@@ -15,13 +16,39 @@ const port = 3000;
 
 app.use(express.static('public_html'));
 app.use(bodyParser.json());
+app.use(cookieParser());
 app.set('json spaces', 2);
 
 const WAITING = 'WAITING';
 const INPROGRESS = 'IN PROGRESS';
 const COMPLETE = 'COMPLETE';
 
+var sessions = {};
+const LOGIN_TIME = 60000;
 
+function filterSessions() {
+    var now = Date.now();
+    for (x in sessions) {
+        username = x;
+        time = sessions[x];
+        if (time + LOGIN_TIME < now) {
+            console.log('delete user session: ' + username);
+            delete sessions[username];
+        }
+    }
+}
+
+function addSession(username) {
+    var now = Date.now();
+    sessions[username] = now;
+    console.log(sessions);
+}
+
+function hasSession(username) {
+    return username in sessions;
+}
+
+setInterval(filterSessions, 2000);
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
@@ -55,6 +82,29 @@ var TutorSchema = new Schema({
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 
+app.use(express.static('public_html'));
+app.get('/', (req, res) => {
+    console.log('redirect');
+    res.redirect('/home.html');
+});
+
+// This is a special function to authenticate the user for some routes
+
+function authenticate(req, res, next) {
+    var c = req.cookies;
+    if (c && c.login) {
+        var username = c.login.username;
+        if (hasSession(username)) {
+            console.log('authenticating success!')
+            addSession(username);
+            next();
+        } else {
+            res.redirect('/index.html');
+        }
+    } else {
+        res.redirect('/index.html');
+    }
+}
 
 /*
     Handles GET request from the browser to log in a user.
@@ -98,7 +148,6 @@ app.get('/get/tutors',
 app.post('/add/request',
     function (req, res) {
         TutorRequest.findOne({ email: req.body.email }, (err, student) => {
-            console.log(student);
             if (err) res.err(err);
             if (student) {
                 res.end(`${student.name} already in queue.`);
