@@ -1,0 +1,75 @@
+body {
+    margin: 0px;
+}
+
+img#tutors {
+    position: absolute;
+    width: 65vw;
+    height: 100vh;
+}
+
+img#UofA {
+    position: relative;
+    width: 75%;
+    height: 20%;
+}
+
+#login-display {
+    position: absolute;
+    width: 35vw;
+    height: 100vh;
+    right: 0px;
+    text-align: center;
+    font-family: monospace;
+}
+
+#login-display > * {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input {
+    width: 100px;
+    height: 100px;
+    margin: 20px;
+    padding: 2px;
+    border: 2px solid;
+    border-radius: 10px;
+}
+
+#img-underline {
+    position: relative;
+    bottom: 25px;
+    word-spacing: 100px;
+}
+
+.zoom {
+    transition: transform .2s;
+}
+  
+.zoom:hover {
+    -ms-transform: scale(1.1); /* IE 9 */
+    -webkit-transform: scale(1.1); /* Safari 3-8 */
+    transform: scale(1.1); 
+}
+/* Code for "welcome to the tutor center" animation */
+/*
+.typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    animation: 
+      typing 2s steps(40, end),
+      blink-caret .75s step-end infinite;
+  }
+  
+  @keyframes typing {
+    from { width: 0 }
+    to { width: 100% }
+  }
+  
+  @keyframes blink-caret {
+    from, to { border-color: transparent;}
+  }
+*/
