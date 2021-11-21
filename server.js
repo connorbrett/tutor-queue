@@ -107,6 +107,9 @@ function authenticate(req, res, next) {
     }
 }
 
+/*
+    Handles POST request from the browser to log in a user.
+*/
 app.post('/login/user',
     function (req, res) {
         var username = req.body.username;
@@ -124,7 +127,7 @@ app.post('/login/user',
     });
 
 /*
-    Handles GET request from the browser to log in a user.
+    Handles GET request from the browser return the current queue.
 */
 app.get('/get/queue',
     function (req, res) {
@@ -136,7 +139,7 @@ app.get('/get/queue',
 );
 
 /*
-    Handles GET request from the browser to log in a user.
+    Handles GET request from the browser return the entire queue.
 */
 app.get('/get/queue/all',
     function (req, res) {
@@ -148,7 +151,7 @@ app.get('/get/queue/all',
 );
 
 /*
-    Handles GET request from the browser to log in a user.
+    Handles GET request from the browser to get all tutors.
 */
 app.get('/get/tutors',
     function (req, res) {
@@ -185,6 +188,9 @@ app.post('/add/request',
     }
 );
 
+/*
+    Handles POST request from the browser to complete a tutor request
+*/
 app.post('/complete/request',
     function (req, res) {
         var tutorEmail = req.body.tutorEmail;
@@ -208,7 +214,7 @@ app.post('/complete/request',
 );
 
 /*
-    Handles POST request from the browser to add a new user to the database.
+    Handles POST request from the browser to add a new tutor to the database.
 */
 app.post('/add/tutor',
     function (req, res) {
@@ -233,6 +239,9 @@ app.post('/add/tutor',
     }
 );
 
+/*
+    Handles POST request from the browser to assign a tutor to a student
+*/
 app.post('/assign',
     function (req, res) {
         var tutorEmail = req.body.tutorEmail;
@@ -269,6 +278,9 @@ app.post('/assign',
     }
 );
 
+/*
+    Test route to clear queue
+*/
 app.delete('/delete/queue',
     function (req, res) {
         TutorRequest.deleteMany({}).exec((err, results) => {
@@ -278,6 +290,9 @@ app.delete('/delete/queue',
     }
 );
 
+/*
+    Test route to clear list of tutors
+*/
 app.delete('/delete/tutor',
     function (req, res) {
         var email = req.body.email;
