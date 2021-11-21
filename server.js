@@ -74,6 +74,7 @@ var TutorRequestSchema = new Schema({
 var TutorSchema = new Schema({
     name: String,
     email: String,
+    password: String,
     courses: [String],
     availability: Schema.Types.Mixed,
     busy: Boolean
@@ -105,6 +106,22 @@ function authenticate(req, res, next) {
         res.redirect('/index.html');
     }
 }
+
+app.post('/login/user',
+    function (req, res) {
+        var username = req.body.username;
+        var password = req.body.password;
+        Tutor.findOne({ email: username }, (err, result) => {
+            if (err) res.end(err);
+            if (result && result.password == password) {
+                addSession(username);
+                res.cookie('login', { username: username }, { maxAge: 120000 });
+                res.end('SUCCESS!');
+            } else {
+                res.end();
+            }
+        });
+    });
 
 /*
     Handles GET request from the browser to log in a user.
@@ -196,7 +213,6 @@ app.post('/complete/request',
 app.post('/add/tutor',
     function (req, res) {
         console.log(req.body);
-
         var testAvailibility = new availabilitySchedule();
         var now = new Date();
         var later = new Date();
@@ -205,6 +221,7 @@ app.post('/add/tutor',
         var tutor = new Tutor({
             name: req.body.name,
             email: req.body.email,
+            password: req.body.password,
             courses: req.body.courses,
             availability: testAvailibility,
             busy: false
