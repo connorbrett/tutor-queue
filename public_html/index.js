@@ -5,7 +5,7 @@ function loginPopup() {
 
 // Redirect to student's webpage
 function toStudent() {
-    window.location.href = "student.html";
+    window.location.href = "student/student.html";
 }
 
 /*  Authenticate and login tutor.
@@ -22,7 +22,7 @@ function toTutor() {
         method: 'POST',
         success: function (result) {
             if (result == 'SUCCESS!') {
-                window.location.href = 'tutor.html';
+                window.location.href = "tutor/tutor.html";
             } else {
                 alert("Username or Password incorrect!");
             }
