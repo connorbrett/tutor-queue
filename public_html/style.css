@@ -2,6 +2,10 @@ body {
     margin: 0px;
 }
 
+h2 {
+    font-size: xx-large;
+}
+
 /* Tutor center image */
 img#tutors {
     position: absolute;
@@ -34,8 +38,8 @@ img#UofA {
 
 /* Student and tutor button in the right panel */
 input#student, input#tutor {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     margin: 20px;
     padding: 2px;
     border: 2px solid;
@@ -63,8 +67,8 @@ input#student, input#tutor {
 
 /* Login popup board for tutor login */
 .popup .content {
-    width: 300px;
-    height: 385px;
+    width: 370px;
+    height: 455px;
     z-index: 2;
     text-align: center;
     top: 50%;
@@ -80,8 +84,8 @@ h1 {
     font-weight: 600;
     padding-top: 20px;
     text-align: center;
-    font-size: 32px;
-    padding-bottom: 10px;
+    font-size: 38px;
+    padding-bottom: 15px;
     color: lightgray;
 }
 
@@ -91,16 +95,17 @@ h1 {
     color: lightgray;
     background: #262626;
     padding: 20px;
-    font-size: 16px;
+    font-size: 20px;
     border-radius: 10px;
     box-shadow: inset 5px 5px 5px #232323,
         inset -5px -5px 5px #292929;
     outline: none;
+    width: 280px;
 }
 
 /* sign-in-btn is the sign-in button at the bottom of the board */
 .sign-in-btn {
-    margin-top: 20px;
+    margin-top: 40px;
     padding: 20px 30px;
     border-radius: 40px;
     border: none;
@@ -137,15 +142,15 @@ p {
 
 .popup .close-btn {
     color: white;
-    font-size: 20px;
+    font-size: 26px;
     border-radius: 50%;
     background: red;
     position: absolute;
     right: 20px;
     top: 20px;
-    width: 20px;
+    width: 28px;
     padding: 2px 5px 7px 5px;
-    height: 20px;
+    height: 28px;
     box-shadow: 5px 5px 15px #1e1e1e,
         -5px -5px 15px #1e1e1e;
 }
@@ -155,7 +160,7 @@ p {
 }
 
 /* Code for "welcome to the tutor center" animation */
-/*
+/* 
 .typewriter {
     overflow: hidden;
     white-space: nowrap;
@@ -172,5 +177,4 @@ p {
 
 @keyframes blink-caret {
     from, to { border-color: transparent;}
-}
-*/
+} */
