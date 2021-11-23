@@ -167,24 +167,25 @@ app.get('/get/tutors',
 */
 app.post('/add/request',
     function (req, res) {
-        TutorRequest.findOne({ email: req.body.email }, (err, student) => {
-            if (err) res.err(err);
-            if (student) {
-                res.end(`${student.name} already in queue.`);
-            } else {
-                var tutorRequest = new TutorRequest({
-                    name: req.body.name,
-                    email: req.body.email,
-                    course: req.body.courses,
-                    status: WAITING,
-                    submitted: new Date()
-                });
-                tutorRequest.save((err) => {
-                    if (err) res.end(err);
-                    res.end(`${req.body.name} added to queue.`);
-                });
-            }
-        });
+        TutorRequest.findOne({ email: req.body.email, status: { $ne: 'COMPLETE' } },
+            (err, student) => {
+                if (err) res.err(err);
+                if (student) {
+                    res.end(`${student.name} already in queue.`);
+                } else {
+                    var tutorRequest = new TutorRequest({
+                        name: req.body.name,
+                        email: req.body.email,
+                        course: req.body.courses,
+                        status: WAITING,
+                        submitted: new Date()
+                    });
+                    tutorRequest.save((err) => {
+                        if (err) res.end(err);
+                        res.end(`${req.body.name} added to queue.`);
+                    });
+                }
+            });
     }
 );
 
@@ -196,15 +197,18 @@ app.post('/complete/request',
         var tutorEmail = req.body.tutorEmail;
         var studentEmail = req.body.studentEmail;
         Tutor.findOneAndUpdate(
-            { email: tutorEmail },
+            { email: tutorEmail, busy: true },
             { busy: false },
             (err, tutor) => {
                 if (err) res.end(err);
                 TutorRequest.findOneAndUpdate(
-                    { email: studentEmail },
+                    { email: studentEmail, status: INPROGRESS },
                     { status: COMPLETE },
                     (err, student) => {
                         if (err) res.end(err);
+                        if (!student) {
+                            res.end(`Did not complete request, ${student.name}'s request not found.`);
+                        }
                         res.end(`${student.name} request completed by ${tutor.name}`);
                     }
                 );
@@ -260,7 +264,7 @@ app.post('/assign',
             var tutorID = tutor.id;
 
             TutorRequest.findOneAndUpdate(
-                { email: studentEmail },
+                { email: studentEmail, status: WAITING },
                 {
                     tutor: tutorID,
                     status: INPROGRESS
