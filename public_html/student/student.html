@@ -8,17 +8,45 @@
     <script src="jquery.js"></script>
 </head>
 <body>
-    <h3>Welcome Wildcat!</h3>
-    <div id="post-content">
-        <label for="name">Full Name </label>
-        <input type="text" id="name" name="name"><br><br>
-        <label for="email">Email </label>
-        <input type="text" id="email" name="email"><br><br>
-        <label for="course">Course </label>
-        <input type="text" id="course" name="course"><br><br>
-        <input type="submit" id="submit" value="Submit" onclick="sendRequest()">
-    </div>
-    <script src="student.js"></script>
+    <div class="container-contact100">
+		<div class="wrap-contact100">
+			<span class="contact100-form-symbol">
+				<img src="/public_html/images/wild_cat_logo.png" alt="LOGO">
+			</span>
+
+			<form class="contact100-form">
+				<span class="contact100-form-title">
+					Get help with your assignments
+				</span>
+
+				<div class="wrap-input100">
+					<input class="input100" type="text" name="name" placeholder="Full Name" required="required">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100">
+					<input class="input100" type="text" name="email" placeholder="Email Address" required="required">
+					<span class="focus-input100"></span>
+				</div>
+
+                <div class="wrap-input100">
+					<input class="input100" type="text" name="course" placeholder="Course" required="required">
+					<span class="focus-input100"></span>
+				</div>
+
+				<div class="wrap-input100">
+					<textarea class="input100" name="message" placeholder="Description"></textarea>
+					<span class="focus-input100"></span>
+				</div>
+                
+
+				<div class="container-contact100-form-btn">
+					<button class="contact100-form-btn" oninput="sendRequest()">
+						Send
+					</button>
+				</div>
+			</form>
+	</div>
 </body>
 
 </html>
