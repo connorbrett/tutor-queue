@@ -52,6 +52,7 @@ setInterval(filterSessions, 2000);
 
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
+// const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -80,8 +81,14 @@ var TutorSchema = new Schema({
     busy: Boolean
 });
 
+var CoordSchema = new Schema({
+    name: String,
+    password: String
+})
+
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
+var Coord = mongoose.model('Coord', CoordSchema);
 
 app.use(express.static('public_html'));
 app.get('/', (req, res) => {
@@ -108,13 +115,32 @@ function authenticate(req, res, next) {
 }
 
 /*
-    Handles POST request from the browser to log in a user.
+    Handles POST request from the browser to log in a tutor.
 */
 app.post('/login/user',
     function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
         Tutor.findOne({ email: username }, (err, result) => {
+            if (err) res.end(err);
+            if (result && result.password == password) {
+                addSession(username);
+                res.cookie('login', { username: username }, { maxAge: 120000 });
+                res.end('SUCCESS!');
+            } else {
+                res.end();
+            }
+        });
+    });
+
+/*
+    Handles POST request from the browser to log in a coordinator.
+*/
+app.post('/login/coord',
+    function (req, res) {
+        var username = req.body.username;
+        var password = req.body.password;
+        Coord.findOne({ name: username }, (err, result) => {
             if (err) res.end(err);
             if (result && result.password == password) {
                 addSession(username);

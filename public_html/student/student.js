@@ -1,3 +1,4 @@
+/* Submit student's request */
 function sendRequest() {
     var requestInfo = {
         name: $("#name").val(),
