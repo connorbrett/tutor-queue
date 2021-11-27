@@ -13,24 +13,23 @@
 			<span class="contact100-form-symbol">
 				<img src="/images/wild_cat_logo.png" alt="LOGO">
 			</span>
-			
-			<form class="contact100-form">
+			<div class="contact100-form">
 				<span class="contact100-form-title">
 					Get help with your assignments
 				</span>
 				
 				<div class="wrap-input100">
-					<input class="input100" type="text" name="name" placeholder="Full Name" required="required">
+					<input class="input100" type="text" id="name" name="name" placeholder="Full Name">
 					<span class="focus-input100"></span>
 				</div>
 				
 				<div class="wrap-input100">
-					<input class="input100" type="text" name="email" placeholder="Email Address" required="required">
+					<input class="input100" type="text" id="email" name="email" placeholder="Email Address">
 					<span class="focus-input100"></span>
 				</div>
 				
 				<div class="wrap-input100">
-					<input class="input100" type="text" name="course" placeholder="Course" required="required">
+					<input class="input100" type="text" id="course" name="course" placeholder="Course">
 					<span class="focus-input100"></span>
 				</div>
 				
@@ -39,14 +38,14 @@
 					<span class="focus-input100"></span>
 				</div>
 				
-				
 				<div class="container-contact100-form-btn">
-					<button class="contact100-form-btn" oninput="sendRequest()">
+					<button class="contact100-form-btn" onclick="sendRequest()">
 						Send
 					</button>
 				</div>
-			</form>
+			</div>
 		</div>
+		<script src="student.js"></script>
 	</body>
 	
 	</html>

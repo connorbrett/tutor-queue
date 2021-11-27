@@ -17,6 +17,10 @@ const port = 3000;
 app.use(express.static('public_html'));
 app.use(bodyParser.json());
 app.use(cookieParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+    extended: true
+}));
 app.set('json spaces', 2);
 
 const WAITING = 'WAITING';
@@ -51,8 +55,8 @@ function hasSession(username) {
 setInterval(filterSessions, 2000);
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
-//const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
+//var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
+const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -199,10 +203,11 @@ app.post('/add/request',
                 if (student) {
                     res.end(`${student.name} already in queue.`);
                 } else {
+                    console.log("Adding new student");
                     var tutorRequest = new TutorRequest({
                         name: req.body.name,
                         email: req.body.email,
-                        course: req.body.courses,
+                        course: req.body.course,
                         status: WAITING,
                         submitted: new Date()
                     });

@@ -8,9 +8,9 @@ function addTutor() {
         courses: $("#courses").val().split(/[ ,]+/) //Split by white space
     };
     $.ajax({
-        url: '/create/tutor',
+        url: '/add/tutor',
         data: accountInfo,
-        method: 'GET',
+        method: 'POST',
         success: function (result) {
             if (result == 'Tutor added') {
                 alert("New tutor added!")
