@@ -1,19 +1,21 @@
 /*  Add a new tutor to the database
 */
-function toCoord() {
+function addTutor() {
     var accountInfo = {
-        username: $("#netID").val(),
-        password: $("#password").val()
+        name: $("#name").val(),
+        email: $("#email").val(),
+        password: $("#password").val(),
+        courses: $("#courses").val().split(/[ ,]+/) //Split by white space
     };
     $.ajax({
         url: '/create/tutor',
         data: accountInfo,
-        method: 'POST',
+        method: 'GET',
         success: function (result) {
-            if (result == 'SUCCESS!') {
+            if (result == 'Tutor added') {
                 alert("New tutor added!")
             } else {
-                alert("Username or Password incorrect!");
+                alert("Something went wrong, failed to add new tutor!");
             }
         }
     });
