@@ -1,5 +1,5 @@
 /*  Add a new tutor to the database
-*/
+ */
 function addTutor() {
     var accountInfo = {
         name: $("#name").val(),

@@ -1,5 +1,5 @@
 /*  Authenticate and login tutor.
-    Redirect if res.end returns SUCCESS!, alert otherwise 
+Redirect if res.end returns SUCCESS!, alert otherwise 
 */
 function toCoord() {
     var accountInfo = {
