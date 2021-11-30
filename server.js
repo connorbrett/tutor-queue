@@ -86,9 +86,9 @@ var TutorSchema = new Schema({
 });
 
 var CoordSchema = new Schema({
-    name: String,
+    email: String,
     password: String
-})
+});
 
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
@@ -144,7 +144,7 @@ app.post('/login/coord',
     function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
-        Coord.findOne({ name: username }, (err, result) => {
+        Coord.findOne({ email: username }, (err, result) => {
             if (err) res.end(err);
             if (result && result.password == password) {
                 addSession(username);
@@ -192,6 +192,22 @@ app.get('/get/tutors',
     }
 );
 
+app.get('/get/request/:tutor',
+    function (req, res) {
+        var tutorEmail = req.params.tutor;
+        Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
+            if (err) res.end(err);
+            TutorRequest.findOne(
+                { tutor: tutor.id, status: INPROGRESS },
+                (err, request) => {
+                    if (err) res.end(err);
+                    res.json(request);
+                }
+            );
+        });
+    }
+);
+
 /*
     Handles POST request from the browser to add a new user to the database.
 */
@@ -203,7 +219,6 @@ app.post('/add/request',
                 if (student) {
                     res.end(`${student.name} already in queue.`);
                 } else {
-                    console.log("Adding new student");
                     var tutorRequest = new TutorRequest({
                         name: req.body.name,
                         email: req.body.email,
@@ -281,9 +296,7 @@ app.post('/assign',
     function (req, res) {
         var tutorEmail = req.body.tutorEmail;
         var studentEmail = req.body.studentEmail;
-        console.log(`assigning ${tutorEmail} to ${studentEmail}`);
         Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
-            console.log('hi');
             console.log(tutor);
             if (err) res.end(err);
             if (!tutor) {
