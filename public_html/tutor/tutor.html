@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <h2>Student Queue</h2>
+    <h2>Waiting Queue</h2>
     <div class="table-wrapper">
         <table class="fl-table">
             <thead>
@@ -20,28 +20,26 @@
                     <th>Status</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                    <td>Aaron</td>
-                    <td>aaron@email.arizona.edu</td>
-                    <td>CS352</td>
-                    <td><button>WAITING</button></td>
-                </tr>
-                <tr>
-                    <td>Britney</td>
-                    <td>britney@email.arizona.edu</td>
-                    <td>CS110</td>
-                    <td><button>WAITING</button></td>
-                </tr>
-                <tr>
-                    <td>Claire</td>
-                    <td>cl@email.arizona.edu</td>
-                    <td>CS210</td>
-                    <td><button>WAITING</button></td>
-                </tr>
+            <tbody id="waiting">
             <tbody>
         </table>
     </div>
+    <h2>In Progress Queue</h2>
+    <div class="table-wrapper">
+        <table class="fl-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody id="in-progress">
+            <tbody>
+        </table>
+    </div>
+    <script src="tutor.js"></script>
 </body>
 
 </html>

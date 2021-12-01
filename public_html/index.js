@@ -13,7 +13,7 @@ function toStudent() {
 */
 function toTutor() {
     var accountInfo = {
-        username: $("#netID").val(),
+        username: $("#email").val(),
         password: $("#password").val()
     };
     $.ajax({

@@ -55,8 +55,8 @@ function hasSession(username) {
 setInterval(filterSessions, 2000);
 
 //Set up default mongoose connection
-//var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
-const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
+var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
+//const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -129,7 +129,7 @@ app.post('/login/user',
             if (err) res.end(err);
             if (result && result.password == password) {
                 addSession(username);
-                res.cookie('login', { username: username }, { maxAge: 120000 });
+                res.cookie('login', { username: username }, { maxAge: 60000 });
                 res.end('SUCCESS!');
             } else {
                 res.end();
@@ -148,7 +148,7 @@ app.post('/login/coord',
             if (err) res.end(err);
             if (result && result.password == password) {
                 addSession(username);
-                res.cookie('login', { username: username }, { maxAge: 120000 });
+                res.cookie('login', { username: username }, { maxAge: 60000 });
                 res.end('SUCCESS!');
             } else {
                 res.end();
@@ -197,7 +197,7 @@ app.get('/get/request/:tutor',
         var tutorEmail = req.params.tutor;
         Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
             if (err) res.end(err);
-            TutorRequest.findOne(
+            TutorRequest.find(
                 { tutor: tutor.id, status: INPROGRESS },
                 (err, request) => {
                     if (err) res.end(err);
@@ -301,9 +301,11 @@ app.post('/assign',
             if (err) res.end(err);
             if (!tutor) {
                 res.end('Tutor not found');
+                return;
             }
             if (tutor.busy) {
                 res.end(`Tutor ${tutor.name} busy, cannot help more than one student at a time.`);
+                return;
             }
             var tutorID = tutor.id;
 
