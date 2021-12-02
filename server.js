@@ -55,8 +55,8 @@ function hasSession(username) {
 setInterval(filterSessions, 2000);
 
 //Set up default mongoose connection
-var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
-//const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
+//var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
+const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -228,7 +228,7 @@ app.post('/add/request',
                     });
                     tutorRequest.save((err) => {
                         if (err) res.end(err);
-                        res.end(`${req.body.name} added to queue.`);
+                        res.end(`${req.body.name} added to queue!`);
                     });
                 }
             });

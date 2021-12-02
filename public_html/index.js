@@ -29,3 +29,7 @@ function toTutor() {
         }
     });
 }
+
+function toCoordLogin() {
+    window.location.href = "coord/coordLogin.html";
+}

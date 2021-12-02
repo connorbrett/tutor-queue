@@ -6,6 +6,10 @@ h2 {
     font-size: xx-large;
 }
 
+a {
+    font-size: large;
+}
+
 /* Tutor center image */
 img#tutors {
     position: absolute;
@@ -37,7 +41,8 @@ img#UofA {
 }
 
 /* Student and tutor button in the right panel */
-input#student, input#tutor {
+input#student,
+input#tutor {
     width: 150px;
     height: 150px;
     margin: 20px;
@@ -160,21 +165,30 @@ p {
 }
 
 /* Code for "welcome to the tutor center" animation */
-/* 
+
 .typewriter {
     overflow: hidden;
     white-space: nowrap;
     margin: 0 auto;
-    animation: 
-    typing 2s steps(40, end),
-    blink-caret .75s step-end infinite;
+    animation:
+        typing 2s steps(40, end),
+        blink-caret .75s step-end infinite;
 }
 
 @keyframes typing {
-    from { width: 0 }
-    to { width: 100% }
+    from {
+        width: 0
+    }
+
+    to {
+        width: 100%
+    }
 }
 
 @keyframes blink-caret {
-    from, to { border-color: transparent;}
-} */
+
+    from,
+    to {
+        border-color: transparent;
+    }
+}

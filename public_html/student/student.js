@@ -25,7 +25,11 @@ function sendRequest() {
         data: requestInfo,
         method: 'POST',
         success: function (result) {
-            alert(result);
+            if (result.slice(-1) === "!") {
+                window.location.replace("/student/studentDone.html");
+            } else {
+                alert(result);
+            }
         }
     });
 }

@@ -20,14 +20,14 @@ function getWaitingQueue() {
         url: '/get/queue',
         method: 'GET',
         success: function (students) {
-            for (let i=0; i < students.length; i++) {
+            for (let i = 0; i < students.length; i++) {
                 student = students[i];
-                $("tbody#waiting").append(`<tr id=student${id}></tr>`); 
-                $(`#student${id}`).append("<td>"+student.name+"</td>"); 
-                $(`#student${id}`).append("<td>"+student.email+"</td>"); 
-                $(`#student${id}`).append("<td>"+student.course+"</td>"); 
+                $("tbody#waiting").append(`<tr id=student${id}></tr>`);
+                $(`#student${id}`).append("<td>" + student.name + "</td>");
+                $(`#student${id}`).append("<td>" + student.email + "</td>");
+                $(`#student${id}`).append("<td>" + student.course + "</td>");
                 $(`#student${id}`).append(`<td><button onclick="assign('${student.email}')">WAITING</button></td>`);
-                id++; 
+                id++;
             }
         }
     });
@@ -62,14 +62,14 @@ function getInProgressQueue() {
         url: `/get/request/${tutorEmail}`,
         method: 'GET',
         success: function (students) {
-            for (let i=0; i < students.length; i++) {
+            for (let i = 0; i < students.length; i++) {
                 student = students[i];
-                $("tbody#in-progress").append(`<tr id=student${id}></tr>`); 
-                $(`#student${id}`).append("<td>"+student.name+"</td>"); 
-                $(`#student${id}`).append("<td>"+student.email+"</td>"); 
-                $(`#student${id}`).append("<td>"+student.course+"</td>"); 
+                $("tbody#in-progress").append(`<tr id=student${id}></tr>`);
+                $(`#student${id}`).append("<td>" + student.name + "</td>");
+                $(`#student${id}`).append("<td>" + student.email + "</td>");
+                $(`#student${id}`).append("<td>" + student.course + "</td>");
                 $(`#student${id}`).append(`<td><button onclick="done('${student.email}')">DONE</button></td>`);
-                id++; 
+                id++;
             }
         }
     });

@@ -7,40 +7,42 @@
   <link rel="stylesheet" href="style.css">
   <script src="jquery.js"></script>
 </head>
+
 <body>
   <div id="img-display">
     <img id="tutors" src="images/login_image.jpg">
   </div>
   <div id="login-display">
-    <img id="UofA" src="images/UofA_logo_white.jpg">
+    <img id="UofA" src="images/UofA_logo_white.jpg" onclick="toCoordLogin()">
     <h2 class="typewriter">Welcome to the Tutor Center!</h2><br>
     <div id="login">
       <h2>You are</h2>
       <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/freepik" 
         title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" 
         title="Flaticon">www.flaticon.com</a></div> -->
-        <input class="zoom" id="student" type="image" src="images/student.png" onclick="toStudent()" />
-        <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" 
+      <input class="zoom" id="student" type="image" src="images/student.png" onclick="toStudent()" />
+      <!-- <div>Icons made by <a href="https://www.flaticon.com/authors/eucalyp" 
           title="Eucalyp">Eucalyp</a> from <a href="https://www.flaticon.com/" 
           title="Flaticon">www.flaticon.com</a></div> -->
-          <input class="zoom" id="tutor" type="image" src="images/tutor.png" onclick="loginPopup()" />
-          <h2 id="img-underline">Student Tutor</h2>
-        </div>
+      <input class="zoom" id="tutor" type="image" src="images/tutor.png" onclick="loginPopup()" />
+      <h2 id="img-underline">Student Tutor</h2>
+    </div>
+    <a href="/tutorial/tutorial.html">Need help?</a>
+  </div>
+  <div class="popup" id="popup-1">
+    <div class="content">
+      <h1>Sign in</h1>
+      <div class="input-field">
+        <input type="email" id="email" placeholder="Email" class="validate">
       </div>
-      <div class="popup" id="popup-1">
-        <div class="content">
-          <h1>Sign in</h1>
-          <div class="input-field">
-            <input type="email" id="email" placeholder="Email" class="validate">
-          </div>
-          <div class="input-field">
-            <input type="password" id="password" placeholder="Password" class="validate">
-          </div>
-          <button class="sign-in-btn" onclick="toTutor()">Sign in</button>
-          <div class="close-btn" onclick="loginPopup()">×</div>
-        </div>
+      <div class="input-field">
+        <input type="password" id="password" placeholder="Password" class="validate">
       </div>
-      <script src="index.js"></script>
-    </body>
-    
-    </html>
+      <button class="sign-in-btn" onclick="toTutor()">Sign in</button>
+      <div class="close-btn" onclick="loginPopup()">×</div>
+    </div>
+  </div>
+  <script src="index.js"></script>
+</body>
+
+</html>
