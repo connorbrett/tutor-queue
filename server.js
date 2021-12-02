@@ -312,7 +312,6 @@ app.post('/complete/request',
 */
 app.post('/add/tutor',
     function (req, res) {
-        console.log(req.body);
         var testAvailibility = new availabilitySchedule();
 
         var salt = Math.floor(Math.random() * 1000000000000);
@@ -327,9 +326,42 @@ app.post('/add/tutor',
             availability: testAvailibility,
             busy: false
         });
-        tutor.save((err) => {
-            if (err) res.end(err);
-            res.end('Tutor added');
+        Tutor.find({ email: req.body.email }, (err, result) => {
+            console.log(result);
+            if (!err && result.length == 0) {
+                tutor.save((err) => {
+                    if (err) res.end(err);
+                    res.end('Tutor added');
+                });
+            } else {
+                res.end('Tutor already exists');
+            }
+        });
+    }
+);
+
+/*
+    Handles POST request from the browser to add a new coordinator to the database.
+*/
+app.post('/add/coord',
+    function (req, res) {
+        var salt = Math.floor(Math.random() * 1000000000000);
+        var hash = getHash(req.body.password, salt);
+
+        var coord = new Coord({
+            email: req.body.email,
+            hash: hash,
+            salt: salt,
+        });
+        Coord.find({ email: req.body.email }, (err, result) => {
+            if (!err && result.length == 0) {
+                coord.save((err) => {
+                    if (err) res.end(err);
+                    res.end('Coordinator added');
+                });
+            } else {
+                res.end('Coordinator already exists');
+            }
         });
     }
 );
