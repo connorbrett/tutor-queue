@@ -10,6 +10,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const availabilitySchedule = require('availability-schedule');
+const crypto = require('crypto');
 
 const app = express();
 const port = 3000;
@@ -27,32 +28,58 @@ const WAITING = 'WAITING';
 const INPROGRESS = 'IN PROGRESS';
 const COMPLETE = 'COMPLETE';
 
+/** SESSION CODE **/
+
+TIMEOUT = 600000;
 var sessions = {};
-const LOGIN_TIME = 60000;
 
 function filterSessions() {
-    var now = Date.now();
-    for (x in sessions) {
-        username = x;
-        time = sessions[x];
-        if (time + LOGIN_TIME < now) {
-            console.log('delete user session: ' + username);
-            delete sessions[username];
+    let now = Date.now();
+    for (e in sessions) {
+        if (sessions[e].time < (now - TIMEOUT)) {
+            delete sessions[e];
         }
     }
 }
 
-function addSession(username) {
-    var now = Date.now();
-    sessions[username] = now;
-    console.log(sessions);
-}
-
-function hasSession(username) {
-    return username in sessions;
-}
-
 setInterval(filterSessions, 2000);
+
+function putSession(username, sessionKey) {
+    if (username in sessions) {
+        sessions[username] = { 'key': sessionKey, 'time': Date.now() };
+        return sessionKey;
+    } else {
+        let sessionKey = Math.floor(Math.random() * 1000);
+        sessions[username] = { 'key': sessionKey, 'time': Date.now() };
+        return sessionKey;
+    }
+}
+
+function isValidSession(username, sessionKey) {
+    if (username in sessions && sessions[username].key == sessionKey) {
+        return true;
+    }
+    return false;
+}
+
+/** END SESSION CODE **/
+
+/** HASHING CODE **/
+
+function getHash(password, salt) {
+    var cryptoHash = crypto.createHash('sha512');
+    var toHash = password + salt;
+    var hash = cryptoHash.update(toHash, 'utf-8').digest('hex');
+    return hash;
+
+}
+
+function isPasswordCorrect(account, password) {
+    var hash = getHash(password, account.salt);
+    return account.hash == hash;
+}
+
+/** END HASHING CODE **/
 
 //Set up default mongoose connection
 //var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
@@ -79,7 +106,8 @@ var TutorRequestSchema = new Schema({
 var TutorSchema = new Schema({
     name: String,
     email: String,
-    password: String,
+    hash: String,
+    salt: String,
     courses: [String],
     availability: Schema.Types.Mixed,
     busy: Boolean
@@ -87,34 +115,33 @@ var TutorSchema = new Schema({
 
 var CoordSchema = new Schema({
     email: String,
-    password: String
+    hash: String,
+    salt: String
 });
 
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 var Coord = mongoose.model('Coord', CoordSchema);
 
+app.use('/authenticated.html', authenticate);
 app.use(express.static('public_html'));
-app.get('/', (req, res) => {
-    console.log('redirect');
-    res.redirect('/home.html');
-});
+
 
 // This is a special function to authenticate the user for some routes
 
 function authenticate(req, res, next) {
-    var c = req.cookies;
-    if (c && c.login) {
-        var username = c.login.username;
-        if (hasSession(username)) {
-            console.log('authenticating success!')
-            addSession(username);
+    if (Object.keys(req.cookies).length > 0) {
+        let u = req.cookies.login.username;
+        let key = req.cookies.login.key;
+        if (isValidSession(u, key)) {
+            putSession(u, key);
+            res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            res.redirect('/index.html');
+            res.redirect('index.html');
         }
     } else {
-        res.redirect('/index.html');
+        res.redirect('index.html');
     }
 }
 
@@ -127,15 +154,16 @@ app.post('/login/user',
         var password = req.body.password;
         Tutor.findOne({ email: username }, (err, result) => {
             if (err) res.end(err);
-            if (result && result.password == password) {
-                addSession(username);
-                res.cookie('login', { username: username }, { maxAge: 60000 });
+            if (result && isPasswordCorrect(result, password)) {
+                var sessionKey = putSession(req.params.username);
+                res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
                 res.end('SUCCESS!');
             } else {
-                res.end();
+                res.end('There was an issue logging in please try again');
             }
         });
-    });
+    }
+);
 
 /*
     Handles POST request from the browser to log in a coordinator.
@@ -146,15 +174,16 @@ app.post('/login/coord',
         var password = req.body.password;
         Coord.findOne({ email: username }, (err, result) => {
             if (err) res.end(err);
-            if (result && result.password == password) {
-                addSession(username);
-                res.cookie('login', { username: username }, { maxAge: 60000 });
+            if (result && isPasswordCorrect(result, password)) {
+                var sessionKey = putSession(req.params.username);
+                res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
                 res.end('SUCCESS!');
             } else {
-                res.end();
+                res.end('There was an issue logging in please try again');
             }
         });
-    });
+    }
+);
 
 /*
     Handles GET request from the browser return the current queue.
@@ -192,6 +221,21 @@ app.get('/get/tutors',
     }
 );
 
+/*
+    Handles GET request from the browser to get all coordinators.
+*/
+app.get('/get/coords',
+    function (req, res) {
+        Coord.find({}, (err, result) => {
+            if (err) res.end(err);
+            res.json(result);
+        });
+    }
+);
+
+/*
+    Handles GET request from the browser to get tutor's current student.
+*/
 app.get('/get/request/:tutor',
     function (req, res) {
         var tutorEmail = req.params.tutor;
@@ -270,14 +314,15 @@ app.post('/add/tutor',
     function (req, res) {
         console.log(req.body);
         var testAvailibility = new availabilitySchedule();
-        var now = new Date();
-        var later = new Date();
-        later.setHours(now.getHours() + 2);
-        testAvailibility.addAvailability(now, later);
+
+        var salt = Math.floor(Math.random() * 1000000000000);
+        var hash = getHash(req.body.password, salt);
+
         var tutor = new Tutor({
             name: req.body.name,
             email: req.body.email,
-            password: req.body.password,
+            hash: hash,
+            salt: salt,
             courses: req.body.courses,
             availability: testAvailibility,
             busy: false
