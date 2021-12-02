@@ -327,9 +327,15 @@ app.post('/add/tutor',
             availability: testAvailibility,
             busy: false
         });
-        tutor.save((err) => {
-            if (err) res.end(err);
-            res.end('Tutor added');
+        Tutor.find({ username: req.body.email }, (err, result) => {
+            if (!err && result.length == 0) {
+                tutor.save((err) => {
+                    if (err) res.end(err);
+                    res.end('Tutor added');
+                });
+            } else {
+                res.end('Tutor already exists');
+            }
         });
     }
 );
