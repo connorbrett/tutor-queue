@@ -7,12 +7,7 @@ function onloadFunc() {
 }
 
 function getTutorEmail() {
-    if (document.cookie) {
-        return decodeURIComponent(document.cookie).split(":\"")[1].slice(0, -2);
-    } else {
-        alert("Session timeout, pleases login again!");
-        window.location.replace("/index.html");
-    }
+    return localStorage.getItem('email');
 }
 
 function getWaitingQueue() {

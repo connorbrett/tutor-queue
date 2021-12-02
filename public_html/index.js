@@ -22,6 +22,7 @@ function toTutor() {
         method: 'POST',
         success: function (result) {
             if (result == 'SUCCESS!') {
+                localStorage.setItem('email', $("#email").val());
                 window.location.href = "tutor/tutor.html";
             } else {
                 alert("Username or Password incorrect!");
