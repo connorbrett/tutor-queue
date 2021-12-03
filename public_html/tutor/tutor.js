@@ -1,9 +1,29 @@
-window.onload = onloadFunc;
+var waitingNum = 0;
 var id = 0;
+var title = document.title;
+var iconNew = '/images/icon/noti-favicon.ico'
+window.onload = onloadFunc;
+
+function changeTitle() {
+    if (waitingNum > 0) {
+        var newTitle = `(${waitingNum}) ${title}`;
+        document.title = newTitle;
+        changeFavicon();
+    }
+}
+
+function changeFavicon() {
+    $("#favicon").attr("href", iconNew);
+}
+
+function reloadSite() {
+    location.reload();
+}
 
 function onloadFunc() {
     getWaitingQueue();
     getInProgressQueue();
+    setInterval(reloadSite, 10000);
 }
 
 function getTutorEmail() {
@@ -24,6 +44,8 @@ function getWaitingQueue() {
                 $(`#student${id}`).append(`<td><button onclick="assign('${student.email}')">WAITING</button></td>`);
                 id++;
             }
+            waitingNum = students.length;
+            changeTitle();
         }
     });
 }
@@ -89,3 +111,17 @@ function done(studentEmail) {
         }
     });
 }
+
+// function reloadContent() {
+//     // don't cache ajax or content won't be fresh
+//     $.ajaxSetup ({
+//         cache: false
+//     });
+//     var ajax_load = "<img src='http://automobiles.honda.com/images/current-offers/small-loading.gif' alt='loading...' />";
+
+//     // load() functions
+//     var loadUrl = "/tutor/tutor.html";
+//     $("body").html(ajax_load).load(loadUrl);
+
+// // end  
+// };
