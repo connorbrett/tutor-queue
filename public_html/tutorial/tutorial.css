@@ -12,7 +12,18 @@ li {
     margin-top: 5px;
 }
 
-h1, h3 {
+img {
+    width: 700px;
+    height: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+img#tab {
+    height: 100px;
+}
+
+h1, h2, h3 , h4{
     font-weight: 400;
 }
 
