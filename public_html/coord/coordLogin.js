@@ -20,6 +20,7 @@ function toCoord() {
     });
 }
 
+// Add a new coordinator account to the database.
 function addCoord() {
     var accountInfo = {
         email: $("#newUsername").val(),
