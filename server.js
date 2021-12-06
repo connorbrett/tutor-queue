@@ -32,6 +32,7 @@ const COMPLETE = 'COMPLETE';
 
 TIMEOUT = 600000;
 var sessions = {};
+var coordSessions = {};
 
 function filterSessions() {
     let now = Date.now();
@@ -42,7 +43,17 @@ function filterSessions() {
     }
 }
 
+function filterCoordSessions() {
+    let now = Date.now();
+    for (e in coordSessions) {
+        if (coordSessions[e].time < (now - TIMEOUT)) {
+            delete coordSessions[e];
+        }
+    }
+}
+
 setInterval(filterSessions, 2000);
+setInterval(filterCoordSessions, 2000);
 
 function putSession(username, sessionKey) {
     if (username in sessions) {
@@ -55,8 +66,26 @@ function putSession(username, sessionKey) {
     }
 }
 
+function putCoordSession(username, sessionKey) {
+    if (username in coordSessions) {
+        coordSessions[username] = { 'key': sessionKey, 'time': Date.now() };
+        return sessionKey;
+    } else {
+        let sessionKey = Math.floor(Math.random() * 1000);
+        coordSessions[username] = { 'key': sessionKey, 'time': Date.now() };
+        return sessionKey;
+    }
+}
+
 function isValidSession(username, sessionKey) {
     if (username in sessions && sessions[username].key == sessionKey) {
+        return true;
+    }
+    return false;
+}
+
+function isValidCoordSession(username, sessionKey) {
+    if (username in coordSessions && coordSessions[username].key == sessionKey) {
         return true;
     }
     return false;
@@ -98,6 +127,7 @@ var TutorRequestSchema = new Schema({
     name: String,
     email: String,
     course: String,
+    description: String,
     tutor: { type: mongoose.Schema.Types.ObjectId, ref: 'Tutor' },
     status: String,
     submitted: Date
@@ -123,18 +153,35 @@ var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 var Coord = mongoose.model('Coord', CoordSchema);
 
-app.use('/authenticated.html', authenticate);
+//app.use('/get/queue', authenticate);
+//app.use('/add/tutor', authenticateCoord);
 app.use(express.static('public_html'));
 
 
-// This is a special function to authenticate the user for some routes
-
+// This is a special function to authenticate tutors
 function authenticate(req, res, next) {
     if (Object.keys(req.cookies).length > 0) {
         let u = req.cookies.login.username;
         let key = req.cookies.login.key;
         if (isValidSession(u, key)) {
             putSession(u, key);
+            res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
+            next();
+        } else {
+            res.redirect('index.html');
+        }
+    } else {
+        res.redirect('index.html');
+    }
+}
+
+// This is a special function to authenticate coords
+function authenticateCoord(req, res, next) {
+    if (Object.keys(req.cookies).length > 0) {
+        let u = req.cookies.login.username;
+        let key = req.cookies.login.key;
+        if (isValidCoordSession(u, key)) {
+            putCoordSession(u, key);
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
@@ -175,7 +222,7 @@ app.post('/login/coord',
         Coord.findOne({ email: username }, (err, result) => {
             if (err) res.end(err);
             if (result && isPasswordCorrect(result, password)) {
-                var sessionKey = putSession(req.params.username);
+                var sessionKey = putCoordSession(req.params.username);
                 res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
                 res.end('SUCCESS!');
             } else {
@@ -267,6 +314,7 @@ app.post('/add/request',
                         name: req.body.name,
                         email: req.body.email,
                         course: req.body.course,
+                        description: req.body.description,
                         status: WAITING,
                         submitted: new Date()
                     });
