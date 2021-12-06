@@ -19,3 +19,19 @@ function toCoord() {
         }
     });
 }
+
+// Add a new coordinator account to the database.
+function addCoord() {
+    var accountInfo = {
+        email: $("#newUsername").val(),
+        password: $("#newPassword").val()
+    };
+    $.ajax({
+        url: '/add/coord',
+        data: accountInfo,
+        method: 'POST',
+        success: function (result) {
+            alert(result);
+        }
+    });
+}

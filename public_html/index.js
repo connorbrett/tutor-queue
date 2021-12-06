@@ -21,6 +21,7 @@ function toTutor() {
         data: accountInfo,
         method: 'POST',
         success: function (result) {
+            // Login successfully
             if (result == 'SUCCESS!') {
                 localStorage.setItem('email', $("#email").val());
                 window.location.href = "tutor/tutor.html";
