@@ -153,8 +153,11 @@ var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 var Coord = mongoose.model('Coord', CoordSchema);
 
-//app.use('/get/queue', authenticate);
-//app.use('/add/tutor', authenticateCoord);
+app.use('/get/*', authenticate);
+app.use('/assign', authenticate);
+app.use('/complete', authenticate);
+app.use('/add/tutor', authenticateCoord);
+app.use('/delete/*', authenticateCoord);
 app.use(express.static('public_html'));
 
 
@@ -168,10 +171,12 @@ function authenticate(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            res.redirect('index.html');
+            console.log('redirected unauthorized tutor');
+            res.redirect('/index.html');
         }
     } else {
-        res.redirect('index.html');
+        console.log('redirected unauthorized tutor');
+        res.redirect('/index.html');
     }
 }
 
@@ -185,10 +190,12 @@ function authenticateCoord(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            res.redirect('index.html');
+            console.log('redirected unauthorized coord');
+            res.redirect('/index.html');
         }
     } else {
-        res.redirect('index.html');
+        console.log('redirected unauthorized coord');
+        res.redirect('/index.html');
     }
 }
 
