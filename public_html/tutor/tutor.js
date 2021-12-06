@@ -3,6 +3,7 @@ var id = 0; // id for students in the queue (including both waiting and in-progr
 var title = document.title; 
 var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
 window.onload = onloadFunc;
+setInterval(onloadFunc, 5000);
 
 /*
     This function finds out the number of waiting
@@ -36,7 +37,6 @@ function reloadSite() {
 function onloadFunc() {
     getWaitingQueue();
     getInProgressQueue();
-    setInterval(reloadSite, 10000);
 }
 
 // Return the tutor's email
@@ -50,6 +50,7 @@ function getWaitingQueue() {
         url: '/get/queue',
         method: 'GET',
         success: function (students) {
+            $("tbody#waiting").html('');
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#waiting").append(`<tr id=student${id}></tr>`);
@@ -97,6 +98,7 @@ function getInProgressQueue() {
         url: `/get/request/${tutorEmail}`,
         method: 'GET',
         success: function (students) {
+            $("tbody#in-progress").html('');
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#in-progress").append(`<tr id=student${id}></tr>`);
