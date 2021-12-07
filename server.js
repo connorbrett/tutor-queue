@@ -172,11 +172,13 @@ function authenticate(req, res, next) {
             next();
         } else {
             console.log('redirected unauthorized tutor');
-            res.redirect('/index.html');
+            res.end("redirect");
+            return;
         }
     } else {
         console.log('redirected unauthorized tutor');
-        res.redirect('/index.html');
+        res.end("redirect");
+        return;
     }
 }
 
@@ -191,11 +193,13 @@ function authenticateCoord(req, res, next) {
             next();
         } else {
             console.log('redirected unauthorized coord');
-            res.redirect('/index.html');
+            res.end("redirect");
+            return;
         }
     } else {
         console.log('redirected unauthorized coord');
-        res.redirect('/index.html');
+        res.end("redirect");
+        return;
     }
 }
 
