@@ -5,10 +5,11 @@
   <meta charset="UTF-8">
   <title>Tutor Coordinator</title>
   <script src="/jquery.js"></script>
+  <link rel="stylesheet" href="coord.css">
   <link rel="icon" href="/images/icon/favicon.ico">
 </head>
 
-<body style="background-color: gray;">
+<body>
   <div>
     <h1>Tutor Coordinator Sign In</h1>
     <div>
@@ -17,7 +18,7 @@
     <div>
       <input type="password" id="password" placeholder="Password" class="validate">
     </div>
-    <button onclick="toCoord()">Sign in</button><hr>
+    <input type="submit" value="Sign in" onclick="toCoord()"></input><hr>
   </div>
   <div>
     <h1>Tutor Coordinator Create Account</h1>
@@ -27,7 +28,7 @@
     <div>
       <input type="password" id="newPassword" placeholder="Password" class="validate">
     </div>
-    <button onclick="addCoord()">Create account</button>
+    <input type="submit" value="Create account" onclick="addCoord()"></input>
   </div>
   <script src="coordLogin.js"></script>
 </body>
