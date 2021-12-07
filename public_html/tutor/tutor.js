@@ -89,6 +89,7 @@ function assign(studentEmail) {
         success: function (result) {
             if (result === "redirect") {
                 window.location.replace("/index.html");
+                return;
             }
             alert(result);
             location.reload();
@@ -142,6 +143,7 @@ function done(studentEmail) {
         success: function (result) {
             if (result === "redirect") {
                 window.location.replace("/index.html");
+                return;
             }
             alert(result);
             location.reload();

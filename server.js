@@ -174,16 +174,17 @@ function authenticate(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            res.redirect('/index.html');
+            res.end("redirect");
+            return;
         }
     } else {
-        res.redirect('/index.html');
+        res.end("redirect");
+        return;
     }
 }
 
 // This is a special function to authenticate coords
 function authenticateCoord(req, res, next) {
-    console.log('hi')
     if (Object.keys(req.cookies).length > 0) {
         let u = req.cookies.login.username;
         let key = req.cookies.login.key;
@@ -192,10 +193,12 @@ function authenticateCoord(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            res.redirect('/index.html');
+            res.end("redirect");
+            return;
         }
     } else {
-        res.redirect('/index.html');
+        res.end("redirect");
+        return;
     }
 }
 
