@@ -18,7 +18,8 @@ function sendRequest() {
     var requestInfo = {
         name: $("#name").val(),
         email: $("#email").val(),
-        course: $("#course").val()
+        course: $("#course").val(),
+        description: $("#description").val()
     };
     $.ajax({
         url: '/add/request',

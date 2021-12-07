@@ -57,6 +57,7 @@ function getWaitingQueue() {
                 $(`#student${id}`).append("<td>" + student.name + "</td>");
                 $(`#student${id}`).append("<td>" + student.email + "</td>");
                 $(`#student${id}`).append("<td>" + student.course + "</td>");
+                $(`#student${id}`).append("<td>" + student.description + "</td>");
                 $(`#student${id}`).append(`<td><button onclick="assign('${student.email}')">WAITING</button></td>`);
                 id++;
             }
@@ -105,6 +106,7 @@ function getInProgressQueue() {
                 $(`#student${id}`).append("<td>" + student.name + "</td>");
                 $(`#student${id}`).append("<td>" + student.email + "</td>");
                 $(`#student${id}`).append("<td>" + student.course + "</td>");
+                $(`#student${id}`).append("<td>" + student.description + "</td>");
                 $(`#student${id}`).append(`<td><button onclick="done('${student.email}')">DONE</button></td>`);
                 id++;
             }
