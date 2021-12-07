@@ -382,7 +382,6 @@ app.post('/add/tutor',
             busy: false
         });
         Tutor.find({ email: req.body.email }, (err, result) => {
-            console.log(result);
             if (!err && result.length == 0) {
                 tutor.save((err) => {
                     if (err) res.end(err);
@@ -429,7 +428,6 @@ app.post('/assign',
         var tutorEmail = req.body.tutorEmail;
         var studentEmail = req.body.studentEmail;
         Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
-            console.log(tutor);
             if (err) res.end(err);
             if (!tutor) {
                 res.end('Tutor not found');
