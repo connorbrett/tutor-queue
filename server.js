@@ -153,11 +153,14 @@ var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 var Coord = mongoose.model('Coord', CoordSchema);
 
-app.use('/get/*', authenticate);
+app.use('/get/queue', authenticate);
+app.use('/get/tutors', authenticate);
+app.use('/get/coords', authenticate);
 app.use('/assign', authenticate);
 app.use('/complete', authenticate);
 app.use('/add/tutor', authenticateCoord);
 app.use('/delete/*', authenticateCoord);
+app.use('/get/schedule', authenticateCoord);
 app.use(express.static('public_html'));
 
 
@@ -171,17 +174,16 @@ function authenticate(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            console.log('redirected unauthorized tutor');
             res.redirect('/index.html');
         }
     } else {
-        console.log('redirected unauthorized tutor');
         res.redirect('/index.html');
     }
 }
 
 // This is a special function to authenticate coords
 function authenticateCoord(req, res, next) {
+    console.log('hi')
     if (Object.keys(req.cookies).length > 0) {
         let u = req.cookies.login.username;
         let key = req.cookies.login.key;
@@ -190,11 +192,9 @@ function authenticateCoord(req, res, next) {
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
-            console.log('redirected unauthorized coord');
             res.redirect('/index.html');
         }
     } else {
-        console.log('redirected unauthorized coord');
         res.redirect('/index.html');
     }
 }
@@ -284,6 +284,12 @@ app.get('/get/coords',
             if (err) res.end(err);
             res.json(result);
         });
+    }
+);
+
+app.get('/get/schedule',
+    function (req, res) {
+        res.end("https://docs.google.com/spreadsheets/d/e/2PACX-1vSYcpCeCm9YjDrb3UZipDbaab7vE8X9dPYKgx71VAS6vTFjqBK_yV2dx9SkF-eZulg8M3hlypito9YL/pubhtml?gid=1294673926&amp;single=true&amp;widget=true&amp;headers=false");
     }
 );
 
