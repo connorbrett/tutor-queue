@@ -1,8 +1,8 @@
 /*
     Connor Brett
     This file is the server for the final project. It receives AJAX requests
-    and creates User and Item objects and sends them to the database as
-    well as retrieving info from the db.
+    and creates Tutor, TutorRequest, and Coord objects and sends them 
+    to the database as well as retrieving info from the db.
 */
 
 const express = require('express');
