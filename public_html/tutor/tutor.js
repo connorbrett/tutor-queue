@@ -51,6 +51,10 @@ function getWaitingQueue() {
         method: 'GET',
         success: function (students) {
             $("tbody#waiting").html('');
+            if (students === "redirect") {
+                window.location.replace("/index.html");
+                return;
+            }
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#waiting").append(`<tr id=student${id}></tr>`);
@@ -83,6 +87,9 @@ function assign(studentEmail) {
         data: requestInfo,
         method: 'POST',
         success: function (result) {
+            if (result === "redirect") {
+                window.location.replace("/index.html");
+            }
             alert(result);
             location.reload();
         }
@@ -100,6 +107,10 @@ function getInProgressQueue() {
         method: 'GET',
         success: function (students) {
             $("tbody#in-progress").html('');
+            if (students === "redirect") {
+                window.location.replace("/index.html");
+                return;
+            }
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#in-progress").append(`<tr id=student${id}></tr>`);
@@ -129,6 +140,9 @@ function done(studentEmail) {
         data: requestInfo,
         method: 'POST',
         success: function (result) {
+            if (result === "redirect") {
+                window.location.replace("/index.html");
+            }
             alert(result);
             location.reload();
         }

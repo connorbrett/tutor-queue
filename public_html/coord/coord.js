@@ -12,6 +12,10 @@ function addTutor() {
         data: accountInfo,
         method: 'POST',
         success: function (result) {
+            if (result === 'redirect') {
+                window.location.replace("/index.html");
+                return;
+            }
             if (result == 'Tutor added') {
                 alert("New tutor added!")
             } else {
