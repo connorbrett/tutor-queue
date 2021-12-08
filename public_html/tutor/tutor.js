@@ -1,3 +1,11 @@
+/*
+    Author: Hung & Connor
+    Purpose: This js file responsible for rendering the queues or
+        redirects the tutor if his/her session timed out.
+    There are some global variables which serve for the
+        icon notifications. Its usage is described in the comments.
+*/
+
 var waitingNum = 0; // Number of waiting sutdents
 var id = 0; // id for students in the queue (including both waiting and in-progress)
 var title = document.title; 
@@ -58,10 +66,10 @@ function getWaitingQueue() {
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#waiting").append(`<tr id=student${id}></tr>`);
-                $(`#student${id}`).append("<td>" + student.name + "</td>");
-                $(`#student${id}`).append("<td>" + student.email + "</td>");
-                $(`#student${id}`).append("<td>" + student.course + "</td>");
-                $(`#student${id}`).append("<td>" + student.description + "</td>");
+                $(`#student${id}`).append(`<td>${student.name}</td>`);
+                $(`#student${id}`).append(`<td>${student.email}</td>`);
+                $(`#student${id}`).append(`<td>${student.course}</td>`);
+                $(`#student${id}`).append(`<td>${student.description}</td>`);
                 $(`#student${id}`).append(`<td><button onclick="assign('${student.email}')">WAITING</button></td>`);
                 id++;
             }
@@ -115,10 +123,10 @@ function getInProgressQueue() {
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 $("tbody#in-progress").append(`<tr id=student${id}></tr>`);
-                $(`#student${id}`).append("<td>" + student.name + "</td>");
-                $(`#student${id}`).append("<td>" + student.email + "</td>");
-                $(`#student${id}`).append("<td>" + student.course + "</td>");
-                $(`#student${id}`).append("<td>" + student.description + "</td>");
+                $(`#student${id}`).append(`<td>${student.name}</td>`);
+                $(`#student${id}`).append(`<td>${student.email}</td>`);
+                $(`#student${id}`).append(`<td>${student.course}</td>`);
+                $(`#student${id}`).append(`<td>${student.description}</td>`);
                 $(`#student${id}`).append(`<td><button onclick="done('${student.email}')">DONE</button></td>`);
                 id++;
             }
@@ -150,18 +158,3 @@ function done(studentEmail) {
         }
     });
 }
-
-// An attemp to get updated information without having to relaod the page.
-// function reloadContent() {
-//     // don't cache ajax or content won't be fresh
-//     $.ajaxSetup ({
-//         cache: false
-//     });
-//     var ajax_load = "<img src='http://automobiles.honda.com/images/current-offers/small-loading.gif' alt='loading...' />";
-
-//     // load() functions
-//     var loadUrl = "/tutor/tutor.html";
-//     $("body").html(ajax_load).load(loadUrl);
-
-// // end  
-// };

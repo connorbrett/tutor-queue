@@ -1,3 +1,9 @@
+<!--
+  Author: Hung & Connor
+  Purpose: This is the HTML function page for the coordinators. This site is mainly
+    for creating new tutor account and manage the tutors' shifts.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,6 +16,8 @@
 </head>
 
 <body>
+    <!--Create tutor account-->
+    <h2>Create a new tutor account</h2>
     <div>
         <div>
             <input type="text" id="name" placeholder="Name" class="validate">
@@ -24,7 +32,8 @@
             <input type="text" id="courses" placeholder="Courses" class="validate">
         </div>
         <input type="submit" value="Add Tutor" onclick="addTutor()"></button>
-    </div><br><hr>
+    </div><hr>
+    <!--Shifts table-->
     <iframe width="1000" height="500"></iframe>
     <script src=" coord.js"></script>
 </body>

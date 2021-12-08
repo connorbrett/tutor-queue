@@ -1,6 +1,12 @@
+/*
+    Author: Hung & Connor
+    Purpose: Trying to display the schedule if the user is still
+        valid. Redirects to the login page otherwise.
+*/
+
 window.onload = onloadFunc;
 
-// Authenticate the coordinator. In case invalid, redirect to the login page.
+// Authenticate the coordinator. In case invalid, redirects to the login page.
 function onloadFunc() {
     displaySchedule();
 }
@@ -11,10 +17,12 @@ function displaySchedule() {
         url: '/get/schedule',
         method: 'GET',
         success: function (result) {
+            // Session time out
             if (result === 'redirect') {
                 window.location.replace("/coord/coordLogin.html");
                 return;
             }
+            // Else, display the schedule
             $("iframe").attr("src", result);
         }
     });
@@ -34,10 +42,12 @@ function addTutor() {
         data: accountInfo,
         method: 'POST',
         success: function (result) {
+            // Session time out
             if (result === 'redirect') {
                 window.location.replace("/coord/coordLogin.html");
                 return;
             }
+            // Otherwise, add a new tutor
             if (result == 'Tutor added') {
                 alert("New tutor added!")
             } else {

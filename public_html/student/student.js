@@ -1,3 +1,10 @@
+/*
+    Author: Hung & Connor
+    Purpose: This js file is responsible for checking blank input
+        and redirects to a confirmation page if the request is
+        sent successfully.
+*/
+
 /* Check blank input */
 function isValidInput() {
     let name = $("#name").val();

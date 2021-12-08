@@ -1,3 +1,12 @@
+/*
+    Author: Hung & Connor
+    Purpose: This js file handles all interactions between the users
+        and the server using AJAX. If the user is a:
+        + student -> redirects to the request form page for students.
+        + tutor -> shows popup login and redirects to the tutor queue.
+        + coordinator -> redirects to the coordinator login page.
+*/
+
 // Popup a board for tutor login
 function loginPopup() {
     document.getElementById("popup-1").classList.toggle("active");
@@ -32,6 +41,7 @@ function toTutor() {
     });
 }
 
+// Redirect to coordinator login site
 function toCoordLogin() {
     window.location.href = "coord/coordLogin.html";
 }
