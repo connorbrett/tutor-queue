@@ -9,11 +9,11 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const availabilitySchedule = require('availability-schedule');
+//const availabilitySchedule = require('availability-schedule');
 const crypto = require('crypto');
 
 const app = express();
-const port = 3000;
+const port = 80;
 
 app.use(express.static('public_html'));
 app.use(bodyParser.json());
@@ -493,4 +493,4 @@ app.delete('/delete/tutor',
 );
 
 
-app.listen(80, () => console.log('Node.js web server at port ' + 80 + ' is running..'));
+app.listen(port, () => console.log('Node.js web server at port ' + port + ' is running..'));
