@@ -9,11 +9,10 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-//const availabilitySchedule = require('availability-schedule');
 const crypto = require('crypto');
 
 const app = express();
-const port = 80;
+const port = 3000;
 
 app.use(express.static('public_html'));
 app.use(bodyParser.json());
@@ -32,7 +31,6 @@ const COMPLETE = 'COMPLETE';
 
 TIMEOUT = 600000;
 var sessions = {};
-var coordSessions = {};
 
 function filterSessions() {
     let now = Date.now();
@@ -43,17 +41,7 @@ function filterSessions() {
     }
 }
 
-function filterCoordSessions() {
-    let now = Date.now();
-    for (e in coordSessions) {
-        if (coordSessions[e].time < (now - TIMEOUT)) {
-            delete coordSessions[e];
-        }
-    }
-}
-
 setInterval(filterSessions, 2000);
-setInterval(filterCoordSessions, 2000);
 
 function putSession(username, sessionKey) {
     if (username in sessions) {
@@ -66,26 +54,8 @@ function putSession(username, sessionKey) {
     }
 }
 
-function putCoordSession(username, sessionKey) {
-    if (username in coordSessions) {
-        coordSessions[username] = { 'key': sessionKey, 'time': Date.now() };
-        return sessionKey;
-    } else {
-        let sessionKey = Math.floor(Math.random() * 1000);
-        coordSessions[username] = { 'key': sessionKey, 'time': Date.now() };
-        return sessionKey;
-    }
-}
-
 function isValidSession(username, sessionKey) {
     if (username in sessions && sessions[username].key == sessionKey) {
-        return true;
-    }
-    return false;
-}
-
-function isValidCoordSession(username, sessionKey) {
-    if (username in coordSessions && coordSessions[username].key == sessionKey) {
         return true;
     }
     return false;
@@ -111,8 +81,8 @@ function isPasswordCorrect(account, password) {
 /** END HASHING CODE **/
 
 //Set up default mongoose connection
-//var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
-const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
+var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
+//const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection
@@ -140,27 +110,18 @@ var TutorSchema = new Schema({
     salt: String,
     courses: [String],
     availability: Schema.Types.Mixed,
-    busy: Boolean
-});
-
-var CoordSchema = new Schema({
-    email: String,
-    hash: String,
-    salt: String
+    busy: Boolean,
+    isCoord: Boolean
 });
 
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
-var Coord = mongoose.model('Coord', CoordSchema);
 
 app.use('/get/queue', authenticate);
 app.use('/get/tutors', authenticate);
 app.use('/get/coords', authenticate);
 app.use('/assign', authenticate);
 app.use('/complete', authenticate);
-app.use('/add/tutor', authenticateCoord);
-app.use('/delete/*', authenticateCoord);
-app.use('/get/schedule', authenticateCoord);
 app.use(express.static('public_html'));
 
 
@@ -171,25 +132,6 @@ function authenticate(req, res, next) {
         let key = req.cookies.login.key;
         if (isValidSession(u, key)) {
             putSession(u, key);
-            res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
-            next();
-        } else {
-            res.end("redirect");
-            return;
-        }
-    } else {
-        res.end("redirect");
-        return;
-    }
-}
-
-// This is a special function to authenticate coords
-function authenticateCoord(req, res, next) {
-    if (Object.keys(req.cookies).length > 0) {
-        let u = req.cookies.login.username;
-        let key = req.cookies.login.key;
-        if (isValidCoordSession(u, key)) {
-            putCoordSession(u, key);
             res.cookie("login", { username: u, key: key }, { maxAge: TIMEOUT });
             next();
         } else {
@@ -222,16 +164,14 @@ app.post('/login/user',
     }
 );
 
-/*
-    Handles POST request from the browser to log in a coordinator.
-*/
 app.post('/login/coord',
     function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
-        Coord.findOne({ email: username }, (err, result) => {
+        Tutor.findOne({ email: username }, (err, result) => {
+            console.log(result);
             if (err) res.end(err);
-            if (result && isPasswordCorrect(result, password)) {
+            if (result && isPasswordCorrect(result, password) && result.isCoord) {
                 var sessionKey = putCoordSession(req.params.username);
                 res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
                 res.end('SUCCESS!');
@@ -272,18 +212,6 @@ app.get('/get/queue/all',
 app.get('/get/tutors',
     function (req, res) {
         Tutor.find({}, (err, result) => {
-            if (err) res.end(err);
-            res.json(result);
-        });
-    }
-);
-
-/*
-    Handles GET request from the browser to get all coordinators.
-*/
-app.get('/get/coords',
-    function (req, res) {
-        Coord.find({}, (err, result) => {
             if (err) res.end(err);
             res.json(result);
         });
@@ -376,8 +304,6 @@ app.post('/complete/request',
 */
 app.post('/add/tutor',
     function (req, res) {
-        var testAvailibility = new availabilitySchedule();
-
         var salt = Math.floor(Math.random() * 1000000000000);
         var hash = getHash(req.body.password, salt);
 
@@ -387,9 +313,10 @@ app.post('/add/tutor',
             hash: hash,
             salt: salt,
             courses: req.body.courses,
-            availability: testAvailibility,
-            busy: false
+            busy: false,
+            isCoord: false
         });
+        if (req.body.isCoord) tutor.isCoord = true;
         Tutor.find({ email: req.body.email }, (err, result) => {
             if (!err && result.length == 0) {
                 tutor.save((err) => {
@@ -398,32 +325,6 @@ app.post('/add/tutor',
                 });
             } else {
                 res.end('Tutor already exists');
-            }
-        });
-    }
-);
-
-/*
-    Handles POST request from the browser to add a new coordinator to the database.
-*/
-app.post('/add/coord',
-    function (req, res) {
-        var salt = Math.floor(Math.random() * 1000000000000);
-        var hash = getHash(req.body.password, salt);
-
-        var coord = new Coord({
-            email: req.body.email,
-            hash: hash,
-            salt: salt,
-        });
-        Coord.find({ email: req.body.email }, (err, result) => {
-            if (!err && result.length == 0) {
-                coord.save((err) => {
-                    if (err) res.end(err);
-                    res.end('Coordinator added');
-                });
-            } else {
-                res.end('Coordinator already exists');
             }
         });
     }
@@ -485,12 +386,11 @@ app.delete('/delete/queue',
 app.delete('/delete/tutor',
     function (req, res) {
         var email = req.body.email;
-        Tutor.deleteOne({ email: email }).exec((err, results) => {
+        Tutor.deleteMany({ email: email }).exec((err, results) => {
             console.log('Deleted tutor');
             res.end('Deleted tutor');
         });
     }
 );
-
 
 app.listen(port, () => console.log('Node.js web server at port ' + port + ' is running..'));

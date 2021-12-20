@@ -29,3 +29,7 @@ iframe {
     margin-left: auto;
     margin-right: auto;
 }
+
+#createCoord {
+    display: none;
+}
