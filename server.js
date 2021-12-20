@@ -1,7 +1,7 @@
 /*
     Connor Brett
     This file is the server for the final project. It receives AJAX requests
-    and creates Tutor, TutorRequest, and Coord objects and sends them 
+    and creates Tutor and TutorRequest objects and sends them 
     to the database as well as retrieving info from the db.
 */
 
@@ -202,6 +202,31 @@ app.get('/get/queue/all',
         TutorRequest.find({}, (err, results) => {
             if (err) res.end(err);
             res.json(results);
+        });
+    }
+);
+
+/*
+    Gets student's current place in queue.
+*/
+app.get('/get/queue/place/:email',
+    function (req, res) {
+        var email = req.params.email;
+        var place = 0;
+        TutorRequest.find({}, (err, results) => {
+            if (err) res.end(err);
+            for (var i in results) {
+                var request = results[i];
+                if (request.status === 'WAITING') {
+                    if (request.email === email) {
+                        res.end(place.toString());
+                        return;
+                    } else {
+                        place += 1;
+                    }
+                }
+            }
+            res.end('ERROR');
         });
     }
 );
