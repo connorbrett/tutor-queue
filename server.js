@@ -172,7 +172,7 @@ app.post('/login/coord',
             console.log(result);
             if (err) res.end(err);
             if (result && isPasswordCorrect(result, password) && result.isCoord) {
-                var sessionKey = putCoordSession(req.params.username);
+                var sessionKey = putSession(req.params.username);
                 res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
                 res.end('SUCCESS!');
             } else {
