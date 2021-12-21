@@ -5,6 +5,11 @@
 
 body {
     margin: 0px;
+    background-image: url("/images/login_image.jpg");
+}
+
+h1 {
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 h2 {
@@ -34,9 +39,10 @@ img#UofA {
     position: absolute;
     width: 35vw;
     height: 100vh;
-    right: 0px;
+    right: 31.5vw;
     text-align: center;
     font-family: monospace;
+    background-color: white;
 }
 
 #login-display>* {

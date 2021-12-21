@@ -21,6 +21,7 @@ html {
     background-size: cover;
     height: 100%;
     font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
 }
 
 /*---------------------------------------------*/
@@ -39,6 +40,19 @@ p {
     line-height: 1.7;
     color: #666666;
     margin: 0px;
+}
+
+header {
+    padding: 20px;
+    background-color: white;
+}
+
+#headerLogo {
+    height: 7.5vh;
+}
+
+#loggedInEmail {
+    float: right;
 }
 
 /*---------------------------------------------*/
@@ -104,9 +118,7 @@ iframe {
     background: #fff;
     border-radius: 2px;
     position: relative;
-    margin-top: 55px;
-    padding: 92px 70px 88px 70px;
-
+    padding: 60px 60px 10px 60px;
     box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
     -moz-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);
     -webkit-box-shadow: 0 3px 20px 0px rgba(0, 0, 0, 0.1);

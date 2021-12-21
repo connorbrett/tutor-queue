@@ -16,7 +16,11 @@
 </head>
 
 <body>
-  <div>
+  <header>
+    <a href="../"><img id="headerLogo" src="/images/UofA_CS_logo.png" alt="header logo"></a>
+    <p id="loggedInEmail"></p>
+  </header>
+  <div id="logInCoord">
     <h1>Tutor Coordinator Sign In</h1>
     <div>
       <input type="text" id="username" placeholder="Email" class="validate">
@@ -24,7 +28,8 @@
     <div>
       <input type="password" id="password" placeholder="Password" class="validate">
     </div>
-    <input type="submit" value="Sign in" onclick="toCoord()"><hr>
+    <input type="submit" value="Sign in" onclick="toCoord()">
+    <hr>
   </div>
   <div id="createCoord">
     <h1>Tutor Coordinator Create Account</h1>

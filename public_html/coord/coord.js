@@ -9,6 +9,12 @@ window.onload = onloadFunc;
 // Authenticate the coordinator. In case invalid, redirects to the login page.
 function onloadFunc() {
     displaySchedule();
+    $('#loggedInEmail').html(getTutorEmail());
+}
+
+// Return the tutor's email
+function getTutorEmail() {
+    return localStorage.getItem('email');
 }
 
 // This function gets the tutor schedule then display it

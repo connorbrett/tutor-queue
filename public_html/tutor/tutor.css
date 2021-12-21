@@ -13,6 +13,20 @@ body {
     font-family: Helvetica;
     -webkit-font-smoothing: antialiased;
     background: rgba(71, 147, 227, 1);
+    margin: 0;
+}
+
+header {
+    padding: 20px;
+    background-color: white;
+}
+
+#headerLogo {
+    height: 7.5vh;
+}
+
+#loggedInEmail {
+    float: right;
 }
 
 h2 {

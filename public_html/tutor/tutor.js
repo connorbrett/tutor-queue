@@ -45,6 +45,7 @@ function reloadSite() {
 function onloadFunc() {
     getWaitingQueue();
     getInProgressQueue();
+    $('#loggedInEmail').html(getTutorEmail());
 }
 
 // Return the tutor's email
