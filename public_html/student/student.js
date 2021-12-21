@@ -12,8 +12,8 @@ setInterval(getPlaceInQueue, 5000);
 function isValidInput() {
     let name = $("#name").val();
     let email = $("#email").val();
-    let course = $("#course").val();
-    if (name === "" || email === "" || course === "") {
+    let course = getSelectedCourse();
+    if (name === "" || email === "" || !course) {
         return false;
     }
     return true;
@@ -28,7 +28,7 @@ function sendRequest() {
     var requestInfo = {
         name: $("#name").val(),
         email: $("#email").val(),
-        course: $("#course").val(),
+        course: getSelectedCourse(),
         description: $("#description").val()
     };
     $.ajax({
@@ -61,4 +61,13 @@ function getPlaceInQueue() {
             }
         }
     });
+}
+
+function getSelectedCourse() {
+    // Get checked radio button
+    var course = $('input[type=radio][name=course]:checked').val();
+    if (course === 'other') {
+        course = $('#otherCourse').val();
+    }
+    return course;
 }

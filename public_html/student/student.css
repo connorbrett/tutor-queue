@@ -42,6 +42,20 @@ p {
     margin: 0px;
 }
 
+h2 {
+    text-align: left;
+    color: #666666;
+    font-weight: normal;
+}
+
+label {
+    color: #666666;
+    font-size: 18px;
+    padding: 0px 15px 10px 2.5px;
+    line-height: 40px;
+    white-space: nowrap;
+}
+
 header {
     padding: 20px;
     background-color: white;
@@ -66,14 +80,8 @@ textarea {
     border: none;
 }
 
-textarea:focus,
-input:focus {
-    border-color: transparent !important;
-}
-
-label {
-    display: block;
-    margin: 0;
+input[type="radio"] {
+    transform: scale(1.5);
 }
 
 /*---------------------------------------------*/
@@ -193,6 +201,21 @@ iframe {
     border: 1px solid #dbdbdb;
     border-radius: 2px;
     margin-bottom: 30px;
+}
+
+.course-selection {
+    padding: 10px;
+    text-align: center;
+}
+
+#otherLabel {
+    padding-right: 5px;
+}
+
+.otherInput {
+    border: 1px solid #333333;
+    padding: 2px;
+    font-size: 16px;
 }
 
 .wrap-input100.rs1 {

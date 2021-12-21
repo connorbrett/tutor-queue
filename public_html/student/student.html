@@ -25,24 +25,56 @@
 			<span class="contact100-form-symbol">
 				<img src="/images/wild_cat_logo.png" alt="LOGO">
 			</span>
-			<div class="contact100-form">
-				<span class="contact100-form-title">
-					Get help with your assignments
-				</span>
+			<form class="contact100-form">
+				<span class="contact100-form-title">Tutor Request Form</span>
 
 				<div class="wrap-input100">
-					<input class="input100" type="text" id="name" name="name" placeholder="Full Name">
+					<input class="input100" type="text" id="name" name="name" placeholder="Full Name" required>
 					<span class="focus-input100"></span>
 				</div>
 
 				<div class="wrap-input100">
-					<input class="input100" type="text" id="email" name="email" placeholder="Email Address">
+					<input class="input100" type="text" id="email" name="email" placeholder="School Email Address"
+						pattern="\w+@email.arizona.edu" title="Must be a valid school email" required>
 					<span class="focus-input100"></span>
 				</div>
 
-				<div class="wrap-input100">
-					<input class="input100" type="text" id="course" name="course" placeholder="Course">
-					<span class="focus-input100"></span>
+				<div class="wrap-input100 course-selection">
+					<h2>Course:</h2>
+					<input type="radio" name="course" value="CSC 101" required>
+					<label for="CSC 101">CSC 101</label>
+
+					<input type="radio" name="course" value="CSC 110">
+					<label for="CSC 110">CSC 110</label>
+
+					<input type="radio" name="course" value="CSC 120">
+					<label for="CSC 101">CSC 120</label>
+
+					<input type="radio" name="course" value="CSC 210">
+					<label for="CSC 210">CSC 210</label>
+
+					<input type="radio" name="course" value="CSC 245">
+					<label for="CSC 245">CSC 245</label><br>
+
+					<input type="radio" name="course" value="CSC 252">
+					<label for="CSC 252">CSC 252</label>
+
+					<input type="radio" name="course" value="CSC 335">
+					<label for="CSC 335">CSC 335</label>
+
+					<input type="radio" name="course" value="CSC 345">
+					<label for="CSC 345">CSC 345</label>
+
+					<input type="radio" name="course" value="CSC 352">
+					<label for="CSC 352">CSC 352</label>
+
+					<input type="radio" name="course" value="CSC 352">
+					<label for="CSC 337">CSC 337</label><br>
+
+					<input type="radio" name="course" value="other">
+					<label for="other" id="otherLabel">Other</label>
+					<input type="text" id="otherCourse" class="otherInput" pattern="CSC \d\d\d" title="Must be a valid Computer Science course">
+
 				</div>
 
 				<div class="wrap-input100">
@@ -56,7 +88,7 @@
 						Send
 					</button>
 				</div>
-			</div>
+			</form>
 		</div>
 		<script src="student.js"></script>
 	</div>
