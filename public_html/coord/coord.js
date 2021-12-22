@@ -5,6 +5,7 @@
 */
 
 window.onload = onloadFunc;
+const requiredCourses = ['CSC 101', 'CSC 110', 'CSC 120', 'CSC 210'];
 
 // Authenticate the coordinator. In case invalid, redirects to the login page.
 function onloadFunc() {
@@ -37,11 +38,16 @@ function displaySchedule() {
 /*  Add a new tutor to the database
  */
 function addTutor() {
+    var courses = getSelectedCourses();
+    if (!validateCourses(courses)) {
+        alert('Courses through 210 are required at minimum.');
+        return;
+    }
     var accountInfo = {
         name: $("#name").val(),
         email: $("#email").val(),
         password: $("#password").val(),
-        courses: $("#courses").val().split(/[ ,]+/) //Split by white space
+        courses: courses
     };
     $.ajax({
         url: '/add/tutor',
@@ -61,4 +67,17 @@ function addTutor() {
             }
         }
     });
+}
+
+function getSelectedCourses() {
+    return $('input:checked').map(function () {
+        return this.value;
+    }).get();
+}
+
+function validateCourses(courses) {
+    var courses = getSelectedCourses();
+    return requiredCourses.every(function(item) {
+        return courses.indexOf(item) !== -1;
+     });
 }

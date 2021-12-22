@@ -117,11 +117,11 @@ var TutorSchema = new Schema({
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 
-app.use('/get/queue', authenticate);
-app.use('/get/tutors', authenticate);
-app.use('/get/coords', authenticate);
-app.use('/assign', authenticate);
-app.use('/complete', authenticate);
+// app.use('/get/queue', authenticate);
+// app.use('/get/tutors', authenticate);
+// app.use('/get/coords', authenticate);
+// app.use('/assign', authenticate);
+// app.use('/complete', authenticate);
 app.use(express.static('public_html'));
 
 
@@ -169,7 +169,6 @@ app.post('/login/coord',
         var username = req.body.username;
         var password = req.body.password;
         Tutor.findOne({ email: username }, (err, result) => {
-            console.log(result);
             if (err) res.end(err);
             if (result && isPasswordCorrect(result, password) && result.isCoord) {
                 var sessionKey = putSession(req.params.username);
@@ -399,7 +398,6 @@ app.post('/assign',
 app.delete('/delete/queue',
     function (req, res) {
         TutorRequest.deleteMany({}).exec((err, results) => {
-            console.log('Deleted users');
             res.end('Deleted users');
         });
     }
@@ -412,7 +410,6 @@ app.delete('/delete/tutor',
     function (req, res) {
         var email = req.body.email;
         Tutor.deleteMany({ email: email }).exec((err, results) => {
-            console.log('Deleted tutor');
             res.end('Deleted tutor');
         });
     }

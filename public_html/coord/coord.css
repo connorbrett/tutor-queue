@@ -25,17 +25,30 @@ header {
 
 input[type="submit"] {
     padding: 3px 13px;
-    font-size: 14px;
+    font-size: 20px;
     background-color: lightgreen;
     border-radius: 5px;
     cursor: pointer;
+    margin-top: 20px;
 }
 
 /* Choosing any input which does not have type="submit" */
-input:not(input[type="submit"]) {
+input[type="text"], input[type="password"] {
     width: 200px;
     height: 30px;
     margin-bottom: 5px;
+    font-size: 16px;
+}
+
+input[type="checkbox"] {
+    transform: scale(1.5);
+}
+
+label {
+    padding: 10px;
+    line-height: 1.5;
+    font-family: monospace;
+    font-size: large;
 }
 
 iframe {
