@@ -27,6 +27,8 @@ const WAITING = 'WAITING';
 const INPROGRESS = 'IN PROGRESS';
 const COMPLETE = 'COMPLETE';
 
+const tutorSchedule = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdGuuODyIy9IKHMtnLaet43TAEIkYYbI3NQ4agQSsHdwIbds_nQN6ZzXF2SYfNOEMyu8df1re0_U5h/pubhtml?gid=1294673926&amp;single=true&amp;widget=true&amp;headers=false';
+
 /** SESSION CODE **/
 
 TIMEOUT = 600000;
@@ -244,7 +246,7 @@ app.get('/get/tutors',
 
 app.get('/get/schedule',
     function (req, res) {
-        res.end("https://docs.google.com/spreadsheets/d/e/2PACX-1vSYcpCeCm9YjDrb3UZipDbaab7vE8X9dPYKgx71VAS6vTFjqBK_yV2dx9SkF-eZulg8M3hlypito9YL/pubhtml?gid=1294673926&amp;single=true&amp;widget=true&amp;headers=false");
+        res.end(tutorSchedule);
     }
 );
 
