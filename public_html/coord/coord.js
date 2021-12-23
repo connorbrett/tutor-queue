@@ -61,7 +61,8 @@ function addTutor() {
             }
             // Otherwise, add a new tutor
             if (result == 'Tutor added') {
-                alert("New tutor added!")
+                alert("New tutor added!");
+                $('#newTutor').trigger('reset');
             } else {
                 alert("Something went wrong, failed to add new tutor!");
             }

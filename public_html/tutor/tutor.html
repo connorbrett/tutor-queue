@@ -17,42 +17,46 @@
 
 <body>
     <header>
-        <a href="../"><img id="headerLogo" src="/images/UofA_CS_logo.png" alt="header logo"></a>
+        <a href="../" class="logo"><img id="headerLogo" src="/images/UofA_CS_logo.png" alt="header logo"></a>
+        <a href="../coord/coordTutors.html" class="links">Tutor Information</a>
+        <a href="../tutor/tutor.html" class="links">Tutor Queue</a>
         <p id="loggedInEmail"></p>
     </header>
     <!--Waiting queue-->
-    <h2>Waiting Queue</h2>
-    <div class="table-wrapper">
-        <table class="fl-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Course</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="waiting">
-            <tbody>
-        </table>
-    </div>
-    <!--Current Student-->
-    <h2>Current Student</h2>
-    <div class="table-wrapper">
-        <table class="fl-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Course</th>
-                    <th>Description</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody id="in-progress">
-            <tbody>
-        </table>
+    <div id="queues">
+        <h2>Waiting Queue</h2>
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="waiting">
+                <tbody>
+            </table>
+        </div>
+        <!--Current Student-->
+        <h2>Current Student</h2>
+        <div class="table-wrapper">
+            <table class="fl-table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Course</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="in-progress">
+                <tbody>
+            </table>
+        </div>
     </div>
     <script src="tutor.js"></script>
 </body>

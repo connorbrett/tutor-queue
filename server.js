@@ -18,9 +18,7 @@ app.use(express.static('public_html'));
 app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-    extended: true
-}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.set('json spaces', 2);
 
 const WAITING = 'WAITING';
@@ -124,8 +122,6 @@ var Tutor = mongoose.model('Tutor', TutorSchema);
 // app.use('/get/coords', authenticate);
 // app.use('/assign', authenticate);
 // app.use('/complete', authenticate);
-app.use(express.static('public_html'));
-
 
 // This is a special function to authenticate tutors
 function authenticate(req, res, next) {
