@@ -65,7 +65,9 @@ function getWaitingQueue() {
             }
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
+                var time = getReadableTime(student.submitted);
                 $("tbody#waiting").append(`<tr id=student${id}></tr>`);
+                $(`#student${id}`).append(`<td>${time}</td>`);
                 $(`#student${id}`).append(`<td>${student.name}</td>`);
                 $(`#student${id}`).append(`<td>${student.email}</td>`);
                 $(`#student${id}`).append(`<td>${student.course}</td>`);
@@ -122,7 +124,9 @@ function getInProgressQueue() {
             }
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
+                var time = getReadableTime(student.submitted);
                 $("tbody#in-progress").append(`<tr id=student${id}></tr>`);
+                $(`#student${id}`).append(`<td>${time}</td>`);
                 $(`#student${id}`).append(`<td>${student.name}</td>`);
                 $(`#student${id}`).append(`<td>${student.email}</td>`);
                 $(`#student${id}`).append(`<td>${student.course}</td>`);
@@ -157,4 +161,20 @@ function done(studentEmail) {
             location.reload();
         }
     });
+}
+
+function getReadableTime(date) {
+    var dateObj = new Date(date);
+    var time = dateObj.toLocaleDateString();
+    if (dateObj.getHours() > 12) {
+        time += " 0" + (dateObj.getHours() - 12).toString();
+    } else {
+        time += " " + dateObj.getHours();
+    }
+    if (dateObj.getMinutes() < 10) {
+        time += ':0' + dateObj.getMinutes();
+    } else {
+        time += ':' + dateObj.getMinutes();
+    }
+    return time;
 }
