@@ -10,8 +10,7 @@ var waitingNum = 0; // Number of waiting sutdents
 var id = 0; // id for students in the queue (including both waiting and in-progress)
 var title = document.title; 
 var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
-window.onload = onloadFunc;
-setInterval(onloadFunc, 5000);
+$(document).ready(onloadFunc);
 
 /*
     This function finds out the number of waiting
@@ -113,7 +112,7 @@ function getInProgressQueue() {
         return;
     }
     $.ajax({
-        url: `/get/request/${tutorEmail}`,
+        url: `/get/request/${encodeURIComponent(tutorEmail)}`,
         method: 'GET',
         success: function (students) {
             $("tbody#in-progress").html('');

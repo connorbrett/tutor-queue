@@ -10,7 +10,7 @@
 */
 function toCoord() {
     var accountInfo = {
-        username: $("#username").val(),
+        username: $("#email").val(),
         password: $("#password").val()
     };
     $.ajax({
@@ -20,6 +20,7 @@ function toCoord() {
         success: function (result) {
             // Successfully logged in
             if (result == 'SUCCESS!') {
+                localStorage.setItem('email', $("#email").val());
                 window.location.href = "coord.html";
             } else {
                 // Show alert if the account is invalud

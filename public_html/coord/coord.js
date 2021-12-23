@@ -3,15 +3,9 @@
     Purpose: Trying to display the schedule if the user is still
         valid. Redirects to the login page otherwise.
 */
-
-window.onload = onloadFunc;
 const requiredCourses = ['CSC 101', 'CSC 110', 'CSC 120', 'CSC 210'];
 
-// Authenticate the coordinator. In case invalid, redirects to the login page.
-function onloadFunc() {
-    displaySchedule();
-    $('#loggedInEmail').html(getTutorEmail());
-}
+$(document).ready(displaySchedule);
 
 // Return the tutor's email
 function getTutorEmail() {

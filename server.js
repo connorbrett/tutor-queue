@@ -240,6 +240,21 @@ app.get('/get/tutors',
     }
 );
 
+app.get('/coord/check/:email', 
+    function (req, res) {
+        var email = req.params.email;
+        Tutor.findOne( {email: email}, (err, tutor) => {
+            if (err) res.end(err);
+            if (tutor == null) res.end('false');
+            if (tutor.isCoord) {
+                res.end('true');
+            } else {
+                res.end('false');
+            }
+        });
+    }    
+);
+
 app.get('/get/schedule',
     function (req, res) {
         res.end(tutorSchedule);
