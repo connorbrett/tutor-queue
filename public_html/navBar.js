@@ -3,7 +3,7 @@
     Purpose: 
 */
 
-window.onload = loadNavBar;
+$(document).ready(loadNavBar);
 
 // Return the tutor's email
 function getTutorEmail() {
@@ -17,8 +17,12 @@ function loadNavBar() {
         success: function (result) {
             var title = '';
             if (result === 'true') {
-                $('#extraLinks').append(`<a href="../coord/coordTutors.html" class="links">Tutor Information</a>`);
+                console.log('hi');
                 $('#extraLinks').append(`<a href="../tutor/tutor.html" class="links">Tutor Queue</a>`);
+                $('#extraLinks').append(`<a href="../coord/coordTutors.html" class="links">Tutor Information</a>`);
+                $('#extraLinks').append(`<a href="../coord/coordSchedule.html" class="links">Tutor Schedule</a>`);
+                $('#extraLinks').append(`<a href="../coord/coordAddTutor.html" class="links">Add Tutor</a>`);
+                
                 title = ' - Coordinator';
             } else {
                 title = ' - Tutor'
