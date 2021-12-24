@@ -247,6 +247,10 @@ app.get('/request/:tutor',
         var tutorEmail = req.params.tutor;
         Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
             if (err) res.end(err);
+            if (!tutor) {
+                res.end('redirect');
+                return;
+            }
             TutorRequest.find(
                 { tutor: tutor.id, status: INPROGRESS },
                 (err, request) => {
