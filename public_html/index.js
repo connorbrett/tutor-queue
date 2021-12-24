@@ -40,8 +40,3 @@ function toTutor() {
         }
     });
 }
-
-// Redirect to coordinator login site
-function toCoordLogin() {
-    window.location.href = "coord/coordLogin.html";
-}
