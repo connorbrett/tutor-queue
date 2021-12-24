@@ -11,6 +11,7 @@ var id = 0; // id for students in the queue (including both waiting and in-progr
 var title = document.title; 
 var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
 $(document).ready(onloadFunc);
+setInterval(onloadFunc, 5000);
 
 /*
     This function finds out the number of waiting

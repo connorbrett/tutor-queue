@@ -34,7 +34,6 @@ function sendRequest() {
         data: requestInfo,
         method: 'POST',
         success: function (result) {
-            console.log(result);
             if (result !== 'ERROR') {
                 localStorage.setItem('studentEmail', $("#email").val());
                 window.location.replace("/student/studentDone.html");

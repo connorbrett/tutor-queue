@@ -83,6 +83,7 @@ function isPasswordCorrect(account, password) {
 //Set up default mongoose connection
 var mongoDB = 'mongodb://127.0.0.1/tutorqueue';
 //const mongoDB = 'mongodb+srv://hungleba3008:8647063pP@cluster0.x0ctu.mongodb.net/local_library?retryWrites=true&w=majority';
+var mongoDB = 'mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/tutorQueue?retryWrites=true&w=majority';
 mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //Get the default connection

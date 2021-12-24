@@ -11,7 +11,6 @@ function getPlaceInQueue() {
         url: '/student/queue/' + encodeURIComponent(getStudentEmail()),
         method: 'GET',
         success: function (result) {
-            console.log(result);
             if (result !== 'ERROR') {
                 $('#placeInQueue').html(result);
             }
