@@ -26,7 +26,7 @@ function toTutor() {
         password: $("#password").val()
     };
     $.ajax({
-        url: '/login/user',
+        url: '/login/tutor',
         data: accountInfo,
         method: 'POST',
         success: function (result) {

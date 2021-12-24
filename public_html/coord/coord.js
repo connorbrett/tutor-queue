@@ -15,12 +15,12 @@ function getTutorEmail() {
 // This function gets the tutor schedule then display it
 function displaySchedule() {
     $.ajax({
-        url: '/get/schedule',
+        url: '/schedule',
         method: 'GET',
         success: function (result) {
             // Session time out
             if (result === 'redirect') {
-                window.location.replace("/coord/coordLogin.html");
+                window.location.replace("/index.html");
                 return;
             }
             // Else, display the schedule
@@ -44,13 +44,13 @@ function addTutor() {
         courses: courses
     };
     $.ajax({
-        url: '/add/tutor',
+        url: '/coords/tutors/add',
         data: accountInfo,
         method: 'POST',
         success: function (result) {
             // Session time out
             if (result === 'redirect') {
-                window.location.replace("/coord/coordLogin.html");
+                window.location.replace("/index.html");
                 return;
             }
             // Otherwise, add a new tutor

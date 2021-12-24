@@ -13,12 +13,12 @@ function getTutorEmail() {
 
 function showTutors() {
     $.ajax({
-        url: '/get/tutors',
+        url: '/coords/tutors',
         method: 'GET',
         success: function (tutors) {
             // Session time out
             if (tutors === 'redirect') {
-                window.location.replace("/coord/coordLogin.html");
+                window.location.replace("/index.html");
                 return;
             }
             // Otherwise, show all tutors

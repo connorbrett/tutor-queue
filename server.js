@@ -117,11 +117,9 @@ var TutorSchema = new Schema({
 var TutorRequest = mongoose.model('TutorRequest', TutorRequestSchema);
 var Tutor = mongoose.model('Tutor', TutorSchema);
 
-// app.use('/get/queue', authenticate);
-// app.use('/get/tutors', authenticate);
-// app.use('/get/coords', authenticate);
-// app.use('/assign', authenticate);
-// app.use('/complete', authenticate);
+app.use('/queue', authenticate);
+app.use('/request', authenticate);
+app.use('/coords', authenticate);
 
 // This is a special function to authenticate tutors
 function authenticate(req, res, next) {
@@ -142,10 +140,8 @@ function authenticate(req, res, next) {
     }
 }
 
-/*
-    Handles POST request from the browser to log in a tutor.
-*/
-app.post('/login/user',
+// Logs in tutor
+app.post('/login/tutor',
     function (req, res) {
         var username = req.body.username;
         var password = req.body.password;
@@ -162,27 +158,10 @@ app.post('/login/user',
     }
 );
 
-app.post('/login/coord',
-    function (req, res) {
-        var username = req.body.username;
-        var password = req.body.password;
-        Tutor.findOne({ email: username }, (err, result) => {
-            if (err) res.end(err);
-            if (result && isPasswordCorrect(result, password) && result.isCoord) {
-                var sessionKey = putSession(req.params.username);
-                res.cookie("login", { username: req.params.username, key: sessionKey }, { maxAge: TIMEOUT });
-                res.end('SUCCESS!');
-            } else {
-                res.end('There was an issue logging in please try again');
-            }
-        });
-    }
-);
+/* Queue routes */
 
-/*
-    Handles GET request from the browser return the current queue.
-*/
-app.get('/get/queue',
+// Gets current queue of waiting students
+app.get('/queue',
     function (req, res) {
         TutorRequest.find({ status: WAITING }, (err, results) => {
             if (err) res.end(err);
@@ -191,10 +170,8 @@ app.get('/get/queue',
     }
 );
 
-/*
-    Handles GET request from the browser return the entire queue.
-*/
-app.get('/get/queue/all',
+// Gets entire queue
+app.get('/queue/get/all',
     function (req, res) {
         TutorRequest.find({}, (err, results) => {
             if (err) res.end(err);
@@ -203,10 +180,43 @@ app.get('/get/queue/all',
     }
 );
 
-/*
-    Gets student's current place in queue.
-*/
-app.get('/get/queue/place/:email',
+app.get('/schedule',
+    function (req, res) {
+        res.end(tutorSchedule);
+    }
+);
+
+/* Studen routes */
+
+// Creates a tutor request
+app.post('/student/request/add',
+    function (req, res) {
+        TutorRequest.findOne({ email: req.body.email, status: { $ne: 'COMPLETE' } },
+            (err, student) => {
+                if (err) res.err(err);
+                if (student) {
+                    res.end(`${student.name} already in queue.`);
+                } else {
+                    var tutorRequest = new TutorRequest({
+                        name: req.body.name,
+                        email: req.body.email,
+                        course: req.body.course,
+                        description: req.body.description,
+                        status: WAITING,
+                        submitted: new Date()
+                    });
+                    tutorRequest.save((err) => {
+                        if (err) res.end(err);
+                        res.end(`${req.body.name} added to queue!`);
+                    });
+                }
+            }
+        );
+    }
+);
+
+// Gets the place in queue of a specific student
+app.get('/student/queue/:email',
     function (req, res) {
         var email = req.params.email;
         var place = 0;
@@ -228,43 +238,10 @@ app.get('/get/queue/place/:email',
     }
 );
 
-/*
-    Handles GET request from the browser to get all tutors.
-*/
-app.get('/get/tutors',
-    function (req, res) {
-        Tutor.find({}, (err, result) => {
-            if (err) res.end(err);
-            res.json(result);
-        });
-    }
-);
+/* Tutor Request routes */
 
-app.get('/coord/check/:email', 
-    function (req, res) {
-        var email = req.params.email;
-        Tutor.findOne( {email: email}, (err, tutor) => {
-            if (err) res.end(err);
-            if (tutor == null) res.end('false');
-            if (tutor.isCoord) {
-                res.end('true');
-            } else {
-                res.end('false');
-            }
-        });
-    }    
-);
-
-app.get('/get/schedule',
-    function (req, res) {
-        res.end(tutorSchedule);
-    }
-);
-
-/*
-    Handles GET request from the browser to get tutor's current student.
-*/
-app.get('/get/request/:tutor',
+// Gets current tutor request taken by a given tutor
+app.get('/request/:tutor',
     function (req, res) {
         var tutorEmail = req.params.tutor;
         Tutor.findOne({ email: tutorEmail }, (err, tutor) => {
@@ -280,38 +257,8 @@ app.get('/get/request/:tutor',
     }
 );
 
-/*
-    Handles POST request from the browser to add a new user to the database.
-*/
-app.post('/add/request',
-    function (req, res) {
-        TutorRequest.findOne({ email: req.body.email, status: { $ne: 'COMPLETE' } },
-            (err, student) => {
-                if (err) res.err(err);
-                if (student) {
-                    res.end(`${student.name} already in queue.`);
-                } else {
-                    var tutorRequest = new TutorRequest({
-                        name: req.body.name,
-                        email: req.body.email,
-                        course: req.body.course,
-                        description: req.body.description,
-                        status: WAITING,
-                        submitted: new Date()
-                    });
-                    tutorRequest.save((err) => {
-                        if (err) res.end(err);
-                        res.end(`${req.body.name} added to queue!`);
-                    });
-                }
-            });
-    }
-);
-
-/*
-    Handles POST request from the browser to complete a tutor request
-*/
-app.post('/complete/request',
+// Completes student's tutor request
+app.post('/request/complete',
     function (req, res) {
         var tutorEmail = req.body.tutorEmail;
         var studentEmail = req.body.studentEmail;
@@ -336,41 +283,8 @@ app.post('/complete/request',
     }
 );
 
-/*
-    Handles POST request from the browser to add a new tutor to the database.
-*/
-app.post('/add/tutor',
-    function (req, res) {
-        var salt = Math.floor(Math.random() * 1000000000000);
-        var hash = getHash(req.body.password, salt);
-
-        var tutor = new Tutor({
-            name: req.body.name,
-            email: req.body.email,
-            hash: hash,
-            salt: salt,
-            courses: req.body.courses,
-            busy: false,
-            isCoord: false
-        });
-        if (req.body.isCoord) tutor.isCoord = true;
-        Tutor.find({ email: req.body.email }, (err, result) => {
-            if (!err && result.length == 0) {
-                tutor.save((err) => {
-                    if (err) res.end(err);
-                    res.end('Tutor added');
-                });
-            } else {
-                res.end('Tutor already exists');
-            }
-        });
-    }
-);
-
-/*
-    Handles POST request from the browser to assign a tutor to a student
-*/
-app.post('/assign',
+// Assigns student to tutor
+app.post('/request/assign',
     function (req, res) {
         var tutorEmail = req.body.tutorEmail;
         var studentEmail = req.body.studentEmail;
@@ -405,9 +319,64 @@ app.post('/assign',
     }
 );
 
-/*
-    Test route to clear queue
-*/
+/* Coordinator routes */
+
+// Gets all tutors
+app.get('/coords/tutors',
+    function (req, res) {
+        Tutor.find({}, (err, result) => {
+            if (err) res.end(err);
+            res.json(result);
+        });
+    }
+);
+
+// Adds new tutor to database
+app.post('/coords/tutors/add',
+    function (req, res) {
+        var salt = Math.floor(Math.random() * 1000000000000);
+        var hash = getHash(req.body.password, salt);
+
+        var tutor = new Tutor({
+            name: req.body.name,
+            email: req.body.email,
+            hash: hash,
+            salt: salt,
+            courses: req.body.courses,
+            busy: false,
+            isCoord: false
+        });
+        if (req.body.isCoord) tutor.isCoord = true;
+        Tutor.find({ email: req.body.email }, (err, result) => {
+            if (!err && result.length == 0) {
+                tutor.save((err) => {
+                    if (err) res.end(err);
+                    res.end('Tutor added');
+                });
+            } else {
+                res.end('Tutor already exists');
+            }
+        });
+    }
+);
+
+// Checks if given user is a coordinator
+app.get('/coords/check/:email',
+    function (req, res) {
+        var email = req.params.email;
+        Tutor.findOne({ email: email }, (err, tutor) => {
+            if (err) res.end(err);
+            if (tutor == null) res.end('false');
+            if (tutor.isCoord) {
+                res.end('true');
+            } else {
+                res.end('false');
+            }
+        });
+    }
+);
+
+// Test route to clear queue
 app.delete('/delete/queue',
     function (req, res) {
         TutorRequest.deleteMany({}).exec((err, results) => {
@@ -416,9 +385,7 @@ app.delete('/delete/queue',
     }
 );
 
-/*
-    Test route to clear list of tutors
-*/
+// Test route to clear list of tutors
 app.delete('/delete/tutor',
     function (req, res) {
         var email = req.body.email;

@@ -55,7 +55,7 @@ function getTutorEmail() {
 // Rendering student waiting queue.
 function getWaitingQueue() {
     $.ajax({
-        url: '/get/queue',
+        url: '/queue',
         method: 'GET',
         success: function (students) {
             $("tbody#waiting").html('');
@@ -93,7 +93,7 @@ function assign(studentEmail) {
         tutorEmail: tutorEmail
     };
     $.ajax({
-        url: '/assign',
+        url: '/request/assign',
         data: requestInfo,
         method: 'POST',
         success: function (result) {
@@ -114,7 +114,7 @@ function getInProgressQueue() {
         return;
     }
     $.ajax({
-        url: `/get/request/${encodeURIComponent(tutorEmail)}`,
+        url: `/request/${encodeURIComponent(tutorEmail)}`,
         method: 'GET',
         success: function (students) {
             $("tbody#in-progress").html('');
@@ -149,7 +149,7 @@ function done(studentEmail) {
         tutorEmail: tutorEmail
     };
     $.ajax({
-        url: '/complete/request',
+        url: '/request/complete',
         data: requestInfo,
         method: 'POST',
         success: function (result) {
@@ -163,18 +163,22 @@ function done(studentEmail) {
     });
 }
 
-function getReadableTime(date) {
-    var dateObj = new Date(date);
-    var time = dateObj.toLocaleDateString();
+function getReadableTime(submittedDate) {
+    var dateObj = new Date(submittedDate);
+    var date = dateObj.toLocaleDateString();
+    var hour = '';
+    var minute = '';
+    var period = 'AM';
     if (dateObj.getHours() > 12) {
-        time += " 0" + (dateObj.getHours() - 12).toString();
+        hour = " 0" + (dateObj.getHours() - 12).toString();
+        period = 'PM';
     } else {
-        time += " " + dateObj.getHours();
+        hour = " " + dateObj.getHours();
     }
     if (dateObj.getMinutes() < 10) {
-        time += ':0' + dateObj.getMinutes();
+        minute = '0' + dateObj.getMinutes();
     } else {
-        time += ':' + dateObj.getMinutes();
+        minute = dateObj.getMinutes();
     }
-    return time;
+    return `${date} ${hour}:${minute} ${period}`;
 }

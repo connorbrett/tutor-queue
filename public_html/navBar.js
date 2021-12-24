@@ -12,7 +12,7 @@ function getTutorEmail() {
 
 function loadNavBar() {
     $.ajax({
-        url: '/coord/check/' + encodeURIComponent(getTutorEmail()),
+        url: '/coords/check/' + encodeURIComponent(getTutorEmail()),
         method: 'GET',
         success: function (result) {
             var title = '';

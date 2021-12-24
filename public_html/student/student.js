@@ -5,9 +5,6 @@
         sent successfully.
 */
 
-window.onload = getPlaceInQueue;
-setInterval(getPlaceInQueue, 5000);
-
 /* Check blank input */
 function isValidInput() {
     let name = $("#name").val();
@@ -31,12 +28,14 @@ function sendRequest() {
         course: getSelectedCourse(),
         description: $("#description").val()
     };
+    console.log('hi')
     $.ajax({
-        url: '/add/request',
+        url: '/student/request/add',
         data: requestInfo,
         method: 'POST',
         success: function (result) {
-            if (result.slice(-1) === "!") {
+            console.log(result);
+            if (result !== 'ERROR') {
                 localStorage.setItem('studentEmail', $("#email").val());
                 window.location.replace("/student/studentDone.html");
             } else {
@@ -49,18 +48,6 @@ function sendRequest() {
 // Return the tutor's email
 function getStudentEmail() {
     return localStorage.getItem('studentEmail');
-}
-
-function getPlaceInQueue() {
-    $.ajax({
-        url: '/get/queue/place/' + encodeURIComponent(getStudentEmail()),
-        method: 'GET',
-        success: function (result) {
-            if (result !== 'ERROR') {
-                $('#placeInQueue').html(result);
-            }
-        }
-    });
 }
 
 function getSelectedCourse() {
