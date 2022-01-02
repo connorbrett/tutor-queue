@@ -195,6 +195,10 @@ p {
         blink-caret .75s step-end infinite;
 }
 
+.typewriter::-webkit-scrollbar {
+    display: none;
+}
+
 @keyframes typing {
     from {
         width: 0
