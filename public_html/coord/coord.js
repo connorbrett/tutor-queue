@@ -3,9 +3,25 @@
     Purpose: Trying to display the schedule if the user is still
         valid. Redirects to the login page otherwise.
 */
+window.onload = isLoggedIn;
 const requiredCourses = ['CSC 101', 'CSC 110', 'CSC 120', 'CSC 210'];
 
 $(document).ready(displaySchedule);
+
+// Instantly redirect to /index.html if the user is not logged in
+function isLoggedIn() {
+    $.ajax({
+        url: '/coords/tutors',
+        method: 'GET',
+        success: function (tutors) {
+            // Session time out
+            if (tutors === 'redirect') {
+                window.location.replace("/index.html");
+                return;
+            }
+        }
+    });
+}
 
 // Return the tutor's email
 function getTutorEmail() {
