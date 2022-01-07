@@ -6,6 +6,8 @@
 body {
     margin: 0px;
     background-image: url("/images/login_image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 h1 {
@@ -54,8 +56,8 @@ img#UofA {
 /* Student and tutor button in the right panel */
 input#student,
 input#tutor {
-    width: 150px;
-    height: 150px;
+    width: 135px;
+    height: 135px;
     margin: 20px;
     padding: 2px;
     border: 2px solid;
