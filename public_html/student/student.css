@@ -56,53 +56,6 @@ label {
     white-space: nowrap;
 }
 
-/* Header styling */
-header {
-    padding: 20px;
-    background-color: white;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    font-family: Arial, Helvetica, sans-serif;
-    color: black;
-}
-
-#headerLogo {
-    height: 5vh;
-    margin-right: 5vh;
-}
-
-#loggedInEmail {
-    position: fixed;
-    right: 20px;
-    top: 2.5vh
-}
-
-.logo {
-    padding-top: 0px;
-}
-
-.links {
-    text-decoration: none;
-    padding: 5px 10px 5px 10px;
-    display: inline-block;
-    border: 2px solid black;
-    border-radius: 5px;
-    font-size: large;
-}
-
-.links:hover {
-    background-color: black;
-    border: 2px solid white;
-    color: white;
-}
-
-a:visited {
-    color: black;
-}
-
-/* End header styling */
-
 /*---------------------------------------------*/
 input {
     outline: none;
