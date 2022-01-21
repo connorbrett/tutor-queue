@@ -29,7 +29,7 @@ const tutorSchedule = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdGuuODy
 
 /** SESSION CODE **/
 
-TIMEOUT = 600000;
+TIMEOUT = 6000000;
 var sessions = {};
 
 function filterSessions() {
@@ -187,7 +187,7 @@ app.get('/schedule',
     }
 );
 
-/* Studen routes */
+/* Student routes */
 
 // Creates a tutor request
 app.post('/student/request/add',
