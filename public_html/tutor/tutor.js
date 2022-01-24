@@ -8,7 +8,7 @@
 
 var waitingNum = 0; // Number of waiting sutdents
 var id = 0; // id for students in the queue (including both waiting and in-progress)
-var title = document.title; 
+var title = document.title;
 var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
 $(document).ready(onloadFunc);
 $(document).ready(updateEmail);
@@ -176,6 +176,9 @@ function getReadableTime(submittedDate) {
     var period = 'AM';
     if (dateObj.getHours() > 12) {
         hour = " 0" + (dateObj.getHours() - 12).toString();
+        period = 'PM';
+    } else if (dateObj.getHours() == 12) {
+        hour = '12';
         period = 'PM';
     } else {
         hour = " " + dateObj.getHours();
