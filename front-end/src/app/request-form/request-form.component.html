@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="requestForm" (ngSubmit)="onSubmit">
   <div class="form-group">
     <label for="name">Name</label>
     <input type="email" class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter name">
@@ -10,7 +10,7 @@
   </div>
   <div class="form-group">
     <label for="courses">What course do you want tutoring for?</label>
-    <select class="form-control" id="courses">
+    <select class="form-control" id="course">
       <option *ngFor="let course of courses">{{ course.label }}</option>
     </select>
   </div>

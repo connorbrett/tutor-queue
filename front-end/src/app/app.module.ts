@@ -7,6 +7,7 @@ import { LoginComponent } from './login/login.component';
 import { StudentQueueComponent } from './student-queue/student-queue.component';
 import { RequestFormComponent } from './request-form/request-form.component';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

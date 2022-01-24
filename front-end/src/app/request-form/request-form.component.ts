@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {ICourse} from '../../models';
+import { FormBuilder } from '@angular/forms';
+
 @Component({
   selector: 'app-request-form',
   templateUrl: './request-form.component.html',
@@ -7,9 +9,21 @@ import {ICourse} from '../../models';
 })
 export class RequestFormComponent implements OnInit {
   courses: ICourse[] = [];
-  constructor() { }
+
+  requestForm = this.formBuilder.group({
+    name: '',
+    email: '',
+    course: ''
+  });
+
+  constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+
+  }
+
+  onSubmit(){
+    console.log(this.requestForm.value)
   }
 
 }
