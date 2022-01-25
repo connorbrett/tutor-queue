@@ -31,7 +31,7 @@ function getTutorEmail() {
 // This function gets the tutor schedule then display it
 function displaySchedule() {
     $.ajax({
-        url: '/schedule',
+        url: '/tutorSchedule',
         method: 'GET',
         success: function (result) {
             // Session time out
@@ -40,7 +40,20 @@ function displaySchedule() {
                 return;
             }
             // Else, display the schedule
-            $("iframe").attr("src", result);
+            $("#tutorSchedule").attr("src", result);
+        }
+    });
+    $.ajax({
+        url: '/coordSchedule',
+        method: 'GET',
+        success: function (result) {
+            // Session time out
+            if (result === 'redirect') {
+                window.location.replace("/index.html");
+                return;
+            }
+            // Else, display the schedule
+            $("#coordSchedule").attr("src", result);
         }
     });
 }
