@@ -26,7 +26,7 @@ const INPROGRESS = 'IN PROGRESS';
 const COMPLETE = 'COMPLETE';
 
 const tutorSchedule = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQdGuuODyIy9IKHMtnLaet43TAEIkYYbI3NQ4agQSsHdwIbds_nQN6ZzXF2SYfNOEMyu8df1re0_U5h/pubhtml?gid=1294673926&amp;single=true&amp;widget=true&amp;headers=false';
-
+const coordSchedule = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSPi78QeVieSt5XLgTQUZjaS9IvtzKTL7ztBelgqzKvtDcK6S-eYj1Aes6Am-XgFN0Wm2JbagNweaiS/pubhtml?widget=true&amp;headers=false'
 /** SESSION CODE **/
 
 TIMEOUT = 6000000;
@@ -191,9 +191,15 @@ app.get('/queue/get/all',
     }
 );
 
-app.get('/schedule',
+app.get('/tutorSchedule',
     function (req, res) {
         res.end(tutorSchedule);
+    }
+);
+
+app.get('/coordSchedule',
+    function (req, res) {
+        res.end(coordSchedule);
     }
 );
 
