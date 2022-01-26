@@ -12,6 +12,7 @@ var title = document.title;
 var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
 $(document).ready(onloadFunc);
 $(document).ready(updateEmail);
+$(document).ready(getRecentQueue);
 setInterval(onloadFunc, 5000);
 
 /*
@@ -143,6 +144,35 @@ function getInProgressQueue() {
     });
 }
 
+// Get recent queue from mongoDB
+function getRecentQueue() {
+    $.ajax({
+        url: '/queue/recent',
+        method: 'GET',
+        success: function (students) {
+            $("tbody#recent").html('');
+            if (students === "redirect") {
+                window.location.replace("/index.html");
+                return;
+            }
+            for (let i = 0; i < students.length; i++) {
+                student = students[i];
+                var time = getReadableTime(student.submitted);
+                console.log('tutor: ' + getTutorName(student.tutor));
+                $("tbody#recent").append(`<tr id=student${id}></tr>`);
+                $(`#student${id}`).append(`<td>${time}</td>`);
+                $(`#student${id}`).append(`<td>${student.name}</td>`);
+                $(`#student${id}`).append(`<td>${student.email}</td>`);
+                $(`#student${id}`).append(`<td>${student.course}</td>`);
+                $(`#student${id}`).append(`<td>${student.description}</td>`);
+                $(`#student${id}`).append(`<td>${student.status}</td>`);
+                if (student.status !== 'WAITING') getTutorName(student.tutor, id);
+                id++;
+            }
+        }
+    });
+}
+
 // Change tutor's status back to free and remove the student from the queue.
 function done(studentEmail) {
     tutorEmail = getTutorEmail()
@@ -190,3 +220,19 @@ function getReadableTime(submittedDate) {
     }
     return `${date} ${hour}:${minute} ${period}`;
 }
+
+// Get tutor name given id
+function getTutorName(tutorId, browserId) {
+    $.ajax({
+        url: `/coords/tutor/${encodeURIComponent(tutorId)}`,
+        method: 'GET',
+        success: function (tutor) {
+            if (tutor === "redirect") {
+                window.location.replace("/index.html");
+                return;
+            }
+            $(`#student${browserId}`).append(`<td>${tutor.name}</td>`);
+        }
+    });
+}
+

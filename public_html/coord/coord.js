@@ -4,7 +4,7 @@
         valid. Redirects to the login page otherwise.
 */
 window.onload = isLoggedIn;
-const requiredCourses = ['CSC 101', 'CSC 110', 'CSC 120', 'CSC 210'];
+const requiredCourses = ['CSC 101', 'CSC 110', 'CSC 120'];
 
 $(document).ready(displaySchedule);
 

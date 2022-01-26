@@ -171,6 +171,16 @@ app.get('/queue',
     }
 );
 
+// Get 10 most recent students in queue
+app.get('/queue/recent',
+    function (req, res) {
+        TutorRequest.find({}).sort({ submitted: -1 }).limit(10).exec((err, results) => {
+            if (err) res.end(err);
+            res.json(results);
+        });
+    }
+);
+
 // Gets entire queue
 app.get('/queue/get/all',
     function (req, res) {
@@ -333,6 +343,20 @@ app.get('/coords/tutors',
             if (err) res.end(err);
             res.json(result);
         });
+    }
+);
+
+// Gets tutor given id
+app.get('/coords/tutor/:id',
+    function (req, res) {
+        var id = req.params.id;
+        if (mongoose.Types.ObjectId.isValid(id)) {
+            Tutor.findById(id, (err, result) => {
+                if (err) res.end(err);
+                res.json(result);
+                return;
+            });
+        }
     }
 );
 
