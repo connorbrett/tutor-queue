@@ -7,10 +7,7 @@
 			"path": "front-end"
 		},
 		{
-			"path": "back-end"
-		},
-		{
-			"path": "shared"
+			"path": "server"
 		}
 	],
 	"settings": {}

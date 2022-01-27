@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { Course } from '@app/../../shared/models';
 
+export type Course = string;
 @Injectable({
   providedIn: 'root',
 })
