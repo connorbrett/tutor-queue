@@ -67,4 +67,16 @@ export class RequestService {
       tutor: this.userService.currentUser._id,
     });
   }
+
+  public markComplete(req: TutoringRequest) {
+    console.log(req);
+    if (!this.userService.currentUser)
+      return throwError(new Error('Need to be logged in'));
+    return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
+      ...req,
+      status: 'COMPLETE',
+      completed: new Date(),
+      tutor: this.userService.currentUser._id,
+    });
+  }
 }

@@ -19,4 +19,10 @@ export class CurrentRequestComponent implements OnInit {
       this.requests = requests;
     });
   }
+
+  markComplete(req: TutoringRequest) {
+    this.requestService.markComplete(req).subscribe(() => {
+      this.requests = this.requests.filter((e) => e._id !== req._id);
+    });
+  }
 }

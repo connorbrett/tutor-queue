@@ -1,7 +1,7 @@
 from bson.objectid import ObjectId
 from django.db import models
 
-PK_KEYS = ['_id', 'pk']
+PK_KEYS = ['_id', 'pk', 'tutor']
 
 class DjongoQuerySetMixin(models.query.QuerySet):
     """

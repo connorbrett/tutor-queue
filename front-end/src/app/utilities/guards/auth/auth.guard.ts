@@ -27,14 +27,10 @@ export class AuthGuard implements CanActivate, CanActivateChild {
         next: () => finish(true),
         error: (err: HttpErrorResponse) => {
           console.error(err);
-          if (err.status == 401) {
-            this.router.navigate(['/login'], {
-              queryParams: { returnUrl },
-            });
-            finish(false);
-          } else {
-            finish(true);
-          }
+          this.router.navigate(['/login'], {
+            queryParams: { returnUrl },
+          });
+          finish(false);
         },
       });
     });
