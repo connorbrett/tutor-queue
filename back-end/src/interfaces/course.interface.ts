@@ -1,3 +1,1 @@
-export interface Course {
-  label: string;
-}
+export type Course = string;

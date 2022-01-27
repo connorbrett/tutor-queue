@@ -1,0 +1,29 @@
+# baseURL
+@baseURL = http://localhost:8000/api/tutors
+
+###
+# User Signup
+GET {{ baseURL }}/current
+Content-Type: application/json
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzMzI5NzM2LCJpYXQiOjE2NDMyNDMzMzYsImp0aSI6Ijk5NDFjYTY3YzM2OTQ1NTk4YzI0ODgzNmYxZWMyODQ3IiwidXNlcl9pZCI6IjYxZjBiYTM5MWQxM2U4MmNiN2E0NmRmNCJ9.T8w51PDeRxLrYRGA8qBUwC0cLgWsOwPXb-TvDjpoR10
+
+
+###
+# User Login
+POST {{ baseURL }}/token/
+Content-Type: application/json
+
+{
+    "email": "asennyey@email.arizona.edu",
+    "password": "Araclasen6893."
+}
+
+###
+# User Logout
+POST {{ baseURL }}/logout
+Content-Type: application/json
+
+{
+    "email": "example@email.com",
+    "password": "password"
+}
