@@ -1,15 +1,15 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { NgEventBus } from 'ng-event-bus';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RefreshInterceptor } from './interceptors/refresh/refresh.interceptor';
-import { BrowserModule } from '@angular/platform-browser';
-import { ReactiveFormsModule } from '@angular/forms';
-import { AuthenticationService } from './services/authentication/authentication.service';
 import { AuthGuard } from './guards/auth/auth.guard';
+import { AuthenticationService } from './services/authentication/authentication.service';
+import { BrowserModule } from '@angular/platform-browser';
+import { CommonModule } from '@angular/common';
+import { CourseService } from './services/course/course.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { NgEventBus } from 'ng-event-bus';
+import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RefreshInterceptor } from './interceptors/refresh/refresh.interceptor';
 import { RequestService } from './services/request/request.service';
 import { UserService } from './services/user/user.service';
-import { CourseService } from './services/course/course.service';
 
 @NgModule({
   declarations: [],

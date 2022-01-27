@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { throwError } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { UserService } from '../user/user.service';
+import { environment } from 'src/environments/environment';
+import { map } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 export interface TutoringRequest {
   email: string;
@@ -35,9 +35,7 @@ export class RequestService {
 
   public getQueue() {
     return this.http
-      .get<Pageable<TutoringRequest>>(
-        `${environment.apiHost}requests/?status=WAITING`
-      )
+      .get<Pageable<TutoringRequest>>(`${environment.apiHost}requests/?status=WAITING`)
       .pipe(map((val) => val.results));
   }
 
@@ -52,15 +50,12 @@ export class RequestService {
 
   public getRecent() {
     return this.http
-      .get<Pageable<TutoringRequest>>(
-        `${environment.apiHost}requests/?status=COMPLETE&limit=10`
-      )
+      .get<Pageable<TutoringRequest>>(`${environment.apiHost}requests/?status=COMPLETE&limit=10`)
       .pipe(map((val) => val.results));
   }
 
   public assign(req: TutoringRequest) {
-    if (!this.userService.currentUser)
-      return throwError(new Error('Need to be logged in'));
+    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
     return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
       ...req,
       status: 'INPROGRESS',
@@ -70,8 +65,7 @@ export class RequestService {
 
   public markComplete(req: TutoringRequest) {
     console.log(req);
-    if (!this.userService.currentUser)
-      return throwError(new Error('Need to be logged in'));
+    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
     return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
       ...req,
       status: 'COMPLETE',

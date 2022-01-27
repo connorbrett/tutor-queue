@@ -1,11 +1,11 @@
+import { BehaviorSubject, Observable, Subject, of, throwError } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { BehaviorSubject, Observable, of, Subject, throwError } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { Router } from '@angular/router';
 import { User } from '../user/user.service';
+import { environment } from 'src/environments/environment';
+import { tap } from 'rxjs/operators';
 
 export interface AuthResponse {
   access: string;
@@ -27,21 +27,15 @@ export class AuthenticationService {
 
   public lastRefreshAttempt: Date | null = null;
 
-  constructor(
-    private router: Router,
-    private http: HttpClient,
-    public jwtHelper: JwtHelperService
-  ) {}
+  constructor(private router: Router, private http: HttpClient, public jwtHelper: JwtHelperService) {}
 
   login(username: string, password: string) {
-    return this.http
-      .post<any>(`${environment.apiHost}/token/`, { email: username, password })
-      .pipe(
-        tap((user) => {
-          this.setAuth(user);
-          this.startRefreshTokenTimer();
-        })
-      );
+    return this.http.post<any>(`${environment.apiHost}/token/`, { email: username, password }).pipe(
+      tap((user) => {
+        this.setAuth(user);
+        this.startRefreshTokenTimer();
+      })
+    );
   }
 
   logout() {
@@ -56,10 +50,7 @@ export class AuthenticationService {
     const expires = this.jwtHelper.getTokenExpirationDate(this.accessToken!);
     if (expires) {
       const timeout = expires.getTime() - Date.now() - 60 * 1000;
-      this.refreshTokenTimeout = setTimeout(
-        () => this.refresh().subscribe(),
-        timeout
-      );
+      this.refreshTokenTimeout = setTimeout(() => this.refresh().subscribe(), timeout);
     }
   }
 

@@ -1,15 +1,16 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { UserService } from '@utilities/services/user/user.service';
 import { AuthenticationService } from '@utilities/services/authentication/authentication.service';
+import { Component } from '@angular/core';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { UserService } from '@utilities/services/user/user.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.less'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   wasValidated = false;
   error = '';
   loginForm = this.formBuilder.group({
@@ -20,19 +21,18 @@ export class LoginComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private router: Router
   ) {
-    if (this.authService.isAuthenticated()) window.location.href = '/tutor';
+    if (this.authService.isAuthenticated()) this.router.navigate(['/tutor']);
   }
-
-  ngOnInit(): void {}
 
   onSubmit() {
     this.wasValidated = true;
     if (!this.loginForm.valid) return;
     const { email, password } = this.loginForm.value;
     this.userService.login(email, password).subscribe({
-      next: () => (window.location.href = '/tutor'),
+      next: () => this.router.navigate(['/tutor']),
       error: (err: HttpErrorResponse) => (this.error = err.error.detail),
     });
   }

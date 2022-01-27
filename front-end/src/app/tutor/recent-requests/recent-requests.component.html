@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <tr *ngIf="isLoading; else requestDisplay" class="w-100">
-      <td colspan=5>
+      <td colspan="5">
         <div class="d-flex justify-content-center align-items-center">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -22,11 +22,11 @@
     </tr>
     <ng-template #requestDisplay>
       <tr *ngFor="let request of requests">
-        <td>{{request.email}}</td>
-        <td>{{request.name}}</td>
-        <td>{{request.requested_course}}</td>
-        <td>{{request.description}}</td>
-        <th>{{request.status}}</th>
+        <td>{{ request.email }}</td>
+        <td>{{ request.name }}</td>
+        <td>{{ request.requested_course }}</td>
+        <td>{{ request.description }}</td>
+        <th>{{ request.status }}</th>
       </tr>
     </ng-template>
   </tbody>

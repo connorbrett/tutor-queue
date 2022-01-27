@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { StudentQueueComponent } from '../tutor/student-queue/student-queue.component';
 import { RequestFormComponent } from './request-form/request-form.component';
+import { RouterModule, Routes } from '@angular/router';
 import { StudentContainerComponent } from './student-container/student-container.component';
+import { StudentQueueComponent } from '../tutor/student-queue/student-queue.component';
 
 const routes: Routes = [
   {

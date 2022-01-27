@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  RequestService,
-  TutoringRequest,
-} from '@utilities/services/request/request.service';
+import { RequestService, TutoringRequest } from '@utilities/services/request/request.service';
 
 @Component({
   selector: 'app-current-request',

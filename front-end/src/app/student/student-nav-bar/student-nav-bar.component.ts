@@ -1,15 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-student-nav-bar',
   templateUrl: './student-nav-bar.component.html',
-  styleUrls: ['./student-nav-bar.component.less']
+  styleUrls: ['./student-nav-bar.component.less'],
 })
-export class StudentNavBarComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-}
+export class StudentNavBarComponent {}

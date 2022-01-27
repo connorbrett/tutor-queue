@@ -1,6 +1,6 @@
+import { AuthGuard } from '../utilities/guards/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AuthGuard } from '../utilities/guards/auth/auth.guard';
 import { StudentQueueComponent } from './student-queue/student-queue.component';
 import { TutorContainerComponent } from './tutor-container/tutor-container.component';
 import { TutorDashboardComponent } from './tutor-dashboard/tutor-dashboard.component';

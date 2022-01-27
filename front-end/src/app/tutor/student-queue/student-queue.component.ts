@@ -1,9 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgEventBus } from 'ng-event-bus';
-import {
-  RequestService,
-  TutoringRequest,
-} from '@utilities/services/request/request.service';
+import { RequestService, TutoringRequest } from '@utilities/services/request/request.service';
 
 @Component({
   selector: 'app-student-queue',
@@ -14,10 +11,7 @@ export class StudentQueueComponent implements OnInit {
   isLoading = true;
   queue: TutoringRequest[] = [];
 
-  constructor(
-    private requestService: RequestService,
-    private eventBus: NgEventBus
-  ) {}
+  constructor(private requestService: RequestService) {}
 
   ngOnInit(): void {
     this.loadQueue();

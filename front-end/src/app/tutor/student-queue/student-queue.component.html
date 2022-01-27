@@ -12,7 +12,7 @@
   </thead>
   <tbody>
     <tr *ngIf="isLoading; else queueDisplay" class="w-100">
-      <td colspan=5>
+      <td colspan="5">
         <div class="d-flex justify-content-center align-items-center">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -22,10 +22,10 @@
     </tr>
     <ng-template #queueDisplay>
       <tr *ngFor="let queueItem of queue">
-        <td>{{queueItem.email}}</td>
-        <td>{{queueItem.name}}</td>
-        <td>{{queueItem.requested_course}}</td>
-        <td>{{queueItem.description}}</td>
+        <td>{{ queueItem.email }}</td>
+        <td>{{ queueItem.name }}</td>
+        <td>{{ queueItem.requested_course }}</td>
+        <td>{{ queueItem.description }}</td>
         <td><button class="btn btn-default" (click)="assignToMe(queueItem)">Help</button></td>
       </tr>
     </ng-template>

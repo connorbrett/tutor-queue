@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Course, CourseService } from '@utilities/services/course/course.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { RequestService } from '@utilities/services/request/request.service';
-import {
-  CourseService,
-  Course,
-} from '@utilities/services/course/course.service';
 
 @Component({
   selector: 'app-request-form',
@@ -30,9 +27,7 @@ export class RequestFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.courseService
-      .getAll()
-      .subscribe((courses) => (this.courses = courses));
+    this.courseService.getAll().subscribe((courses) => (this.courses = courses));
   }
 
   onSubmit() {
