@@ -33,7 +33,7 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
     this.userService.login(email, password).subscribe({
       next: () => this.router.navigate(['/tutor']),
-      error: (err: HttpErrorResponse) => (this.error = err.error.detail),
+      error: (err: HttpErrorResponse) => (this.error = err.error ? err.error.detail : err),
     });
   }
 

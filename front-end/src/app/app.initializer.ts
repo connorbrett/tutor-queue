@@ -3,9 +3,11 @@ import { AuthenticationService } from '@utilities/services/authentication/authen
 export function appInitializer(authenticationService: AuthenticationService) {
   return () =>
     new Promise((resolve) => {
-      // attempt to refresh token on app start up to auto authenticate
-      authenticationService.refresh().subscribe({
-        next: (val) => resolve(val),
-      });
+      if (authenticationService.hasToken) {
+        // attempt to refresh token on app start up to auto authenticate
+        authenticationService.refresh().subscribe({
+          next: (val) => resolve(val),
+        });
+      }
     });
 }

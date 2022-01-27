@@ -114,7 +114,12 @@ export class AuthenticationService {
   }
 
   get hasEnoughTimePassedSinceLastAttempt() {
+    console.log(this.lastRefreshAttempt);
     if (this.lastRefreshAttempt == null) return true;
     return new Date().getTime() - this.lastRefreshAttempt.getTime() > 10000;
+  }
+
+  get hasToken() {
+    return this.accessToken && this.refreshToken;
   }
 }
