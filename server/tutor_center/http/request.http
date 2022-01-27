@@ -1,9 +1,10 @@
 # baseURL
-@baseURL = http://localhost:3000
+@baseURL = http://localhost:8000/api/requests
 
 ###
 # Find All Users
-GET {{ baseURL }}/request
+GET {{ baseURL }}/?tutor=61f0ba391d13e82cb7a46df4
+Authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjQzMzI5NzM2LCJpYXQiOjE2NDMyNDMzMzYsImp0aSI6Ijk5NDFjYTY3YzM2OTQ1NTk4YzI0ODgzNmYxZWMyODQ3IiwidXNlcl9pZCI6IjYxZjBiYTM5MWQxM2U4MmNiN2E0NmRmNCJ9.T8w51PDeRxLrYRGA8qBUwC0cLgWsOwPXb-TvDjpoR10
 
 ###
 # Find User By Id

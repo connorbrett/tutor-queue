@@ -14,3 +14,11 @@ class DjongoQuerySetMixin(models.query.QuerySet):
                 kwargs[key] = ObjectId(kwargs[key])
         print(kwargs)
         return super().get(**kwargs)
+
+    def filter(self, **kwargs):
+        print(kwargs)
+        for key in PK_KEYS:
+            if key in kwargs and not isinstance(kwargs[key], ObjectId):
+                kwargs[key] = ObjectId(kwargs[key])
+        print(kwargs)
+        return super().filter(**kwargs)

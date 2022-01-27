@@ -1,0 +1,33 @@
+<h3>Recent</h3>
+<p class="text-muted">This queue shows all students that have been recently met with.</p>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Course</th>
+      <th>Description</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngIf="isLoading; else requestDisplay" class="w-100">
+      <td colspan=5>
+        <div class="d-flex justify-content-center align-items-center">
+          <div class="spinner-border" role="status">
+            <span class="sr-only">Loading...</span>
+          </div>
+        </div>
+      </td>
+    </tr>
+    <ng-template #requestDisplay>
+      <tr *ngFor="let request of requests">
+        <td>{{request.email}}</td>
+        <td>{{request.name}}</td>
+        <td>{{request.requested_course}}</td>
+        <td>{{request.description}}</td>
+        <th>{{request.status}}</th>
+      </tr>
+    </ng-template>
+  </tbody>
+</table>

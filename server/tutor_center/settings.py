@@ -172,7 +172,11 @@ REST_FRAMEWORK = {
     ),
     'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
-    ]
+    ],
+    # Enable filtering, ie /requests/?status=WAITING. Simplifies a lot of endpoint calls.
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 100
 }
 
 SIMPLE_JWT = {
@@ -182,7 +186,3 @@ SIMPLE_JWT = {
 }
 
 AUTH_USER_MODEL = 'tutor_center.Tutor'
-
-REST_AUTH_SERIALIZERS = {
-    'USER_DETAILS_SERIALIZER': 'tutor_center.serializers.TutorSerializer',
-}

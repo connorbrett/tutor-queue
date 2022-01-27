@@ -6,21 +6,20 @@ from tutor_center.serializers.tutor import TutorSerializer
 
 class TutoringRequestSerializer(BaseSerializer):
     _id = ObjectIdField(required=False)
-    tutor = TutorSerializer(read_only=True)
+    tutor = TutorSerializer(read_only=True, source='tutor_set')
     class Meta:
         model = TutoringRequest
         fields = ['_id','status', 'description', 'name', 'email', 'requested_course', 'description', 'status', 'tutor']
 
 class AnonTutoringRequestSerializer(BaseSerializer):
     _id = ObjectIdField(required=False)
-    tutor = TutorSerializer(read_only=True)
+    tutor = TutorSerializer(read_only=True, source='tutor_set')
     class Meta:
         model = TutoringRequest
         fields = ['_id','status', 'description', 'requested_course', 'description', 'status', 'tutor']
 
 class TutoringRequestAssignSerializer(BaseSerializer):
     tutor = ObjectIdField()
-    tutor = TutorSerializer(read_only=True)
     class Meta:
         model = TutoringRequest
         fields = ['status', 'tutor']

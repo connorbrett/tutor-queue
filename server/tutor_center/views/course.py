@@ -6,11 +6,11 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly
 @permission_classes([IsAuthenticatedOrReadOnly])
 def list_courses(request):
     """
-    Return a list of all courses.
+    Return a static list of all courses.
     """
-    usernames = [
+    courses = [
         'CSC144',
         'CSC244',
         'CSC120'
     ]
-    return Response(usernames)
+    return Response(courses)

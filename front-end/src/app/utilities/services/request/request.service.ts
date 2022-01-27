@@ -1,0 +1,70 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { throwError } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import { UserService } from '../user/user.service';
+
+export interface TutoringRequest {
+  email: string;
+  name: string;
+  requested_course: string;
+  description: string;
+  _id: string;
+  status: string;
+}
+
+/**
+ * DRF can handle pagination by default, we can intercept that here.
+ * Good practice, not the most useful for the scale of our op.
+ */
+export interface Pageable<T> {
+  count: number;
+  results: T[];
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RequestService {
+  constructor(private http: HttpClient, private userService: UserService) {}
+
+  public create(data: any) {
+    return this.http.post(`${environment.apiHost}requests/`, data);
+  }
+
+  public getQueue() {
+    return this.http
+      .get<Pageable<TutoringRequest>>(
+        `${environment.apiHost}requests/?status=WAITING`
+      )
+      .pipe(map((val) => val.results));
+  }
+
+  public getCurrent() {
+    console.log(this.userService.currentUser);
+    return this.http
+      .get<Pageable<TutoringRequest>>(
+        `${environment.apiHost}requests/?status=INPROGRESS&tutor=${this.userService.currentUser?._id}`
+      )
+      .pipe(map((val) => val.results));
+  }
+
+  public getRecent() {
+    return this.http
+      .get<Pageable<TutoringRequest>>(
+        `${environment.apiHost}requests/?status=COMPLETE&limit=10`
+      )
+      .pipe(map((val) => val.results));
+  }
+
+  public assign(req: TutoringRequest) {
+    if (!this.userService.currentUser)
+      return throwError(new Error('Need to be logged in'));
+    return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
+      ...req,
+      status: 'INPROGRESS',
+      tutor: this.userService.currentUser._id,
+    });
+  }
+}

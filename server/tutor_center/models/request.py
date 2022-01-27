@@ -1,16 +1,14 @@
 from enum import Enum
-from tutor_center.models.course import Course
 from djongo import models
 from tutor_center.models.base import BaseModel
 from django.contrib.auth import get_user_model
-from tutor_center.query_sets.djongo import DjongoQuerySetMixin
 
 Tutor = get_user_model()
 
 class Status(Enum):
-    Waiting = "WAITING"
-    InProgress = "INPROGRESS"
-    Complete = "COMPLETE"
+    WAITING = "WAITING"
+    INPROGRESS = "INPROGRESS"
+    COMPLETE = "COMPLETE"
 class TutoringRequest(BaseModel):
     """
     name: req.body.name,
@@ -27,6 +25,6 @@ class TutoringRequest(BaseModel):
     #requested_course = models.ForeignKey(Course, on_delete=models.CASCADE)
     closed_time = models.DateTimeField(default=None)
     description = models.CharField(max_length=2000)
-    status = models.CharField(choices=Statuses, max_length=20, default=Status.Waiting.value, blank=True)
+    status = models.CharField(choices=Statuses, max_length=20, default=Status.WAITING.value, blank=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.SET_NULL, null=True)
 

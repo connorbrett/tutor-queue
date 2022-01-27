@@ -1,4 +1,4 @@
-import { AuthenticationService } from './services/authentication/authentication.service';
+import { AuthenticationService } from '@utilities/services/authentication/authentication.service';
 
 export function appInitializer(authenticationService: AuthenticationService) {
   return () =>

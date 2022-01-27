@@ -5,6 +5,9 @@ class ObjectIdField(serializers.Field):
     """
     String objects are serialized to ObjectIds.
     """
+    def get_value(self, data):
+        return self.to_representation(data)
+    
     def to_representation(self, data):
         print(data, str(data))
         return str(data)

@@ -6,8 +6,7 @@ from tutor_center.query_sets.djongo import DjongoQuerySetMixin
 class TutorManager( BaseUserManager, models.Manager.from_queryset(DjongoQuerySetMixin)):
     def create_user(self, email, name, courses, is_coord, password=None):
         """
-        Creates and saves a User with the given email, date of
-        birth and password.
+        Creates and saves a User with the given information and password.
         """
         if not email:
             raise ValueError('Users must have an email address')
@@ -24,8 +23,7 @@ class TutorManager( BaseUserManager, models.Manager.from_queryset(DjongoQuerySet
 
     def create_superuser(self, email, password=None, **kwargs):
         """
-        Creates and saves a superuser with the given email, date of
-        birth and password.
+        Creates and saves a superuser with the given information and password.
         """
         user = self.create_user(
             email,

@@ -9,33 +9,18 @@ from tutor_center.views.djongo import DjongoViewSetMixin
 
 class TutoringRequestViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
     """
-    A viewset for viewing and editing user instances.
+    Viewset for handling tutoring requests.
     """
     queryset = TutoringRequest.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly | Create]
+    filterset_fields = ['status', 'tutor']
 
     def get_serializer_class(self):
+        """
+        We want to hide name and email for students that want to see where they are in the queue.
+        - hide other students' name and email, here we will just return other requests.
+        """
         if self.request.user.is_authenticated:
             return TutoringRequestSerializer
         else:
             return AnonTutoringRequestSerializer
-
-    @action(detail=False)
-    def queue(self, request):
-        queryset = TutoringRequest.objects.all().filter(status=Status.Waiting.value).order_by('created_time')
-
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
-
-    @action(detail=True)
-    def assign(self, request, pk=None):
-        tutor_request = self.get_object()
-        serializer = TutoringRequestAssignSerializer(data=request.data)
-        if serializer.is_valid():
-            tutor_request.tutor = str(serializer.validated_data['tutor'])
-            tutor_request.status = serializer.validated_data['status']
-            tutor_request.save()
-            return Response({'success': True})
-        else:
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
