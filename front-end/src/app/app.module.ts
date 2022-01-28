@@ -7,7 +7,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { CommonModule } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { LoginComponent } from './login/login.component';
-import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StudentModule } from './student/student.module';
 import { TutorModule } from './tutor/tutor.module';
@@ -16,7 +15,7 @@ export function tokenGetter() {
   return localStorage.getItem('accessToken');
 }
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavBarComponent],
+  declarations: [AppComponent, LoginComponent],
   imports: [
     TutorModule,
     StudentModule,

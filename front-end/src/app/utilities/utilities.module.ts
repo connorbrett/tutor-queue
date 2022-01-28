@@ -10,9 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RefreshInterceptor } from './interceptors/refresh/refresh.interceptor';
 import { RequestService } from './services/request/request.service';
 import { UserService } from './services/user/user.service';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [NavBarComponent],
   imports: [CommonModule, BrowserModule, ReactiveFormsModule, HttpClientModule],
   providers: [
     NgEventBus,
@@ -23,6 +24,6 @@ import { UserService } from './services/user/user.service';
     CourseService,
     { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
   ],
-  exports: [],
+  exports: [NavBarComponent],
 })
 export class UtilitiesModule {}
