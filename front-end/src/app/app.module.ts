@@ -10,9 +10,10 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { StudentModule } from './student/student.module';
 import { TutorModule } from './tutor/tutor.module';
+import { ACCESS_TOKEN_LOCALSTORAGE } from './utilities/services/authentication/authentication.service';
 
 export function tokenGetter() {
-  return localStorage.getItem('accessToken');
+  return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
 }
 @NgModule({
   declarations: [AppComponent, LoginComponent],

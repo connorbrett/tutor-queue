@@ -11,10 +11,11 @@ import { RefreshInterceptor } from './interceptors/refresh/refresh.interceptor';
 import { RequestService } from './services/request/request.service';
 import { UserService } from './services/user/user.service';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [NavBarComponent],
-  imports: [CommonModule, BrowserModule, ReactiveFormsModule, HttpClientModule],
+  imports: [CommonModule, BrowserModule, ReactiveFormsModule, HttpClientModule, RouterModule],
   providers: [
     NgEventBus,
     AuthenticationService,

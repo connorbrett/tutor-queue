@@ -1,24 +1,19 @@
-<nav class="navbar navbar-expand-lg navbar-light">
+<nav class="navbar navbar-expand-lg navbar-light" *ngIf="routes.length">
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item active">
-      <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" href="#">Link</a>
-    </li>
-    <li class="nav-item dropdown">
-      <button class="nav-link dropdown-toggle" id="navbarDropdown" data-toggle="dropdown" aria-expanded="false">
-        Dropdown
-      </button>
-      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-        <a class="dropdown-item" href="#">Action</a>
-        <a class="dropdown-item" href="#">Another action</a>
-        <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="#">Something else here</a>
-      </div>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link disabled">Disabled</a>
+    <li class="nav-item" *ngFor="let route of routes" routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}">
+      <a class="nav-link" [routerLink]="[route.path]" [routerLinkActive]="'active'"
+        *ngIf="!route.children; else dropdown">{{route.label}}
+        <span class="sr-only" *ngIf="route.active">(current)</span></a>
+      <ng-template #dropdown>
+        <button class="nav-link dropdown-toggle" #dropdownToggle data-toggle="dropdown" aria-expanded="false">
+          {{route.label}}
+        </button>
+        <div class="dropdown-menu" [attr.aria-labelledby]="dropdownToggle.id">
+          <a class="dropdown-item" [routerLink]="[route.path, subItem.path]" [routerLinkActive]="'active'"
+            *ngFor="let subItem of route.children">{{subItem.label}}</a>
+        </div>
+      </ng-template>
     </li>
   </ul>
 </nav>

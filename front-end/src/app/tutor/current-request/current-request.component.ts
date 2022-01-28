@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { RequestService, TutoringRequest } from '@utilities/services/request/request.service';
+import {
+  RequestService,
+  REQUEST_QUEUE_EVENT,
+  REQUEST_UPDATE_EVENT,
+  TutoringRequest,
+} from '@utilities/services/request/request.service';
+import { NgEventBus } from 'ng-event-bus';
 
 @Component({
   selector: 'app-current-request',
@@ -9,17 +15,26 @@ import { RequestService, TutoringRequest } from '@utilities/services/request/req
 export class CurrentRequestComponent implements OnInit {
   requests: TutoringRequest[] = [];
 
-  constructor(private requestService: RequestService) {}
+  constructor(private requestService: RequestService, private bus: NgEventBus) {
+    bus.on(REQUEST_UPDATE_EVENT).subscribe((data) => {
+      this.getCurrent();
+    });
+  }
 
   ngOnInit(): void {
+    this.getCurrent();
+  }
+
+  getCurrent() {
     this.requestService.getCurrent().subscribe((requests) => {
+      console.log(requests);
       this.requests = requests;
     });
   }
 
   markComplete(req: TutoringRequest) {
     this.requestService.markComplete(req).subscribe(() => {
-      this.requests = this.requests.filter((e) => e._id !== req._id);
+      this.bus.cast(REQUEST_UPDATE_EVENT);
     });
   }
 }

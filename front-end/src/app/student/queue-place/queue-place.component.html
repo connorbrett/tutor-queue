@@ -1,0 +1,20 @@
+<h3 class="mt-0">
+  Student Queue
+</h3>
+<ng-container *ngIf="isLoading; else display">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</ng-container>
+<ng-template #display>
+  <div *ngIf="place > 0; else next" class="text-center">
+    <h4>You are number </h4>
+    <h1>{{place + 1}}</h1>
+  </div>
+  <ng-template #next>
+    <h6 *ngIf="place === 0; else error">You're next in line!</h6>
+    <ng-template #error>
+      <h6>We were unable to find your place in the queue.</h6>
+    </ng-template>
+  </ng-template>
+</ng-template>

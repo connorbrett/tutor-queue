@@ -7,6 +7,9 @@ import { User } from '../user/user.service';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
 
+export const ACCESS_TOKEN_LOCALSTORAGE = 'accessToken';
+export const REFRESH_TOKEN_LOCALSTORAGE = 'refreshToken';
+
 export interface AuthResponse {
   access: string;
   refresh?: string;
@@ -20,8 +23,8 @@ export interface AuthEvent {
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private _accessToken: string | null = localStorage.getItem('accessToken');
-  private _refreshToken: string | null = localStorage.getItem('refreshToken');
+  private _accessToken: string | null = localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
+  private _refreshToken: string | null = localStorage.getItem(REFRESH_TOKEN_LOCALSTORAGE);
 
   private refreshTokenTimeout: ReturnType<typeof setTimeout> | null = null;
 
@@ -102,7 +105,7 @@ export class AuthenticationService {
   }
   set accessToken(val) {
     this._accessToken = val;
-    localStorage.setItem('accessToken', val!);
+    localStorage.setItem(ACCESS_TOKEN_LOCALSTORAGE, val!);
   }
 
   get refreshToken() {
@@ -110,7 +113,7 @@ export class AuthenticationService {
   }
   set refreshToken(val) {
     this._refreshToken = val;
-    localStorage.setItem('refreshToken', val!);
+    localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE, val!);
   }
 
   get hasEnoughTimePassedSinceLastAttempt() {

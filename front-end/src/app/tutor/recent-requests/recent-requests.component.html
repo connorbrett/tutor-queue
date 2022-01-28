@@ -21,13 +21,24 @@
       </td>
     </tr>
     <ng-template #requestDisplay>
-      <tr *ngFor="let request of requests">
-        <td>{{ request.email }}</td>
-        <td>{{ request.name }}</td>
-        <td>{{ request.requested_course }}</td>
-        <td>{{ request.description }}</td>
-        <th>{{ request.status }}</th>
-      </tr>
+      <ng-container *ngIf="requests.length;else empty">
+        <tr *ngFor="let request of requests">
+          <td>{{ request.email }}</td>
+          <td>{{ request.name }}</td>
+          <td>{{ request.requested_course }}</td>
+          <td>{{ request.description }}</td>
+          <th>{{ request.status }}</th>
+        </tr>
+      </ng-container>
+      <ng-template #empty>
+        <tr class="w-100">
+          <td colspan="5">
+            <div class="d-flex justify-content-center align-items-center">
+              <p>No items to show.</p>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
     </ng-template>
   </tbody>
 </table>

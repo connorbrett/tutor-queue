@@ -5,6 +5,12 @@ import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
+export const REQUEST_ID_LOCALSTORAGE = 'requestId';
+
+export const ALL_REQUEST_EVENTS = 'request:*';
+export const REQUEST_QUEUE_EVENT = 'request:queue';
+export const REQUEST_UPDATE_EVENT = 'request:update';
+
 export interface TutoringRequest {
   email: string;
   name: string;
@@ -30,7 +36,7 @@ export class RequestService {
   constructor(private http: HttpClient, private userService: UserService) {}
 
   public create(data: any) {
-    return this.http.post(`${environment.apiHost}requests/`, data);
+    return this.http.post<TutoringRequest>(`${environment.apiHost}requests/`, data);
   }
 
   public getQueue() {
@@ -56,8 +62,7 @@ export class RequestService {
 
   public assign(req: TutoringRequest) {
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
-      ...req,
+    return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
       status: 'INPROGRESS',
       tutor: this.userService.currentUser._id,
     });
@@ -66,8 +71,7 @@ export class RequestService {
   public markComplete(req: TutoringRequest) {
     console.log(req);
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.http.put(`${environment.apiHost}requests/${req._id}/`, {
-      ...req,
+    return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
       status: 'COMPLETE',
       completed: new Date(),
       tutor: this.userService.currentUser._id,

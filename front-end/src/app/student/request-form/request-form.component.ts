@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Course, CourseService } from '@utilities/services/course/course.service';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { RequestService } from '@utilities/services/request/request.service';
+import { RequestService, REQUEST_ID_LOCALSTORAGE } from '@utilities/services/request/request.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-request-form',
@@ -23,7 +24,9 @@ export class RequestFormComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private requestService: RequestService,
-    private courseService: CourseService
+    private courseService: CourseService,
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -32,10 +35,14 @@ export class RequestFormComponent implements OnInit {
 
   onSubmit() {
     this.wasValidated = true;
-    console.log(this.requestForm);
-    //if (!this.requestForm.valid) return;
+    if (!this.requestForm.valid) return;
     this.requestService.create(this.requestForm.value).subscribe((val) => {
-      window.location.reload();
+      if (this.route.snapshot.queryParamMap.get('reload')) {
+        window.location.reload();
+      } else {
+        localStorage.setItem(REQUEST_ID_LOCALSTORAGE, val._id);
+        this.router.navigate(['student', 'place']);
+      }
     });
   }
 

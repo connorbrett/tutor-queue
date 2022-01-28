@@ -12,8 +12,9 @@ const routes: Routes = [
     canActivateChild: [AuthGuard],
     component: TutorContainerComponent,
     children: [
-      { path: '', component: TutorDashboardComponent },
+      { path: 'dashboard', component: TutorDashboardComponent },
       { path: 'queue', component: StudentQueueComponent },
+      { path: '', redirectTo: '/tutor/dashboard', pathMatch: 'full' },
     ],
   },
 ];

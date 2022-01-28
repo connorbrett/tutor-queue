@@ -1,6 +1,7 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from tutor_center.serializers.tutor import TutorSerializer, Tutor
 from tutor_center.views.djongo import DjongoViewSetMixin
 
@@ -9,6 +10,7 @@ class TutorViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
     A viewset for viewing and editing user instances.
     """
     serializer_class = TutorSerializer
+    permission_classes = [IsAuthenticatedOrReadOnly]
     queryset = Tutor.objects.all()
 
     @action(detail=False)

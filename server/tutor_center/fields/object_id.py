@@ -10,9 +10,7 @@ class ObjectIdField(serializers.Field):
         return self.to_representation(value)
     
     def to_representation(self, data):
-        print(data, str(data))
         return str(data)
     
     def to_internal_value(self, data):
-        print(data, ObjectId(data))
         return ObjectId(data)
