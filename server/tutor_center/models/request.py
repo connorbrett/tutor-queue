@@ -2,6 +2,7 @@ from enum import Enum
 from djongo import models
 from tutor_center.models.base import BaseModel
 from django.contrib.auth import get_user_model
+from datetime import datetime
 
 Tutor = get_user_model()
 
@@ -27,4 +28,14 @@ class TutoringRequest(BaseModel):
     description = models.CharField(max_length=2000)
     status = models.CharField(choices=Statuses, max_length=20, default=Status.WAITING.value, blank=True)
     tutor = models.ForeignKey(Tutor, on_delete=models.SET_NULL, null=True)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.__old_status = self.status
+
+    def save(self, force_insert=False, force_update=False):
+        if self.__old_status == Status.INPROGRESS.value and self.status == Status.COMPLETE.value:
+            self.closed_time = datetime.now()
+        super(TutoringRequest, self).save(force_insert, force_update)
+        self.__old_status = self.status
 
