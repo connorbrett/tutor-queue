@@ -8,9 +8,8 @@ describe('CoordComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CoordComponent ]
-    })
-    .compileComponents();
+      declarations: [CoordComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
