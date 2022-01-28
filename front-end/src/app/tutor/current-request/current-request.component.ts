@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import {
   RequestService,
   REQUEST_QUEUE_EVENT,
@@ -15,7 +16,7 @@ import { NgEventBus } from 'ng-event-bus';
 export class CurrentRequestComponent implements OnInit {
   requests: TutoringRequest[] = [];
 
-  constructor(private requestService: RequestService, private bus: NgEventBus) {
+  constructor(private requestService: RequestService, private bus: NgEventBus, private route: ActivatedRoute) {
     bus.on(REQUEST_UPDATE_EVENT).subscribe((data) => {
       this.getCurrent();
     });
@@ -27,7 +28,6 @@ export class CurrentRequestComponent implements OnInit {
 
   getCurrent() {
     this.requestService.getCurrent().subscribe((requests) => {
-      console.log(requests);
       this.requests = requests;
     });
   }

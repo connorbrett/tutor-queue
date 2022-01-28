@@ -24,7 +24,7 @@
       <ng-container *ngIf="requests.length; else empty">
         <tr *ngFor="let request of requests">
           <td>{{ request.email }}</td>
-          <td>{{ request.name }}</td>
+          <td class="text-nowrap">{{ request.name }}</td>
           <td>{{ request.requested_course }}</td>
           <td>{{ request.description }}</td>
           <th>{{ request.status }}</th>

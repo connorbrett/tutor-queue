@@ -1,5 +1,4 @@
 import { AppRoutingModule } from './tutor-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 import { CurrentRequestComponent } from './current-request/current-request.component';
 import { HttpClientModule } from '@angular/common/http';
@@ -21,7 +20,7 @@ import { UtilitiesModule } from '../utilities/utilities.module';
     RecentRequestsComponent,
     CurrentRequestComponent,
   ],
-  imports: [UtilitiesModule, CommonModule, AppRoutingModule, BrowserModule, ReactiveFormsModule],
+  imports: [UtilitiesModule, CommonModule, AppRoutingModule, ReactiveFormsModule],
   exports: [StudentQueueComponent, TutorDashboardComponent, TutorNavBarComponent, TutorContainerComponent],
 })
 export class TutorModule {}

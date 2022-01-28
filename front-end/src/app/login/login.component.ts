@@ -2,7 +2,7 @@ import { AuthenticationService } from '@utilities/services/authentication/authen
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '@utilities/services/user/user.service';
 
 @Component({
@@ -22,9 +22,11 @@ export class LoginComponent {
     private formBuilder: FormBuilder,
     private userService: UserService,
     private authService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
-    if (this.authService.isAuthenticated()) this.router.navigate(['/tutor']);
+    if (this.authService.isAuthenticated())
+      this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl') || '/tutor']);
   }
 
   onSubmit() {
@@ -32,7 +34,7 @@ export class LoginComponent {
     if (!this.loginForm.valid) return;
     const { email, password } = this.loginForm.value;
     this.userService.login(email, password).subscribe({
-      next: () => this.router.navigate(['/tutor']),
+      next: () => this.router.navigate([this.route.snapshot.queryParamMap.get('returnUrl') || '/tutor']),
       error: (err: HttpErrorResponse) => (this.error = err.error ? err.error.detail : err),
     });
   }

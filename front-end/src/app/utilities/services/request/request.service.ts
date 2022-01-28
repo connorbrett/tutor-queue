@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { UserService } from '../user/user.service';
+import { User, UserService } from '../user/user.service';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { map, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
 export const REQUEST_ID_LOCALSTORAGE = 'requestId';
@@ -46,10 +46,10 @@ export class RequestService {
   }
 
   public getCurrent() {
-    console.log(this.userService.currentUser);
+    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
     return this.http
       .get<Pageable<TutoringRequest>>(
-        `${environment.apiHost}requests/?status=INPROGRESS&tutor=${this.userService.currentUser?._id}`
+        `${environment.apiHost}requests/?status=INPROGRESS&tutor=${this.userService.currentUser._id}`
       )
       .pipe(map((val) => val.results));
   }
@@ -61,15 +61,15 @@ export class RequestService {
   }
 
   public assign(req: TutoringRequest) {
-    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
+    const currentUser = this.userService.currentUser;
+    if (!currentUser) return throwError(new Error('Need to be logged in'));
     return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
       status: 'INPROGRESS',
-      tutor: this.userService.currentUser._id,
+      tutor: currentUser._id,
     });
   }
 
   public markComplete(req: TutoringRequest) {
-    console.log(req);
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
     return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
       status: 'COMPLETE',

@@ -2,11 +2,16 @@ import { AuthEvent, AuthResponse, AuthenticationService } from '../authenticatio
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { Pageable } from '../request/request.service';
 
 export interface User {
   _id: string;
+  name: string;
+  email: string;
+  courses: string;
+  is_coord: boolean;
 }
 
 @Injectable({
@@ -14,6 +19,7 @@ export interface User {
 })
 export class UserService {
   currentUser: User | null = null;
+  callCount = 0;
 
   constructor(private http: HttpClient, private authService: AuthenticationService) {}
 
@@ -24,13 +30,16 @@ export class UserService {
   }
 
   getUser(): Observable<User> {
-    console.log(this.currentUser);
+    this.callCount += 1;
     if (this.authService.isAuthenticated() && this.currentUser) return of(this.currentUser);
     return this.http.get<User>(environment.apiHost + 'tutors/current').pipe(
       tap({
         next: (user) => (this.currentUser = user),
-        error: () => (this.currentUser = null),
       })
     );
+  }
+
+  listTutors(): Observable<User[]> {
+    return this.http.get<Pageable<User>>(`${environment.apiHost}tutors/`).pipe(map((val) => val.results));
   }
 }

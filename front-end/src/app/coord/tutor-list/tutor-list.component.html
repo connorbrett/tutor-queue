@@ -1,14 +1,15 @@
-<h3>Queue</h3>
-<p class="text-muted">This queue shows all students currently waiting to be met with.</p>
+<h3>Tutors</h3>
+<p class="text-muted">This list shows all tutors in the database.</p>
 <table class="table table-striped table-responsive">
   <thead>
     <tr>
-      <th>#</th>
-      <th class="w-100">Course</th>
+      <th>Email</th>
+      <th>Name</th>
+      <th class="w-100">Courses</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngIf="isLoading; else queueDisplay" class="w-100">
+    <tr *ngIf="isLoading; else requestDisplay" class="w-100">
       <td colspan="5">
         <div class="d-flex justify-content-center align-items-center">
           <div class="spinner-border" role="status">
@@ -17,14 +18,14 @@
         </div>
       </td>
     </tr>
-    <ng-template #queueDisplay>
-      <ng-container *ngIf="queue.length; else empty">
-        <tr *ngFor="let queueItem of queue; let i = index" [class.font-weight-bold]="i === currentRequest">
-          <td class="text-nowrap">{{ i + 1 }} <span *ngIf="i === currentRequest">(You)</span></td>
-          <td>{{ queueItem.requested_course }}</td>
+    <ng-template #requestDisplay>
+      <ng-container *ngIf="tutors.length; else empty">
+        <tr *ngFor="let tutor of tutors">
+          <td>{{ tutor.email }}</td>
+          <td class="text-nowrap">{{ tutor.name }}</td>
+          <td>{{ tutor.courses }}</td>
         </tr>
       </ng-container>
-
       <ng-template #empty>
         <tr class="w-100">
           <td colspan="5">

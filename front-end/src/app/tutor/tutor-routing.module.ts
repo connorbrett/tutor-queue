@@ -1,4 +1,3 @@
-import { AuthGuard } from '../utilities/guards/auth/auth.guard';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { StudentQueueComponent } from './student-queue/student-queue.component';
@@ -7,9 +6,7 @@ import { TutorDashboardComponent } from './tutor-dashboard/tutor-dashboard.compo
 
 const routes: Routes = [
   {
-    path: 'tutor',
-    canActivate: [AuthGuard],
-    canActivateChild: [AuthGuard],
+    path: '',
     component: TutorContainerComponent,
     children: [
       { path: 'dashboard', component: TutorDashboardComponent },
@@ -17,6 +14,7 @@ const routes: Routes = [
       { path: '', redirectTo: '/tutor/dashboard', pathMatch: 'full' },
     ],
   },
+  { path: '**', component: TutorContainerComponent },
 ];
 
 @NgModule({

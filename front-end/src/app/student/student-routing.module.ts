@@ -7,7 +7,7 @@ import { QueuePlaceComponent } from './queue-place/queue-place.component';
 
 const routes: Routes = [
   {
-    path: 'student',
+    path: '',
     component: StudentContainerComponent,
     children: [
       { path: 'queue', component: StudentQueueComponent },
@@ -16,6 +16,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'request', pathMatch: 'full' },
     ],
   },
+  { path: '**', component: StudentContainerComponent },
 ];
 
 @NgModule({
