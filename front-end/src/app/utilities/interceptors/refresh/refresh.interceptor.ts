@@ -9,10 +9,10 @@ export class RefreshInterceptor implements HttpInterceptor {
   constructor(private authService: AuthenticationService) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    console.log(this.authService.hasEnoughTimePassedSinceLastAttempt, this.authService.lastRefreshAttempt);
     if (
       this.authService.isAuthenticated() ||
-      (request.url.includes('refresh') && this.authService.hasEnoughTimePassedSinceLastAttempt)
+      request.url.endsWith('token/') ||
+      (request.url.endsWith('refresh/') && this.authService.hasEnoughTimePassedSinceLastAttempt)
     )
       return next.handle(request);
     if (this.authService.hasValidRefreshToken()) {
