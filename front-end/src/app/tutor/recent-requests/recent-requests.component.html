@@ -21,7 +21,7 @@
       </td>
     </tr>
     <ng-template #requestDisplay>
-      <ng-container *ngIf="requests.length;else empty">
+      <ng-container *ngIf="requests.length; else empty">
         <tr *ngFor="let request of requests">
           <td>{{ request.email }}</td>
           <td>{{ request.name }}</td>

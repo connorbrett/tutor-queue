@@ -1,17 +1,30 @@
 <nav class="navbar navbar-expand-lg navbar-light" *ngIf="routes.length">
   <ul class="navbar-nav mr-auto">
-    <li class="nav-item" *ngFor="let route of routes" routerLinkActive="active"
-      [routerLinkActiveOptions]="{exact: true}">
-      <a class="nav-link" [routerLink]="[route.path]" [routerLinkActive]="'active'"
-        *ngIf="!route.children; else dropdown">{{route.label}}
-        <span class="sr-only" *ngIf="route.active">(current)</span></a>
+    <li
+      class="nav-item"
+      *ngFor="let route of routes"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+    >
+      <a
+        class="nav-link"
+        [routerLink]="[route.path]"
+        [routerLinkActive]="'active'"
+        *ngIf="!route.children; else dropdown"
+        >{{ route.label }} <span class="sr-only" *ngIf="route.active">(current)</span></a
+      >
       <ng-template #dropdown>
         <button class="nav-link dropdown-toggle" #dropdownToggle data-toggle="dropdown" aria-expanded="false">
-          {{route.label}}
+          {{ route.label }}
         </button>
         <div class="dropdown-menu" [attr.aria-labelledby]="dropdownToggle.id">
-          <a class="dropdown-item" [routerLink]="[route.path, subItem.path]" [routerLinkActive]="'active'"
-            *ngFor="let subItem of route.children">{{subItem.label}}</a>
+          <a
+            class="dropdown-item"
+            [routerLink]="[route.path, subItem.path]"
+            [routerLinkActive]="'active'"
+            *ngFor="let subItem of route.children"
+            >{{ subItem.label }}</a
+          >
         </div>
       </ng-template>
     </li>

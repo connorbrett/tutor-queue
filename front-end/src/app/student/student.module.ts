@@ -10,7 +10,13 @@ import { QueuePlaceComponent } from './queue-place/queue-place.component';
 import { StudentQueueComponent } from './student-queue/student-queue.component';
 
 @NgModule({
-  declarations: [RequestFormComponent, StudentContainerComponent, StudentNavBarComponent, QueuePlaceComponent, StudentQueueComponent],
+  declarations: [
+    RequestFormComponent,
+    StudentContainerComponent,
+    StudentNavBarComponent,
+    QueuePlaceComponent,
+    StudentQueueComponent,
+  ],
   imports: [UtilitiesModule, CommonModule, AppRoutingModule, ReactiveFormsModule],
   exports: [RequestFormComponent, StudentContainerComponent, StudentNavBarComponent],
 })

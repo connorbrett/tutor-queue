@@ -19,10 +19,9 @@
     </tr>
     <ng-template #queueDisplay>
       <ng-container *ngIf="queue.length; else empty">
-        <tr *ngFor="let queueItem of queue; let i = index" [class.font-weight-bold]="i===currentRequest">
-          <td>{{ i+1 }}</td>
-          <td>{{ queueItem.requested_course }} <span *ngIf="i===currentRequest">(You)</span>
-          </td>
+        <tr *ngFor="let queueItem of queue; let i = index" [class.font-weight-bold]="i === currentRequest">
+          <td>{{ i + 1 }}</td>
+          <td>{{ queueItem.requested_course }} <span *ngIf="i === currentRequest">(You)</span></td>
         </tr>
       </ng-container>
 

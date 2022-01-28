@@ -1,6 +1,4 @@
-<h3 class="mt-0">
-  Student Queue
-</h3>
+<h3 class="mt-0">Student Queue</h3>
 <ng-container *ngIf="isLoading; else display">
   <div class="spinner-border" role="status">
     <span class="sr-only">Loading...</span>
@@ -8,8 +6,8 @@
 </ng-container>
 <ng-template #display>
   <div *ngIf="place > 0; else next" class="text-center">
-    <h4>You are number </h4>
-    <h1>{{place + 1}}</h1>
+    <h4>You are number</h4>
+    <h1>{{ place + 1 }}</h1>
   </div>
   <ng-template #next>
     <h6 *ngIf="place === 0; else error">You're next in line!</h6>
