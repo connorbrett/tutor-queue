@@ -33,9 +33,9 @@ class TutoringRequest(BaseModel):
         super().__init__(*args, **kwargs)
         self.__old_status = self.status
 
-    def save(self, force_insert=False, force_update=False):
+    def save(self, **kwargs):
         if self.__old_status == Status.INPROGRESS.value and self.status == Status.COMPLETE.value:
             self.closed_time = datetime.now()
-        super(TutoringRequest, self).save(force_insert, force_update)
+        super(TutoringRequest, self).save(**kwargs)
         self.__old_status = self.status
 

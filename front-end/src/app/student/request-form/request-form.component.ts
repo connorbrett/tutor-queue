@@ -1,8 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Course, CourseService } from '@utilities/services/course/course.service';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { RequestService, REQUEST_ID_LOCALSTORAGE } from '@utilities/services/request/request.service';
 import { ActivatedRoute, Router } from '@angular/router';
+
+export function otherValidator(idOfOther: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.parent?.get(idOfOther)?.value === 'Other' && !control.value) {
+      return { required: { value: 'This field is required.' } };
+    }
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-request-form',
@@ -19,6 +28,7 @@ export class RequestFormComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email]),
     requested_course: new FormControl('', Validators.required),
     description: new FormControl('', Validators.required),
+    otherCourse: new FormControl('', [Validators.pattern('^CSC[0-9]{3}$'), otherValidator('requested_course')]),
   });
 
   constructor(
@@ -36,7 +46,15 @@ export class RequestFormComponent implements OnInit {
   onSubmit() {
     this.wasValidated = true;
     if (!this.requestForm.valid) return;
-    this.requestService.create(this.requestForm.value).subscribe((val) => {
+    const data = {
+      ...this.requestForm.value,
+    };
+    if (this.otherCourse?.value) {
+      data.requested_course = this.otherCourse.value;
+    }
+    delete data.otherCourse;
+
+    this.requestService.create(data).subscribe((val) => {
       if (this.route.snapshot.queryParamMap.get('reload')) {
         window.location.reload();
       } else {
@@ -55,10 +73,14 @@ export class RequestFormComponent implements OnInit {
   }
 
   get course() {
-    return this.requestForm.get('course');
+    return this.requestForm.get('requested_course');
   }
 
   get description() {
     return this.requestForm.get('description');
+  }
+
+  get otherCourse() {
+    return this.requestForm.get('otherCourse');
   }
 }

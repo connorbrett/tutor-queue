@@ -3,63 +3,45 @@
 <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" novalidate [ngClass]="{ 'was-validated': wasValidated }">
   <div class="form-group">
     <label for="name">Name</label>
-    <input
-      class="form-control"
-      id="name"
-      aria-describedby="nameHelp"
-      placeholder="Enter name"
-      required
-      formControlName="name"
-      [ngClass]="{ 'is-valid': name?.valid }"
-    />
+    <input class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter name" required
+      formControlName="name" [ngClass]="{ 'is-valid': name?.valid }" />
     <div class="invalid-feedback" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
       Please provide a valid name.
     </div>
   </div>
   <div class="form-group">
     <label for="email">Email address</label>
-    <input
-      type="email"
-      class="form-control"
-      id="email"
-      aria-describedby="emailHelp"
-      placeholder="Enter email"
-      required
-      formControlName="email"
-      [ngClass]="{ 'is-valid': email?.valid }"
-    />
+    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Enter email" required
+      formControlName="email" [ngClass]="{ 'is-valid': email?.valid }" />
     <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
     <div class="invalid-feedback" *ngIf="email?.invalid && (email?.dirty || email?.touched)">
       Please provide a valid email.
     </div>
   </div>
   <div class="form-group">
-    <label for="courses">What course do you want tutoring for?</label>
-    <select
-      class="form-control"
-      id="requested_course"
-      required
-      formControlName="requested_course"
-      [ngClass]="{ 'is-valid': course?.valid }"
-    >
-      <option value="" selected disabled hidden>No course selected</option>
+    <label for="requested_course">What course do you want tutoring for?</label>
+    <select class="form-control" id="requested_course" required formControlName="requested_course"
+      [ngClass]="{ 'is-valid': course?.valid }">
+      <option value="" selected disabled>No course selected</option>
       <option *ngFor="let courseItem of courses" [value]="courseItem">{{ courseItem }}</option>
+      <option value="Other">Other - please describe below</option>
     </select>
     <div class="invalid-feedback" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
       Please provide a valid course.
     </div>
   </div>
+  <div class="form-group" *ngIf="course?.value === 'Other'">
+    <label for="otherCourse">Course</label>
+    <input class="form-control" id="otherCourse" aria-describedby="otherCourseHelp" placeholder="Enter course"
+      formControlName="otherCourse" [class.is-valid]="otherCourse?.valid" />
+    <div class="invalid-feedback" *ngIf="otherCourse?.invalid && (otherCourse?.dirty || otherCourse?.touched)">
+      Please provide a valid course, ie CSC123.
+    </div>
+  </div>
   <div class="form-group">
     <label for="description">Description</label>
-    <textarea
-      class="form-control"
-      id="name"
-      aria-describedby="nameHelp"
-      placeholder="Enter description"
-      required
-      formControlName="description"
-      [ngClass]="{ 'is-valid': description?.valid }"
-    ></textarea>
+    <textarea class="form-control" id="name" aria-describedby="nameHelp" placeholder="Enter description" required
+      formControlName="description" [ngClass]="{ 'is-valid': description?.valid }"></textarea>
     <div class="invalid-feedback" *ngIf="description?.invalid && (description?.dirty || description?.touched)">
       Please provide a valid name.
     </div>

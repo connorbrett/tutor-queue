@@ -19,15 +19,24 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
 
   reloadTimer = -1;
 
+  firstLoad = true;
+
   constructor(private requestService: RequestService, private bus: NgEventBus) {
     bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
       this.loadQueue();
+    });
+    document.addEventListener('visibilitychange', (event) => {
+      if (document.visibilityState !== 'visible') {
+        document.title = `(${this.queue.length}) in Queue`;
+      }
     });
   }
 
   ngOnInit(): void {
     this.loadQueue();
     this.reloadTimer = window.setInterval(() => this.loadQueue(), RELOAD_TIME);
+
+    this.firstLoad = false;
   }
 
   ngOnDestroy(): void {
@@ -43,9 +52,18 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
     });
   }
 
+  beep() {
+    var snd = new Audio('/assets/ping.mp3');
+    snd.play();
+  }
+
   loadQueue() {
     this.isLoading = true;
+    let flag = this.firstLoad;
     this.requestService.getQueue().subscribe((queue) => {
+      if (!flag && queue.some((item) => !this.queue.find((e) => e._id === item._id))) {
+        this.beep();
+      }
       this.queue = queue;
       this.isLoading = false;
     });
