@@ -42,4 +42,8 @@ export class UserService {
   listTutors(): Observable<User[]> {
     return this.http.get<Pageable<User>>(`${environment.apiHost}tutors/`).pipe(map((val) => val.results));
   }
+
+  create(data: any) {
+    return this.http.post<User>(`${environment.apiHost}tutors/`, data);
+  }
 }

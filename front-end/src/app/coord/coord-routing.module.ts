@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CoordComponent } from './coord.component';
+import { CreateTutorComponent } from './create-tutor/create-tutor.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { TutorListComponent } from './tutor-list/tutor-list.component';
 
@@ -10,7 +11,13 @@ const routes: Routes = [
     component: CoordComponent,
     children: [
       { path: 'schedule', component: ScheduleComponent },
-      { path: 'tutors', component: TutorListComponent },
+      {
+        path: 'tutors',
+        children: [
+          { path: '', component: TutorListComponent },
+          { path: 'create', component: CreateTutorComponent },
+        ],
+      },
     ],
   },
   { path: '**', component: CoordComponent },
