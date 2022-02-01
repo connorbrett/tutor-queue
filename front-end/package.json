@@ -21,6 +21,7 @@
         "@angular/platform-browser-dynamic": "~12.2.0",
         "@angular/router": "~12.2.0",
         "@auth0/angular-jwt": "^5.0.2",
+        "arizona-bootstrap": "git+https://github.com/az-digital/arizona-bootstrap.git",
         "ng-event-bus": "^4.0.0",
         "rxjs": "~6.6.0",
         "tslib": "^2.3.0",

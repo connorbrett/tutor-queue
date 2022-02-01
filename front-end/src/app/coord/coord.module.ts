@@ -9,9 +9,17 @@ import { NavBarComponent } from './nav-bar/nav-bar.component';
 import { UtilitiesModule } from '@utilities/utilities.module';
 import { CreateTutorComponent } from './create-tutor/create-tutor.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.component';
 
 @NgModule({
-  declarations: [CoordComponent, ScheduleComponent, TutorListComponent, NavBarComponent, CreateTutorComponent],
+  declarations: [
+    CoordComponent,
+    ScheduleComponent,
+    TutorListComponent,
+    NavBarComponent,
+    CreateTutorComponent,
+    BulkCreateTutorComponent,
+  ],
   imports: [CommonModule, UtilitiesModule, ReactiveFormsModule, CoordRoutingModule],
 })
 export class CoordModule {}

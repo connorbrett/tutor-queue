@@ -34,6 +34,7 @@ class TutoringRequest(BaseModel):
         self.__old_status = self.status
 
     def save(self, **kwargs):
+        print(self.__old_status, self.status)
         if self.__old_status == Status.INPROGRESS.value and self.status == Status.COMPLETE.value:
             self.closed_time = datetime.now()
         super(TutoringRequest, self).save(**kwargs)

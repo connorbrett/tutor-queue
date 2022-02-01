@@ -46,4 +46,10 @@ export class UserService {
   create(data: any) {
     return this.http.post<User>(`${environment.apiHost}tutors/`, data);
   }
+
+  createBulk(file: File) {
+    const form = new FormData();
+    form.append('file', file);
+    return this.http.post<boolean>(`${environment.apiHost}tutors/upload/`, form);
+  }
 }

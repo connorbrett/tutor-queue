@@ -47,7 +47,6 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
 
   assignToMe(req: TutoringRequest) {
     this.requestService.assign(req).subscribe(() => {
-      this.bus.cast(REQUEST_UPDATE_EVENT);
       this.bus.cast(REQUEST_QUEUE_EVENT);
     });
   }

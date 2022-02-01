@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.component';
 import { CoordComponent } from './coord.component';
 import { CreateTutorComponent } from './create-tutor/create-tutor.component';
 import { ScheduleComponent } from './schedule/schedule.component';
@@ -16,6 +17,7 @@ const routes: Routes = [
         children: [
           { path: '', component: TutorListComponent },
           { path: 'create', component: CreateTutorComponent },
+          { path: 'bulk', component: BulkCreateTutorComponent },
         ],
       },
     ],

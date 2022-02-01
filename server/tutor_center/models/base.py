@@ -10,5 +10,5 @@ class BaseModel(models.Model):
     # Override the default behavior to use the Djonog compatible query system.
     objects = models.Manager.from_queryset(DjongoQuerySetMixin)
     class Meta:
-        ordering = ['created_time']
+        ordering = ['-created_time']
         abstract = True

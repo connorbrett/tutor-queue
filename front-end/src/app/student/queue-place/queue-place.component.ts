@@ -19,7 +19,12 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
   place: number = -1;
   isLoading = false;
   reloadTimer = -1;
-  constructor(private requestService: RequestService, private activatedRoute: ActivatedRoute, private bus: NgEventBus) {
+  constructor(
+    private requestService: RequestService,
+    private activatedRoute: ActivatedRoute,
+    private bus: NgEventBus,
+    private router: Router
+  ) {
     bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
       const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
       if (requestId) this.getPlaceInQueue(requestId);
@@ -30,7 +35,19 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
     const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
     if (requestId) {
       this.getPlaceInQueue(requestId);
-      this.reloadTimer = window.setInterval(() => this.getPlaceInQueue(requestId), RELOAD_TIME);
+      if (this.activatedRoute.snapshot.queryParamMap.get('reload')) {
+        setTimeout(
+          () =>
+            this.router.navigate(['student', 'request'], {
+              queryParams: {
+                reload: true,
+              },
+            }),
+          10000
+        );
+      } else {
+        this.reloadTimer = window.setInterval(() => this.getPlaceInQueue(requestId), RELOAD_TIME);
+      }
     }
   }
 

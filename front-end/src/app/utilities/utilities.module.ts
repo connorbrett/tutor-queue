@@ -12,11 +12,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 @NgModule({
   declarations: [NavBarComponent],
   imports: [CommonModule, ReactiveFormsModule, HttpClientModule, RouterModule],
-  providers: [
-    NgEventBus,
-    AuthenticationService,
-    { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
-  ],
+  providers: [NgEventBus, AuthenticationService],
   exports: [NavBarComponent],
 })
 export class UtilitiesModule {}

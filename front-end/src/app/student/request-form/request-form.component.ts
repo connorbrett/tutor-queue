@@ -56,7 +56,11 @@ export class RequestFormComponent implements OnInit {
 
     this.requestService.create(data).subscribe((val) => {
       if (this.route.snapshot.queryParamMap.get('reload')) {
-        window.location.reload();
+        this.router.navigate(['student', 'place'], {
+          queryParams: {
+            reload: true,
+          },
+        });
       } else {
         localStorage.setItem(REQUEST_ID_LOCALSTORAGE, val._id);
         this.router.navigate(['student', 'place']);

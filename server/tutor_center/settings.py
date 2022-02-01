@@ -183,7 +183,8 @@ REST_FRAMEWORK = {
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=1),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=30),
-    'USER_ID_FIELD': '_id'
+    'USER_ID_FIELD': '_id',
+    'ROTATE_REFRESH_TOKENS': True
 }
 
 AUTH_USER_MODEL = 'tutor_center.Tutor'

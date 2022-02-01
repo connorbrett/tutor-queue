@@ -1,0 +1,25 @@
+<h3>Create a Tutor</h3>
+<div class="alert alert-danger" *ngIf="error">
+  {{ error }}
+</div>
+<form [formGroup]="bulkForm" (ngSubmit)="onSubmit()" novalidate [ngClass]="{ 'was-validated': wasValidated }">
+  <div class="mb-3">
+    <label for="file" class="form-label">Name</label>
+    <input
+      class="form-control-file"
+      id="file"
+      type="file"
+      aria-describedby="fileHelp"
+      placeholder="Upload file"
+      required
+      formControlName="file"
+      (change)="onFileChanged($event)"
+      [class.is-valid]="file?.valid"
+      accept=".csv"
+    />
+    <!--  <div class="invalid-feedback" *ngIf="file?.invalid && (file?.dirty || file?.touched)">
+      Please provide a valid file.
+    </div> -->
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

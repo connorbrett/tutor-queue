@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
@@ -9,6 +9,7 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_LOCALSTORAGE } from './utilities/services/authentication/authentication.service';
+import { RefreshInterceptor } from './utilities/interceptors/refresh/refresh.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
@@ -28,7 +29,7 @@ export function tokenGetter() {
       },
     }),
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

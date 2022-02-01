@@ -17,6 +17,9 @@ export class CurrentRequestComponent implements OnInit {
   requests: TutoringRequest[] = [];
 
   constructor(private requestService: RequestService, private bus: NgEventBus, private route: ActivatedRoute) {
+    bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
+      this.getCurrent();
+    });
     bus.on(REQUEST_UPDATE_EVENT).subscribe((data) => {
       this.getCurrent();
     });

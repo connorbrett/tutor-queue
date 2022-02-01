@@ -26,39 +26,19 @@ export class AuthenticationService {
   private _accessToken: string | null = localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
   private _refreshToken: string | null = localStorage.getItem(REFRESH_TOKEN_LOCALSTORAGE);
 
-  private refreshTokenTimeout: ReturnType<typeof setTimeout> | null = null;
-
-  public lastRefreshAttempt: Date | null = null;
-
   constructor(private router: Router, private http: HttpClient, public jwtHelper: JwtHelperService) {}
 
   login(username: string, password: string) {
     return this.http.post<any>(`${environment.apiHost}/token/`, { email: username, password }).pipe(
       tap((user) => {
         this.setAuth(user);
-        this.startRefreshTokenTimer();
       })
     );
   }
 
   logout() {
-    this.stopRefreshTokenTimer();
     this.setAuth(null);
     this.router.navigate(['/login']);
-  }
-
-  // helper methods
-
-  private startRefreshTokenTimer() {
-    const expires = this.jwtHelper.getTokenExpirationDate(this.accessToken!);
-    if (expires) {
-      const timeout = expires.getTime() - Date.now() - 60 * 1000;
-      this.refreshTokenTimeout = setTimeout(() => this.refresh().subscribe(), timeout);
-    }
-  }
-
-  private stopRefreshTokenTimer() {
-    if (this.refreshTokenTimeout) clearTimeout(this.refreshTokenTimeout);
   }
 
   public isAuthenticated(): boolean {
@@ -74,8 +54,7 @@ export class AuthenticationService {
   }
 
   public refresh() {
-    if (this.refreshToken && this.hasEnoughTimePassedSinceLastAttempt) {
-      this.lastRefreshAttempt = new Date();
+    if (this.refreshToken) {
       return this.http
         .post<AuthResponse>(`${environment.apiHost}token/refresh/`, {
           refresh: this.refreshToken,
@@ -114,11 +93,6 @@ export class AuthenticationService {
   set refreshToken(val) {
     this._refreshToken = val;
     localStorage.setItem(REFRESH_TOKEN_LOCALSTORAGE, val!);
-  }
-
-  get hasEnoughTimePassedSinceLastAttempt() {
-    if (this.lastRefreshAttempt == null) return true;
-    return new Date().getTime() - this.lastRefreshAttempt.getTime() > 10000;
   }
 
   get hasToken() {
