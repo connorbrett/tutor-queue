@@ -156,6 +156,12 @@ iframe {
 /*==================================================================
 [ Form ]*/
 
+.note {
+    text-align: center;
+    padding-bottom: 15px;
+    font-size: 18px;
+}
+
 .contact100-form {
     /**/
     width: 100%;
