@@ -13,6 +13,7 @@ var iconNew = '/images/icon/noti-favicon.ico' // path to noti-favicon
 $(document).ready(onloadFunc);
 $(document).ready(updateEmail);
 $(document).ready(getRecentQueue);
+setInterval(getRecentQueue, 60000)
 setInterval(onloadFunc, 5000);
 
 /*
@@ -158,7 +159,6 @@ function getRecentQueue() {
             for (let i = 0; i < students.length; i++) {
                 student = students[i];
                 var time = getReadableTime(student.submitted);
-                console.log('tutor: ' + getTutorName(student.tutor));
                 $("tbody#recent").append(`<tr id=student${id}></tr>`);
                 $(`#student${id}`).append(`<td>${time}</td>`);
                 $(`#student${id}`).append(`<td>${student.name}</td>`);
