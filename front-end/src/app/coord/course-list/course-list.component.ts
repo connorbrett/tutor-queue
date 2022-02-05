@@ -5,35 +5,34 @@ import { Course, CourseService } from '@services/course/course.service';
 @Component({
   selector: 'app-course-list',
   templateUrl: './course-list.component.html',
-  styleUrls: ['./course-list.component.less']
+  styleUrls: ['./course-list.component.less'],
 })
 export class CourseListComponent implements OnInit {
   courses: Course[] = [];
   isLoading = true;
 
-  constructor(private courseService: CourseService, private router: Router) { }
+  constructor(private courseService: CourseService, private router: Router) {}
 
   ngOnInit(): void {
     this.loadCourses();
   }
 
-  loadCourses(){
+  loadCourses() {
     this.isLoading = true;
-    this.courseService.getAll({ordering: 'code'}).subscribe((courses)=>{
+    this.courseService.getAll().subscribe((courses) => {
       this.isLoading = false;
       this.courses = courses.results;
-    })
+    });
   }
 
-  editItem(item: Course){
+  editItem(item: Course) {
     this.router.navigate(['edit', item._id]);
   }
 
-  deleteItem(item: Course){
+  deleteItem(item: Course) {
     this.isLoading = true;
-    this.courseService.delete(item._id).subscribe(()=>{
+    this.courseService.delete(item._id).subscribe(() => {
       this.loadCourses();
-    })
+    });
   }
-
 }

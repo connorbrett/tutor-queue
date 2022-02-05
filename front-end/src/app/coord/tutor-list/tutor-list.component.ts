@@ -21,11 +21,7 @@ export class TutorListComponent implements OnInit {
     });
   }
 
-  getCoursesString(courses: Course[]){
-    return courses.map(e=>e.code).join(', ')
-  }
-
-  editUser(user: User){
-    this.router.navigate(['edit', user._id])
+  getCoursesString(courses: Course[]) {
+    return courses.map((e) => e.code).join(', ');
   }
 }

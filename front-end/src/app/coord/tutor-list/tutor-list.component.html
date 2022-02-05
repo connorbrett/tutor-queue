@@ -25,7 +25,7 @@
           <td>{{ tutor.email }}</td>
           <td class="text-nowrap">{{ tutor.name }}</td>
           <td>{{ getCoursesString(tutor.courses) }}</td>
-          <td><button class="btn btn-primary" (click)="editUser(tutor)">Edit</button></td>
+          <td><a class="btn btn-primary" [routerLink]="['edit', tutor._id]">Edit</a></td>
         </tr>
       </ng-container>
       <ng-template #empty>

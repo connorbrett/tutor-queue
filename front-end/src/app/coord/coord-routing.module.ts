@@ -28,7 +28,7 @@ const routes: Routes = [
           { path: '', component: CourseListComponent },
           { path: 'create', component: CourseFormComponent },
         ],
-      }
+      },
     ],
   },
   { path: '**', component: CoordComponent },

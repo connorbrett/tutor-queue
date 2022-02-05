@@ -7,7 +7,7 @@ import { CourseService } from '@services/course/course.service';
 @Component({
   selector: 'app-course-form',
   templateUrl: './course-form.component.html',
-  styleUrls: ['./course-form.component.less']
+  styleUrls: ['./course-form.component.less'],
 })
 export class CourseFormComponent {
   wasValidated = false;
@@ -19,28 +19,22 @@ export class CourseFormComponent {
 
   error: string = '';
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private courseService: CourseService,
-    private router: Router
-  ) {}
+  constructor(private formBuilder: FormBuilder, private courseService: CourseService, private router: Router) {}
 
   onSubmit() {
     this.wasValidated = true;
     if (!this.requestForm.valid) return;
 
-    this.courseService
-      .create(this.requestForm.value)
-      .subscribe({
-        next: () => {
-          this.router.navigate(['coord', 'courses']);
-        },
-        error: (err: Error) => {
-          if (err instanceof HttpErrorResponse) {
-            this.error = JSON.stringify(err.error);
-          }
-        },
-      });
+    this.courseService.create(this.requestForm.value).subscribe({
+      next: () => {
+        this.router.navigate(['coord', 'courses']);
+      },
+      error: (err: Error) => {
+        if (err instanceof HttpErrorResponse) {
+          this.error = JSON.stringify(err.error);
+        }
+      },
+    });
   }
 
   get name() {
@@ -50,5 +44,4 @@ export class CourseFormComponent {
   get code() {
     return this.requestForm.get('email');
   }
-
 }

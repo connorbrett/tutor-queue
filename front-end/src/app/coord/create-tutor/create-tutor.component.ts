@@ -54,18 +54,16 @@ export class CreateTutorComponent implements OnInit {
     this.wasValidated = true;
     if (!this.requestForm.valid) return;
 
-    this.userService
-      .create(this.requestForm.value)
-      .subscribe({
-        next: (val) => {
-          this.router.navigate(['coord', 'tutors']);
-        },
-        error: (err: Error) => {
-          if (err instanceof HttpErrorResponse) {
-            this.error = JSON.stringify(err.error);
-          }
-        },
-      });
+    this.userService.create(this.requestForm.value).subscribe({
+      next: (val) => {
+        this.router.navigate(['coord', 'tutors']);
+      },
+      error: (err: Error) => {
+        if (err instanceof HttpErrorResponse) {
+          this.error = JSON.stringify(err.error);
+        }
+      },
+    });
   }
 
   get name() {

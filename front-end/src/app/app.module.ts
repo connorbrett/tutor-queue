@@ -10,12 +10,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_LOCALSTORAGE } from './utilities/services/authentication/authentication.service';
 import { RefreshInterceptor } from './utilities/interceptors/refresh/refresh.interceptor';
+import { UserAvatarComponent } from './user-avatar/user-avatar.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
 }
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, UserAvatarComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -26,7 +27,7 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:8000'],
-        authScheme: 'JWT '
+        authScheme: 'JWT ',
       },
     }),
   ],

@@ -9,12 +9,18 @@ export interface Course {
   code: string;
   name: string;
   _id: string;
-};
+}
 @Injectable({
   providedIn: 'root',
 })
-export class CourseService extends BaseService<Course>{
+export class CourseService extends BaseService<Course> {
   constructor(http: BaseApiService) {
     super(http, 'courses');
+  }
+
+  getAll(){
+    return super.getAll({
+      ordering: 'code'
+    })
   }
 }

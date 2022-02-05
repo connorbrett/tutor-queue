@@ -24,7 +24,7 @@
     <ng-template #queueDisplay>
       <ng-container *ngIf="queue.length; else empty">
         <tr *ngFor="let queueItem of queue">
-          <td class="text-nowrap">{{ queueItem.created_time | date: "M-d-yyyy H:mma" }}</td>
+          <td class="text-nowrap">{{ queueItem.created_time | date: 'M-d-yyyy H:mma' }}</td>
           <td>{{ queueItem.email }}</td>
           <td class="text-nowrap">{{ queueItem.name }}</td>
           <td>{{ queueItem.requested_course.code }}</td>

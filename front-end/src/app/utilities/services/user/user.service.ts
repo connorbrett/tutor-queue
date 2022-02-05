@@ -20,12 +20,12 @@ export interface User {
 @Injectable({
   providedIn: 'root',
 })
-export class UserService extends BaseService<User>{
+export class UserService extends BaseService<User> {
   currentUser: User | null = null;
   callCount = 0;
 
   constructor(http: BaseApiService, private authService: AuthenticationService) {
-    super(http, 'auth/users')
+    super(http, 'auth/users');
   }
 
   login(email: string, password: string) {

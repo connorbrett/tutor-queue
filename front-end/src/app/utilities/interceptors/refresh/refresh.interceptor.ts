@@ -10,8 +10,7 @@ export class RefreshInterceptor implements HttpInterceptor {
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     console.log(this.authService.isAuthenticated(), this.authService.hasValidRefreshToken(), request.urlWithParams);
-    if (this.authService.isAuthenticated() || request.url.includes('jwt'))
-      return next.handle(request);
+    if (this.authService.isAuthenticated() || request.url.includes('jwt')) return next.handle(request);
     if (this.authService.hasValidRefreshToken()) {
       return this.authService.refresh().pipe(
         switchMap(() => {

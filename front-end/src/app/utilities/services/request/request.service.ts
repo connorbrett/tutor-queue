@@ -9,7 +9,6 @@ import { Pageable } from '../base-api/paging.model';
 import { Course } from '../course/course.service';
 import { BaseService } from '../base-service/base-service.service';
 
-
 export const REQUEST_ID_LOCALSTORAGE = 'requestId';
 
 export const ALL_REQUEST_EVENTS = 'request:*';
@@ -28,38 +27,34 @@ export interface TutoringRequest {
   created_time: string;
 }
 
-
 @Injectable({
   providedIn: 'root',
 })
-export class RequestService extends BaseService<TutoringRequest>{
+export class RequestService extends BaseService<TutoringRequest> {
   constructor(http: BaseApiService, private userService: UserService) {
     super(http, 'requests');
   }
 
   public getQueue() {
     return this.get({
-        status: 'WAITING'
-      })
+      status: 'WAITING',
+    });
   }
 
   public getCurrent() {
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.get(
-        {
-          status: 'INPROGRESS',
-          tutor: this.userService.currentUser._id
-        }
-      )
+    return this.get({
+      status: 'INPROGRESS',
+      tutor: this.userService.currentUser._id,
+    });
   }
 
   public getRecent() {
     return this.get({
-          status: 'COMPLETE',
-          limit: 10,
-          ordering: '-closed_time'
-        }
-      )
+      status: 'COMPLETE',
+      limit: 10,
+      ordering: '-closed_time',
+    });
   }
 
   public assign(req: TutoringRequest) {

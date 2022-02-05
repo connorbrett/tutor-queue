@@ -45,13 +45,13 @@ export class AuthenticationService {
   public isAuthenticated(): boolean {
     // Check whether the token is expired and return
     // true or false
-    return !this.jwtHelper.isTokenExpired(this.accessToken!);
+    return !!this.accessToken && !this.jwtHelper.isTokenExpired(this.accessToken);
   }
 
   public hasValidRefreshToken(): boolean {
     // Check whether the token is expired and return
     // true or false
-    return !this.jwtHelper.isTokenExpired(this.refreshToken!);
+    return !!this.refreshToken && !this.jwtHelper.isTokenExpired(this.refreshToken);
   }
 
   public refresh() {
@@ -72,8 +72,8 @@ export class AuthenticationService {
 
   setAuth(val: AuthResponse | null) {
     if (!val) {
-      this.refreshToken = null;
-      this.accessToken = null;
+      this.refreshToken = '';
+      this.accessToken = '';
     } else {
       if (val.refresh) this.refreshToken = val.refresh;
       if (val.access) this.accessToken = val.access;
