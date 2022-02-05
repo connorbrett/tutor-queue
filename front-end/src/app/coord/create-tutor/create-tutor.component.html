@@ -48,6 +48,21 @@
     />
   </div>
   <div class="form-group">
+    <label for="re_password">Confirm Password</label>
+    <input
+      type="password"
+      class="form-control"
+      id="re_password"
+      placeholder="Re-enter password"
+      required
+      formControlName="re_password"
+      [ngClass]="{ 'is-valid': re_password?.valid }"
+    />
+    <div class="invalid-feedback" *ngIf="re_password?.invalid && (re_password?.dirty || re_password?.touched)">
+      Passwords don't match.
+    </div>
+  </div>
+  <div class="form-group">
     <label for="courses">What course do you want tutoring for?</label>
     <p>
       <small class="form-text text-muted"
@@ -63,7 +78,7 @@
       multiple
     >
       <option value="" selected disabled>No course selected</option>
-      <option *ngFor="let courseItem of courses" [value]="courseItem">{{ courseItem }}</option>
+      <option *ngFor="let courseItem of courses" [value]="courseItem._id">{{ courseItem.code }}</option>
     </select>
     <div class="invalid-feedback" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
       Please provide a valid course.

@@ -10,6 +10,8 @@ import { UtilitiesModule } from '@utilities/utilities.module';
 import { CreateTutorComponent } from './create-tutor/create-tutor.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.component';
+import { CourseFormComponent } from './course-form/course-form.component';
+import { CourseListComponent } from './course-list/course-list.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.
     NavBarComponent,
     CreateTutorComponent,
     BulkCreateTutorComponent,
+    CourseFormComponent,
+    CourseListComponent,
   ],
   imports: [CommonModule, UtilitiesModule, ReactiveFormsModule, CoordRoutingModule],
 })

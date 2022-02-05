@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgEventBus } from 'ng-event-bus';
-import { RequestService, REQUEST_UPDATE_EVENT, TutoringRequest } from '@utilities/services/request/request.service';
+import { RequestService, REQUEST_UPDATE_EVENT, TutoringRequest } from '@services/request/request.service';
 
 @Component({
   selector: 'app-recent-requests',
@@ -24,7 +24,7 @@ export class RecentRequestsComponent implements OnInit {
   loadQueue() {
     this.isLoading = true;
     this.requestService.getRecent().subscribe((requests) => {
-      this.requests = requests;
+      this.requests = requests.results;
       this.isLoading = false;
     });
   }

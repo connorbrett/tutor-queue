@@ -15,21 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework_simplejwt.views import (
-    TokenObtainPairView,
-    TokenRefreshView,
-)
 from rest_framework import routers
-from tutor_center.views import TutoringRequestViewSet,TutorViewSet, list_courses
+from tutor_center.views import TutoringRequestViewSet, TutorViewSet, CourseViewSet
 
 router = routers.SimpleRouter()
-router.register(r'requests', TutoringRequestViewSet)
-router.register(r'tutors', TutorViewSet)
+router.register(r"requests", TutoringRequestViewSet)
+router.register(r"tutors", TutorViewSet)
+router.register(r"courses", CourseViewSet)
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
-    path('api/courses', list_courses),
-    path('api/', include((router.urls, 'tutor_center'))),
+    path("admin/", admin.site.urls),
+    path("api/auth/", include("djoser.urls")),
+    path("api/auth/", include("djoser.urls.jwt")),
+    path("api/", include((router.urls, "tutor_center"))),
 ]

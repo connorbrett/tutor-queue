@@ -5,7 +5,7 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{ request.name }}</h5>
-          <h6 class="card-subtitle mb-2 text-muted">{{ request.requested_course }}</h6>
+          <h6 class="card-subtitle mb-2 text-muted">{{ request.requested_course.code }}</h6>
           <p class="card-text">{{ request.description }}</p>
           <button class="btn btn-primary" (click)="markComplete(request)">Mark Complete</button>
         </div>

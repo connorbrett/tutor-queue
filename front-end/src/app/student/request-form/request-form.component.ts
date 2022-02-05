@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Course, CourseService } from '@utilities/services/course/course.service';
+import { Course, CourseService } from '@services/course/course.service';
 import { AbstractControl, FormBuilder, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { RequestService, REQUEST_ID_LOCALSTORAGE } from '@utilities/services/request/request.service';
+import { RequestService, REQUEST_ID_LOCALSTORAGE } from '@services/request/request.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
 export function otherValidator(idOfOther: string): ValidatorFn {
@@ -40,7 +40,7 @@ export class RequestFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.courseService.getAll().subscribe((courses) => (this.courses = courses));
+    this.courseService.getAll().subscribe((courses) => (this.courses = courses.results));
   }
 
   onSubmit() {

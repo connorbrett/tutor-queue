@@ -5,9 +5,9 @@ import {
   REQUEST_ID_LOCALSTORAGE,
   REQUEST_QUEUE_EVENT,
   TutoringRequest,
-} from '@utilities/services/request/request.service';
+} from '@services/request/request.service';
 import { NgEventBus } from 'ng-event-bus';
-import { RELOAD_TIME } from '../../utilities/const';
+import { RELOAD_TIME } from '@utilities/const';
 
 @Component({
   selector: 'app-queue-place',
@@ -60,7 +60,7 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
   getPlaceInQueue(id: string) {
     this.isLoading = true;
     this.requestService.getQueue().subscribe((queue) => {
-      this.queue = queue;
+      this.queue = queue.results;
       this.place = this.queue.findIndex((e) => e._id === id);
       this.isLoading = false;
     });

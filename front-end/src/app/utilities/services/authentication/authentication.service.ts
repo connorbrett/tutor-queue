@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { User } from '../user/user.service';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
+import { BaseApiService } from '../base-api/base-api.service';
 
 export const ACCESS_TOKEN_LOCALSTORAGE = 'accessToken';
 export const REFRESH_TOKEN_LOCALSTORAGE = 'refreshToken';
@@ -26,10 +27,10 @@ export class AuthenticationService {
   private _accessToken: string | null = localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
   private _refreshToken: string | null = localStorage.getItem(REFRESH_TOKEN_LOCALSTORAGE);
 
-  constructor(private router: Router, private http: HttpClient, public jwtHelper: JwtHelperService) {}
+  constructor(private router: Router, private http: BaseApiService, public jwtHelper: JwtHelperService) {}
 
   login(username: string, password: string) {
-    return this.http.post<any>(`${environment.apiHost}/token/`, { email: username, password }).pipe(
+    return this.http.post<any>(`${environment.apiHost}/auth/jwt/create/`, { email: username, password }).pipe(
       tap((user) => {
         this.setAuth(user);
       })
@@ -56,7 +57,7 @@ export class AuthenticationService {
   public refresh() {
     if (this.refreshToken) {
       return this.http
-        .post<AuthResponse>(`${environment.apiHost}token/refresh/`, {
+        .post<AuthResponse>(`auth/jwt/refresh`, {
           refresh: this.refreshToken,
         })
         .pipe(

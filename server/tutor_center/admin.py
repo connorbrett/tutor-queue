@@ -11,12 +11,15 @@ from tutor_center.models import Tutor
 class UserCreationForm(forms.ModelForm):
     """A form for creating new users. Includes all the required
     fields, plus a repeated password."""
-    password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)
+
+    password1 = forms.CharField(label="Password", widget=forms.PasswordInput)
+    password2 = forms.CharField(
+        label="Password confirmation", widget=forms.PasswordInput
+    )
 
     class Meta:
         model = Tutor
-        fields = ('email', 'name', 'courses', 'is_coord')
+        fields = ("email", "name", "courses", "is_coord")
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -40,11 +43,12 @@ class UserChangeForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     disabled password hash display field.
     """
+
     password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = Tutor
-        fields = ('email', 'password', 'name', 'courses', 'is_coord')
+        fields = ("email", "password", "name", "courses", "is_coord")
 
 
 class UserAdmin(BaseUserAdmin):
@@ -55,24 +59,34 @@ class UserAdmin(BaseUserAdmin):
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
     # that reference specific fields on auth.User.
-    list_display = ('email', 'name', 'is_coord')
-    list_filter = ('is_coord',)
+    list_display = ("email", "name", "is_coord")
+    list_filter = ("is_coord",)
     fieldsets = (
-        (None, {'fields': ('email', 'password')}),
-        ('Personal info', {'fields': ('name',)}),
-        ('Permissions', {'fields': ('is_coord',)}),
-        ('Availability', {'fields': ('courses',)}),
+        (None, {"fields": ("email", "password")}),
+        ("Personal info", {"fields": ("name",)}),
+        ("Permissions", {"fields": ("is_coord",)}),
+        ("Availability", {"fields": ("courses",)}),
     )
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
     # overrides get_fieldsets to use this attribute when creating a user.
     add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'name','courses', 'is_coord', 'password1', 'password2'),
-        }),
+        (
+            None,
+            {
+                "classes": ("wide",),
+                "fields": (
+                    "email",
+                    "name",
+                    "courses",
+                    "is_coord",
+                    "password1",
+                    "password2",
+                ),
+            },
+        ),
     )
-    search_fields = ('email',)
-    ordering = ('email',)
+    search_fields = ("email",)
+    ordering = ("email",)
     filter_horizontal = ()
 
 

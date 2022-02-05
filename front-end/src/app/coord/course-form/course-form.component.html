@@ -1,0 +1,33 @@
+<h3>Create a Course</h3>
+<div class="alert alert-danger" *ngIf="error">
+  {{ error }}
+</div>
+<form [formGroup]="requestForm" (ngSubmit)="onSubmit()" novalidate [ngClass]="{ 'was-validated': wasValidated }">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input
+      class="form-control"
+      id="name"
+      aria-describedby="nameHelp"
+      placeholder="Enter name"
+      required
+      formControlName="name"
+      [ngClass]="{ 'is-valid': name?.valid }"
+    />
+    <div class="invalid-feedback" *ngIf="name?.invalid && (name?.dirty || name?.touched)">
+      Please provide a valid name.
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="code">Code</label>
+    <input
+      class="form-control"
+      id="code"
+      placeholder="Enter class code"
+      required
+      formControlName="code"
+      [ngClass]="{ 'is-valid': code?.valid }"
+    />
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

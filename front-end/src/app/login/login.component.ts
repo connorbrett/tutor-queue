@@ -1,9 +1,9 @@
-import { AuthenticationService } from '@utilities/services/authentication/authentication.service';
+import { AuthenticationService } from '@services/authentication/authentication.service';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
-import { UserService } from '@utilities/services/user/user.service';
+import { UserService } from '@services/user/user.service';
 
 @Component({
   selector: 'app-login',

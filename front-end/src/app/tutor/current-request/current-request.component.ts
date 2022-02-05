@@ -5,7 +5,7 @@ import {
   REQUEST_QUEUE_EVENT,
   REQUEST_UPDATE_EVENT,
   TutoringRequest,
-} from '@utilities/services/request/request.service';
+} from '@services/request/request.service';
 import { NgEventBus } from 'ng-event-bus';
 
 @Component({
@@ -31,7 +31,7 @@ export class CurrentRequestComponent implements OnInit {
 
   getCurrent() {
     this.requestService.getCurrent().subscribe((requests) => {
-      this.requests = requests;
+      this.requests = requests.results;
     });
   }
 

@@ -1,7 +1,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -20,11 +20,12 @@
       "dom"
     ],
     "paths": {
-      "@/*": ["*"],
+      "@services/*": ["src/app/utilities/services/*"],
       "@utilities/*": ["src/app/utilities/*"],
-      "@app": ["src/app/*"],
       "@student/*": ["src/app/student/*"],
-      "@tutor/*": ["src/app/tutor/*"]
+      "@tutor/*": ["src/app/tutor/*"],
+      "@coord/*": ["src/app/coord/*"],
+      "@*": ["src/*"]
     }
   },
   "angularCompilerOptions": {

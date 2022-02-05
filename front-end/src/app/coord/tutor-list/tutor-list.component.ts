@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, User } from '@utilities/services/user/user.service';
+import { UserService, User } from '@services/user/user.service';
+import { Course } from '@services/course/course.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-tutor-list',
@@ -10,12 +12,20 @@ export class TutorListComponent implements OnInit {
   tutors: User[] = [];
   isLoading = true;
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private router: Router) {}
 
   ngOnInit(): void {
-    this.userService.listTutors().subscribe((tutors) => {
-      this.tutors = tutors;
+    this.userService.getAll().subscribe((tutors) => {
+      this.tutors = tutors.results;
       this.isLoading = false;
     });
+  }
+
+  getCoursesString(courses: Course[]){
+    return courses.map(e=>e.code).join(', ')
+  }
+
+  editUser(user: User){
+    this.router.navigate(['edit', user._id])
   }
 }

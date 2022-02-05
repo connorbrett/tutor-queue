@@ -2,6 +2,8 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from djongo import models
 from tutor_center.models.course import Course
 from tutor_center.managers.tutor import TutorManager
+from django.contrib.postgres.fields import ArrayField
+
 
 class Tutor(AbstractBaseUser):
     """
@@ -13,15 +15,16 @@ class Tutor(AbstractBaseUser):
     busy: false,
     isCoord: false
     """
+
     _id = models.ObjectIdField()
-    courses = models.CharField(max_length=2000)
+    courses = models.ManyToManyField(to=Course)
     name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     is_coord = models.BooleanField(default=False)
-
     objects = TutorManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["name", "courses"]
 
     @property
     def is_staff(self):

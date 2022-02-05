@@ -6,11 +6,12 @@
       <th>Email</th>
       <th>Name</th>
       <th class="w-100">Courses</th>
+      <th>Actions</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngIf="isLoading; else requestDisplay" class="w-100">
-      <td colspan="5">
+      <td colspan="4">
         <div class="d-flex justify-content-center align-items-center">
           <div class="spinner-border" role="status">
             <span class="sr-only">Loading...</span>
@@ -23,7 +24,8 @@
         <tr *ngFor="let tutor of tutors">
           <td>{{ tutor.email }}</td>
           <td class="text-nowrap">{{ tutor.name }}</td>
-          <td>{{ tutor.courses }}</td>
+          <td>{{ getCoursesString(tutor.courses) }}</td>
+          <td><button class="btn btn-primary" (click)="editUser(tutor)">Edit</button></td>
         </tr>
       </ng-container>
       <ng-template #empty>

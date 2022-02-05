@@ -4,6 +4,11 @@ import { User, UserService } from '../user/user.service';
 import { environment } from 'src/environments/environment';
 import { map, switchMap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { BaseApiService } from '../base-api/base-api.service';
+import { Pageable } from '../base-api/paging.model';
+import { Course } from '../course/course.service';
+import { BaseService } from '../base-service/base-service.service';
+
 
 export const REQUEST_ID_LOCALSTORAGE = 'requestId';
 
@@ -14,56 +19,53 @@ export const REQUEST_UPDATE_EVENT = 'request:update';
 export interface TutoringRequest {
   email: string;
   name: string;
-  requested_course: string;
+  requested_course: Course;
   description: string;
   _id: string;
   status: string;
+  tutor: User;
+  closed_time: string;
+  created_time: string;
 }
 
-/**
- * DRF can handle pagination by default, we can intercept that here.
- * Good practice, not the most useful for the scale of our op.
- */
-export interface Pageable<T> {
-  count: number;
-  results: T[];
-}
 
 @Injectable({
   providedIn: 'root',
 })
-export class RequestService {
-  constructor(private http: HttpClient, private userService: UserService) {}
-
-  public create(data: any) {
-    return this.http.post<TutoringRequest>(`${environment.apiHost}requests/`, data);
+export class RequestService extends BaseService<TutoringRequest>{
+  constructor(http: BaseApiService, private userService: UserService) {
+    super(http, 'requests');
   }
 
   public getQueue() {
-    return this.http
-      .get<Pageable<TutoringRequest>>(`${environment.apiHost}requests/?status=WAITING`)
-      .pipe(map((val) => val.results));
+    return this.get({
+        status: 'WAITING'
+      })
   }
 
   public getCurrent() {
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.http
-      .get<Pageable<TutoringRequest>>(
-        `${environment.apiHost}requests/?status=INPROGRESS&tutor=${this.userService.currentUser._id}`
+    return this.get(
+        {
+          status: 'INPROGRESS',
+          tutor: this.userService.currentUser._id
+        }
       )
-      .pipe(map((val) => val.results));
   }
 
   public getRecent() {
-    return this.http
-      .get<Pageable<TutoringRequest>>(`${environment.apiHost}requests/?status=COMPLETE&limit=10`)
-      .pipe(map((val) => val.results));
+    return this.get({
+          status: 'COMPLETE',
+          limit: 10,
+          ordering: '-closed_time'
+        }
+      )
   }
 
   public assign(req: TutoringRequest) {
     const currentUser = this.userService.currentUser;
     if (!currentUser) return throwError(new Error('Need to be logged in'));
-    return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
+    return this.update(req._id, {
       status: 'INPROGRESS',
       tutor: currentUser._id,
     });
@@ -71,7 +73,7 @@ export class RequestService {
 
   public markComplete(req: TutoringRequest) {
     if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.http.patch(`${environment.apiHost}requests/${req._id}/`, {
+    return this.update(req._id, {
       status: 'COMPLETE',
       completed: new Date(),
       tutor: this.userService.currentUser._id,

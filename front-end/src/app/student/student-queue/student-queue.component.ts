@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgEventBus } from 'ng-event-bus';
-import { RequestService, REQUEST_ID_LOCALSTORAGE, TutoringRequest } from '@utilities/services/request/request.service';
-import { RELOAD_TIME } from '../../utilities/const';
+import { RequestService, REQUEST_ID_LOCALSTORAGE, TutoringRequest } from '@services/request/request.service';
+import { RELOAD_TIME } from '@utilities/const';
 
 @Component({
   selector: 'app-student-queue',
@@ -32,7 +32,7 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   loadQueue() {
     this.isLoading = true;
     this.requestService.getQueue().subscribe((queue) => {
-      this.queue = queue;
+      this.queue = queue.results;
       const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
       if (requestId) this.currentRequest = this.queue.findIndex((val) => val._id === requestId);
       this.isLoading = false;

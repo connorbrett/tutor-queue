@@ -5,8 +5,8 @@ import {
   REQUEST_QUEUE_EVENT,
   REQUEST_UPDATE_EVENT,
   TutoringRequest,
-} from '@utilities/services/request/request.service';
-import { RELOAD_TIME } from '../../utilities/const';
+} from '@services/request/request.service';
+import { RELOAD_TIME } from '@utilities/const';
 
 @Component({
   selector: 'app-student-queue',
@@ -60,10 +60,10 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     let flag = this.firstLoad;
     this.requestService.getQueue().subscribe((queue) => {
-      if (!flag && queue.some((item) => !this.queue.find((e) => e._id === item._id))) {
+      if (!flag && queue.results.some((item) => !this.queue.find((e) => e._id === item._id))) {
         this.beep();
       }
-      this.queue = queue;
+      this.queue = queue.results;
       this.isLoading = false;
     });
   }

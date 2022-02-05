@@ -3,19 +3,22 @@ from django.db import models
 from django.db import models
 from tutor_center.query_sets.djongo import DjongoQuerySetMixin
 
-class TutorManager( BaseUserManager, models.Manager.from_queryset(DjongoQuerySetMixin)):
-    def create_user(self, email, name, courses, is_coord, password=None):
+
+class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetMixin)):
+    def create_user(self, email, name, courses, is_coord=False, password=None):
         """
         Creates and saves a User with the given information and password.
         """
         if not email:
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         user = self.model(
             email=self.normalize_email(email),
             name=name,
-            is_coord=is_coord
+            is_coord=is_coord,
         )
+
+        user.courses.set(courses)
 
         user.set_password(password)
         user.save(using=self._db)
@@ -30,7 +33,7 @@ class TutorManager( BaseUserManager, models.Manager.from_queryset(DjongoQuerySet
             password=password,
             is_coord=True,
             courses=[],
-            name='Super User',
+            name="Super User",
             **kwargs,
         )
         user.is_admin = True

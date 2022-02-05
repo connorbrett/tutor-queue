@@ -26,6 +26,7 @@ export function tokenGetter() {
       config: {
         tokenGetter: tokenGetter,
         allowedDomains: ['localhost:8000'],
+        authScheme: 'JWT '
       },
     }),
   ],

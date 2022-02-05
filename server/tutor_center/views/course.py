@@ -1,25 +1,19 @@
-from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from tutor_center.models.course import Course
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from tutor_center.views.djongo import DjongoViewSetMixin
+from tutor_center.serializers import CourseSerializer
 
-@api_view()
-@permission_classes([IsAuthenticatedOrReadOnly])
-def list_courses(request):
+
+class CourseViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
     """
-    Return a static list of all courses.
+    Viewset for handling tutoring requests.
     """
-    courses = [
-        'CSC101',
-        'CSC110',
-        'CSC120',
-        'CSC144',
-        'CSC210',
-        'CSC245',
-        'CSC252',
-        'CSC335',
-        'CSC337',
-        'CSC345',
-        'CSC352',
-        'CSC380'
-    ]
-    return Response(courses)
+
+    queryset = Course.objects.all()
+    permission_classes = [IsAuthenticatedOrReadOnly]
+    serializer_class = CourseSerializer
+    filterset_fields = ["code"]
+    ordering_fields = ["created_time", 'code']
+

@@ -1,12 +1,20 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Course, CourseService } from '../../utilities/services/course/course.service';
-import { RequestService } from '../../utilities/services/request/request.service';
-import { UserService } from '../../utilities/services/user/user.service';
+import { Course, CourseService } from '@services/course/course.service';
+import { UserService } from '@services/user/user.service';
 
 const LOWER_LEVEL_CSC_CLASSES = /^CSC1/;
+
+export function verifySameAsValidator(idOfOther: string): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (control.parent?.get(idOfOther)?.value !== control.value) {
+      return { required: { value: 'This field needs to match the other field.' } };
+    }
+    return null;
+  };
+}
 
 @Component({
   selector: 'app-create-tutor',
@@ -21,6 +29,7 @@ export class CreateTutorComponent implements OnInit {
   requestForm = this.formBuilder.group({
     name: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),
+    re_password: new FormControl('', [Validators.required, verifySameAsValidator('password')]),
     email: new FormControl('', [Validators.required, Validators.email]),
     courses: new FormControl('', Validators.required),
   });
@@ -38,7 +47,7 @@ export class CreateTutorComponent implements OnInit {
   ngOnInit(): void {
     this.courseService
       .getAll()
-      .subscribe((courses) => (this.courses = courses.filter((e) => !e.match(LOWER_LEVEL_CSC_CLASSES))));
+      .subscribe((courses) => (this.courses = courses.results.filter((e) => !e.code.match(LOWER_LEVEL_CSC_CLASSES))));
   }
 
   onSubmit() {
@@ -46,10 +55,7 @@ export class CreateTutorComponent implements OnInit {
     if (!this.requestForm.valid) return;
 
     this.userService
-      .create({
-        ...this.requestForm.value,
-        courses: this.course?.value.join(','),
-      })
+      .create(this.requestForm.value)
       .subscribe({
         next: (val) => {
           this.router.navigate(['coord', 'tutors']);
@@ -76,5 +82,9 @@ export class CreateTutorComponent implements OnInit {
 
   get password() {
     return this.requestForm.get('password');
+  }
+
+  get re_password() {
+    return this.requestForm.get('re_password');
   }
 }

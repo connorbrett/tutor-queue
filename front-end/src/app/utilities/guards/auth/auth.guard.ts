@@ -9,7 +9,7 @@ import {
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { UserService } from '../../services/user/user.service';
+import { UserService } from '@services/user/user.service';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
