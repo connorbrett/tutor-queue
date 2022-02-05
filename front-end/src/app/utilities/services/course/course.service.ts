@@ -18,9 +18,9 @@ export class CourseService extends BaseService<Course> {
     super(http, 'courses');
   }
 
-  getAll(){
+  getAll() {
     return super.getAll({
-      ordering: 'code'
-    })
+      ordering: 'code',
+    });
   }
 }
