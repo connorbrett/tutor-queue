@@ -11,12 +11,16 @@ import { JwtModule } from '@auth0/angular-jwt';
 import { ACCESS_TOKEN_LOCALSTORAGE } from './utilities/services/authentication/authentication.service';
 import { RefreshInterceptor } from './utilities/interceptors/refresh/refresh.interceptor';
 import { UserAvatarComponent } from './user-avatar/user-avatar.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { ActivateUserComponent } from './activate-user/activate-user.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ResetPasswordCallbackComponent } from './reset-password-callback/reset-password-callback.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
 }
 @NgModule({
-  declarations: [AppComponent, LoginComponent, UserAvatarComponent],
+  declarations: [AppComponent, LoginComponent, UserAvatarComponent, ResetPasswordComponent, ActivateUserComponent, UserProfileComponent, ResetPasswordCallbackComponent],
   imports: [
     CommonModule,
     BrowserModule,

@@ -22,6 +22,9 @@ export class TutorListComponent implements OnInit {
   }
 
   getCoursesString(courses: Course[]) {
-    return courses.map((e) => e.code).join(', ');
+    return courses
+      .map((e) => e.code)
+      .sort()
+      .join(', ');
   }
 }

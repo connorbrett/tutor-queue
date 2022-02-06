@@ -1,3 +1,4 @@
+from xmlrpc.client import Boolean
 from bson.objectid import ObjectId
 from django.db import models
 
@@ -11,15 +12,22 @@ class DjongoQuerySetMixin(models.query.QuerySet):
 
     def get(self, **kwargs):
         print(self)
-        print(kwargs)
+        print('get', kwargs)
         for key in PK_KEYS:
             if key in kwargs and not isinstance(kwargs[key], ObjectId):
                 kwargs[key] = ObjectId(kwargs[key])
+
+        # related to https://github.com/nesdis/djongo/issues/465.
+        # BooleanFields do not play well with Djongo.
+        for key in kwargs:
+            if type(kwargs[key]) == Boolean:
+                kwargs[key+'__in'] = [kwargs[key]]
+                del kwargs[key]
         print(kwargs)
         return super().get(**kwargs)
 
     def filter(self, **kwargs):
-        print(kwargs)
+        print('filter',kwargs)
         for key in PK_KEYS:
             if key in kwargs and not isinstance(kwargs[key], ObjectId):
                 kwargs[key] = ObjectId(kwargs[key])

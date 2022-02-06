@@ -21,9 +21,12 @@ class Tutor(AbstractBaseUser):
     name = models.CharField(max_length=200)
     email = models.EmailField(unique=True)
     is_coord = models.BooleanField(default=False)
+    is_active = models.BooleanField(default=False)
+
     objects = TutorManager()
 
     USERNAME_FIELD = "email"
+    EMAIL_FIELD = 'email'
     REQUIRED_FIELDS = ["name", "courses"]
 
     @property

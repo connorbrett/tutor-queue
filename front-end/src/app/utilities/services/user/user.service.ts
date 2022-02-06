@@ -44,6 +44,28 @@ export class UserService extends BaseService<User> {
     );
   }
 
+  activate(uid: string, token: string) {
+    return this.http.post('auth/users/activation', {
+      uid,
+      token,
+    });
+  }
+
+  resetPassword(email: string) {
+    return this.http.post('auth/users/reset_password', {
+      email,
+    });
+  }
+
+  confirmPasswordReset(uid: string, token: string, new_password: string, re_new_password: string) {
+    return this.http.post('auth/users/reset_password_confirm', {
+      uid,
+      token,
+      new_password,
+      re_new_password,
+    });
+  }
+
   createBulk(file: File) {
     const form = new FormData();
     form.append('file', file);

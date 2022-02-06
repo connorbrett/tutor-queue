@@ -1,0 +1,9 @@
+<h3 class="mt-0">My Profile</h3>
+<div class="d-flex justify-content-center align-items-center" *ngIf="isLoading; else profile">
+  <div class="spinner-border" role="status">
+    <span class="sr-only">Loading...</span>
+  </div>
+</div>
+<ng-template #profile>
+  <p>Hi, {{user?.name}}</p>
+</ng-template>

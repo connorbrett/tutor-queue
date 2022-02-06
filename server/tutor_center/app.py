@@ -6,4 +6,4 @@ class TutorCenterConfig(AppConfig):
     verbose_name = "Tutor Center Server"
 
     def ready(self):
-        import tutor_center.signals  # noqa
+        pass # imported signals would go here.

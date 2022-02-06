@@ -4,7 +4,6 @@ from tutor_center.fields.object_id import ObjectIdField
 from tutor_center.serializers.base import BaseSerializer
 from tutor_center.serializers.course import CourseSerializer
 
-
 class TutorSerializerRead(BaseSerializer):
     # if you want to return _id, you need to have the following line.
     _id = ObjectIdField(required=False, read_only=True)

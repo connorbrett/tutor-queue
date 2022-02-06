@@ -5,7 +5,7 @@ from tutor_center.query_sets.djongo import DjongoQuerySetMixin
 
 
 class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetMixin)):
-    def create_user(self, email, name, courses, is_coord=False, password=None):
+    def create_user(self, email, name, courses, is_coord=False, is_active=False, password=None):
         """
         Creates and saves a User with the given information and password.
         """
@@ -15,6 +15,7 @@ class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetM
         user = self.model(
             email=self.normalize_email(email),
             name=name,
+            is_active=is_active,
             is_coord=is_coord,
         )
 
@@ -33,9 +34,9 @@ class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetM
             password=password,
             is_coord=True,
             courses=[],
+            is_active=True,
             name="Super User",
             **kwargs,
         )
-        user.is_admin = True
         user.save(using=self._db)
         return user

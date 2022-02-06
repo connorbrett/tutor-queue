@@ -1,20 +1,11 @@
 <div class="dropdown h-100" *ngIf="user">
-  <a
-    class="nav-link dropdown-toggle d-flex align-items-center h-100"
-    href="#"
-    id="dropdownMenuButton"
-    role="button"
-    data-toggle="dropdown"
-    aria-expanded="false"
-  >
+  <a class="nav-link dropdown-toggle d-flex align-items-center h-100" href="#" id="dropdownMenuButton" role="button"
+    data-toggle="dropdown" aria-expanded="false">
     <img src="/assets/avatar.jpeg" class="rounded-circle" height="35" alt="Avatar" loading="lazy" />
   </a>
-  <div
-    class="dropdown-menu dropdown-menu-right dropdown-menu-sm-left"
-    aria-labelledby="dropdownMenuButton"
-    data-placement="bottom-center"
-  >
-    <a class="dropdown-item" [routerLink]="['/me']">Action</a>
+  <div class="dropdown-menu dropdown-menu-right dropdown-menu-sm-left" aria-labelledby="dropdownMenuButton"
+    data-placement="bottom-center">
+    <a class="dropdown-item" [routerLink]="['/me']">View Profile</a>
     <button class="dropdown-item" (click)="logout()">Logout</button>
   </div>
 </div>
