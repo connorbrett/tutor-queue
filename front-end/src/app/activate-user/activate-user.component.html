@@ -1,6 +1,6 @@
 <p *ngIf="isLoading; else afterLoad">Activating user...</p>
 <ng-template #afterLoad>
-  <p *ngIf="error; else redirect">{{error}}</p>
+  <p *ngIf="error; else redirect">{{ error }}</p>
   <ng-template #redirect>
     <p>Finished loading... Redirecting to login.</p>
   </ng-template>

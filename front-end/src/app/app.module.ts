@@ -20,7 +20,15 @@ export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
 }
 @NgModule({
-  declarations: [AppComponent, LoginComponent, UserAvatarComponent, ResetPasswordComponent, ActivateUserComponent, UserProfileComponent, ResetPasswordCallbackComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    UserAvatarComponent,
+    ResetPasswordComponent,
+    ActivateUserComponent,
+    UserProfileComponent,
+    ResetPasswordCallbackComponent,
+  ],
   imports: [
     CommonModule,
     BrowserModule,
