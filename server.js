@@ -276,7 +276,7 @@ app.get('/request/:tutor',
             );
         });
     }
-);
+);  
 
 // Completes student's tutor request
 app.post('/request/complete',
@@ -285,12 +285,12 @@ app.post('/request/complete',
         var studentEmail = req.body.studentEmail;
         Tutor.findOneAndUpdate(
             { email: tutorEmail, busy: true },
-            { busy: false },
+            { $set: {busy: false } },
             (err, tutor) => {
                 if (err) res.end(err);
                 TutorRequest.findOneAndUpdate(
                     { email: studentEmail, status: INPROGRESS },
-                    { status: COMPLETE },
+                    { $set: {status: COMPLETE }},
                     (err, student) => {
                         if (err) res.end(err);
                         if (!student) {
@@ -324,15 +324,17 @@ app.post('/request/assign',
             TutorRequest.findOneAndUpdate(
                 { email: studentEmail, status: WAITING },
                 {
-                    tutor: tutorID,
-                    status: INPROGRESS
+                    $set: {
+                        tutor: tutorID,
+                        status: INPROGRESS
+                    }
                 },
                 (err, request) => {
                     if (err) res.end(err);
                     if (!request) {
                         res.end(`${studentEmail} not found, ${tutorEmail} was not assigned`);
                     }
-                    Tutor.findByIdAndUpdate(tutorID, { busy: true }, (err, result) => {
+                    Tutor.findByIdAndUpdate(tutorID, {$set: { busy: true } }, (err, result) => {
                         res.end(`${tutorEmail} assigned to ${studentEmail}`);
                     });
                 });
