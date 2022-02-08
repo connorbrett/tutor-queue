@@ -178,6 +178,15 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
     ],
+    'DEFAULT_THROTTLE_CLASSES': [
+        'tutor_center.throttling.OpenHoursThrottle',
+        'rest_framework.throttling.AnonRateThrottle',
+        'rest_framework.throttling.UserRateThrottle'
+    ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',
+        'user': '1000/day'
+    },
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
 }
@@ -205,6 +214,16 @@ DJOSER = {
         'confirmation': 'tutor_center.emails.ConfirmationEmail',
         'password_reset': 'tutor_center.emails.PasswordResetEmail',
         'password_changed_confirmation': 'tutor_center.emails.PasswordChangedConfirmationEmail'
+    },
+    'PERMISSIONS': {
+        'set_password': ['rest_framework.permissions.IsAuthenticated'],
+        'username_reset': ['rest_framework.permissions.IsAdminUser'],
+        'username_reset_confirm': ['rest_framework.permissions.IsAdminUser'],
+        'set_username': ['rest_framework.permissions.IsAdminUser'],
+        'user_create': ['rest_framework.permissions.IsAdminUser'],
+        'user_delete': ['rest_framework.permissions.IsAuthenticated', 'rest_framework.permissions.IsAdminUser'],
+        'user': ['rest_framework.permissions.IsAuthenticated', 'rest_framework.permissions.IsAdminUser'],
+        'user_list': ['rest_framework.permissions.IsAdminUser'],
     }
 }
 
@@ -218,3 +237,9 @@ DEFAULT_FROM_EMAIL = 'tutorcenter@cs.arizona.edu'
 EMAIL_HOST_PASSWORD = "mlhzajgyzmiyjbbd"
 
 AUTH_USER_MODEL = "tutor_center.Tutor"
+
+TUTOR_CENTER = {
+    'OPEN_HOUR': 9,
+    'CLOSE_HOUR': 17,
+    'TIME_ZONE': 'America/Phoenix'
+}

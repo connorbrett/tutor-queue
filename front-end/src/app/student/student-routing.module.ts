@@ -10,9 +10,27 @@ const routes: Routes = [
     path: '',
     component: StudentContainerComponent,
     children: [
-      { path: 'queue', component: StudentQueueComponent },
-      { path: 'place', component: QueuePlaceComponent },
-      { path: 'request', component: RequestFormComponent },
+      {
+        path: 'queue',
+        component: StudentQueueComponent,
+        data: {
+          title: 'Queue',
+        },
+      },
+      {
+        path: 'place',
+        component: QueuePlaceComponent,
+        data: {
+          title: 'Your Place in the Queue',
+        },
+      },
+      {
+        path: 'request',
+        component: RequestFormComponent,
+        data: {
+          title: 'Request Help',
+        },
+      },
       { path: '', redirectTo: 'request', pathMatch: 'full' },
     ],
   },

@@ -8,9 +8,17 @@ import { ActivateUserComponent } from './activate-user/activate-user.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { ResetPasswordCallbackComponent } from './reset-password-callback/reset-password-callback.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ThrottleComponent } from './error/error-pages/throttle/throttle.component';
+import { GenericComponent } from './error/error-pages/generic/generic.component';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent },
+  {
+    path: 'login',
+    component: LoginComponent,
+    data: {
+      title: 'Login',
+    },
+  },
   {
     path: 'tutor',
     canActivate: [AuthGuard],
@@ -24,17 +32,54 @@ const routes: Routes = [
     canActivateChild: [AuthGuard, AdminAuthGuard],
     loadChildren: () => import('./coord/coord.module').then((m) => m.CoordModule),
   },
-  { path: 'activate/:uid/:token', component: ActivateUserComponent },
+  {
+    path: 'activate/:uid/:token',
+    component: ActivateUserComponent,
+    data: {
+      title: 'Account Activation',
+    },
+  },
   {
     path: 'reset-password',
     children: [
-      { path: '', component: ResetPasswordComponent },
-      { path: ':uid/:token', component: ResetPasswordCallbackComponent },
+      {
+        path: '',
+        component: ResetPasswordComponent,
+        data: {
+          title: 'Reset Password',
+        },
+      },
+      {
+        path: ':uid/:token',
+        component: ResetPasswordCallbackComponent,
+        data: {
+          title: 'Reset Password',
+        },
+      },
     ],
   },
-  { path: 'me', component: UserProfileComponent },
+  {
+    path: 'me',
+    component: UserProfileComponent,
+    data: {
+      title: 'My Profile',
+    },
+  },
+  {
+    path: 'throttled',
+    component: ThrottleComponent,
+    data: {
+      title: 'Throttled',
+    },
+  },
   { path: '', redirectTo: '/student/request', pathMatch: 'full' },
-  { path: '**', redirectTo: '/student/request' },
+  {
+    path: '**',
+    component: GenericComponent,
+    data: {
+      title: 'Error',
+    },
+  },
 ];
 
 @NgModule({

@@ -11,8 +11,6 @@ class DjongoQuerySetMixin(models.query.QuerySet):
     """
 
     def get(self, **kwargs):
-        print(self)
-        print('get', kwargs)
         for key in PK_KEYS:
             if key in kwargs and not isinstance(kwargs[key], ObjectId):
                 kwargs[key] = ObjectId(kwargs[key])
@@ -23,13 +21,10 @@ class DjongoQuerySetMixin(models.query.QuerySet):
             if type(kwargs[key]) == Boolean:
                 kwargs[key+'__in'] = [kwargs[key]]
                 del kwargs[key]
-        print(kwargs)
         return super().get(**kwargs)
 
     def filter(self, **kwargs):
-        print('filter',kwargs)
         for key in PK_KEYS:
             if key in kwargs and not isinstance(kwargs[key], ObjectId):
                 kwargs[key] = ObjectId(kwargs[key])
-        print(kwargs)
         return super().filter(**kwargs)

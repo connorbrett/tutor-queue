@@ -9,8 +9,20 @@ const routes: Routes = [
     path: '',
     component: TutorContainerComponent,
     children: [
-      { path: 'dashboard', component: TutorDashboardComponent },
-      { path: 'queue', component: StudentQueueComponent },
+      {
+        path: 'dashboard',
+        component: TutorDashboardComponent,
+        data: {
+          title: 'Dashboard',
+        },
+      },
+      {
+        path: 'queue',
+        component: StudentQueueComponent,
+        data: {
+          title: 'Queue',
+        },
+      },
       { path: '', redirectTo: '/tutor/dashboard', pathMatch: 'full' },
     ],
   },
