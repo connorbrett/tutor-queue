@@ -19,6 +19,7 @@ import { HttpErrorInterceptor } from '@utilities/interceptors/http-error/http-er
 import { GenericComponent } from './error/error-pages/generic/generic.component';
 import { ErrorHandlerService } from './error/error-handler/error-handler.service';
 import { ThrottleComponent } from './error/error-pages/throttle/throttle.component';
+import { UnauthorizedComponent } from './error/error-pages/unauthorized/unauthorized.component';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
@@ -34,6 +35,7 @@ export function tokenGetter() {
     ResetPasswordCallbackComponent,
     GenericComponent,
     ThrottleComponent,
+    UnauthorizedComponent,
   ],
   imports: [
     CommonModule,

@@ -10,6 +10,7 @@ import { ResetPasswordCallbackComponent } from './reset-password-callback/reset-
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ThrottleComponent } from './error/error-pages/throttle/throttle.component';
 import { GenericComponent } from './error/error-pages/generic/generic.component';
+import { UnauthorizedComponent } from './error/error-pages/unauthorized/unauthorized.component';
 
 const routes: Routes = [
   {
@@ -63,6 +64,13 @@ const routes: Routes = [
     component: UserProfileComponent,
     data: {
       title: 'My Profile',
+    },
+  },
+  {
+    path: 'unauthorized',
+    component: UnauthorizedComponent,
+    data: {
+      title: 'Unauthorized',
     },
   },
   {
