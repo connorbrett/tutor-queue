@@ -40,9 +40,7 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    try {
-      clearInterval(this.reloadTimer);
-    } catch (err) {}
+    clearInterval(this.reloadTimer);
   }
 
   assignToMe(req: TutoringRequest) {
@@ -52,13 +50,13 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   }
 
   beep() {
-    var snd = new Audio('/assets/ping.mp3');
+    const snd = new Audio('/assets/ping.mp3');
     snd.play();
   }
 
   loadQueue() {
     this.isLoading = true;
-    let flag = this.firstLoad;
+    const flag = this.firstLoad;
     this.requestService.getQueue().subscribe((queue) => {
       if (!flag && queue.results.some((item) => !this.queue.find((e) => e._id === item._id))) {
         this.beep();

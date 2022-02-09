@@ -16,7 +16,7 @@ import { RELOAD_TIME } from '@utilities/const';
 })
 export class QueuePlaceComponent implements OnInit, OnDestroy {
   queue: TutoringRequest[] = [];
-  place: number = -1;
+  place = -1;
   isLoading = false;
   reloadTimer = -1;
   constructor(
@@ -52,9 +52,7 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    try {
-      clearInterval(this.reloadTimer);
-    } catch (err) {}
+    clearInterval(this.reloadTimer);
   }
 
   getPlaceInQueue(id: string) {

@@ -34,7 +34,7 @@ export class CreateTutorComponent implements OnInit {
     courses: new FormControl('', Validators.required),
   });
 
-  error: string = '';
+  error = '';
 
   constructor(
     private formBuilder: FormBuilder,

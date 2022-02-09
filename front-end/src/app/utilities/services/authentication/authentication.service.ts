@@ -1,9 +1,7 @@
-import { BehaviorSubject, Observable, Subject, of, throwError } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { throwError } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Router } from '@angular/router';
-import { User } from '../user/user.service';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
 import { BaseApiService } from '../base-api/base-api.service';

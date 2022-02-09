@@ -1,7 +1,7 @@
 /*
     Connor Brett
     This file is the server for the final project. It receives AJAX requests
-    and creates Tutor and TutorRequest objects and sends them 
+    and creates Tutor and TutorRequest objects and sends them
     to the database as well as retrieving info from the db.
 */
 

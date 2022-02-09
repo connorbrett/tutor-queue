@@ -12,9 +12,9 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   isLoading = true;
   queue: TutoringRequest[] = [];
 
-  currentRequest: number = -1;
+  currentRequest = -1;
 
-  reloadTimer: number = -1;
+  reloadTimer = -1;
 
   constructor(private requestService: RequestService) {}
 
@@ -24,9 +24,7 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    try {
-      clearInterval(this.reloadTimer);
-    } catch (err) {}
+    clearInterval(this.reloadTimer);
   }
 
   loadQueue() {

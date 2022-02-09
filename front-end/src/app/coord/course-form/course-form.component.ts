@@ -9,15 +9,15 @@ import { CourseService } from '@services/course/course.service';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.less'],
 })
-export class CourseFormComponent {
+export class CourseFormComponent implements OnInit {
   wasValidated = false;
-
+  test = 1;
   requestForm = this.formBuilder.group({
     name: new FormControl('', Validators.required),
     code: new FormControl('', [Validators.pattern('^CSC[0-9]{3}$'), Validators.required]),
   });
 
-  error: string = '';
+  error = '';
 
   constructor(private formBuilder: FormBuilder, private courseService: CourseService, private router: Router) {}
 

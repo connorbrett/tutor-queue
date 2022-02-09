@@ -13,15 +13,15 @@ import { switchMap } from 'rxjs/operators';
 })
 export class ResetPasswordCallbackComponent implements OnInit {
   wasValidated = false;
-  uid: string = '';
-  token: string = '';
+  uid = '';
+  token = '';
 
   requestForm = this.formBuilder.group({
     password: new FormControl('', Validators.required),
     re_password: new FormControl('', [Validators.required, verifySameAsValidator('password')]),
   });
 
-  error: string = '';
+  error = '';
 
   constructor(
     private formBuilder: FormBuilder,
