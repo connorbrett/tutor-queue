@@ -12,7 +12,6 @@ def is_within_open_hours():
     curr_time = datetime.now(tz=utc).replace(minute=0, second=0, microsecond=0).astimezone(time_zone)
     open_time = curr_time.replace(hour=settings.TUTOR_CENTER['OPEN_HOUR'])
     close_time = curr_time.replace(hour=settings.TUTOR_CENTER['CLOSE_HOUR'])
-    print(open_time, close_time, curr_time)
     return curr_time > open_time and curr_time < close_time
 
 class OpenHoursThrottle(throttling.BaseThrottle):

@@ -85,7 +85,8 @@
     "start": "node server.js",
     "prepare": "husky install",
     "front-end:lint": "cd front-end && npm run lint",
-    "front-end:format": "cd front-end && npm run format:staged"
+    "front-end:format": "cd front-end && npm run format:staged",
+    "back-end:lint": "cd back-end && source ./server/env/bin/activate && black ."
   },
   "repository": {
     "type": "git",
