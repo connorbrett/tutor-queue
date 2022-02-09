@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "tutor_center",
     "django_filters",
     "djoser",
+    "drf_yasg",
 ]
 
 MIDDLEWARE = [
@@ -75,19 +76,20 @@ TEMPLATES = [
         },
     },
 ]
-"""LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
+
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
         },
     },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
     },
-}"""
+}
 
 
 WSGI_APPLICATION = "tutor_center.wsgi.application"
@@ -95,7 +97,6 @@ WSGI_APPLICATION = "tutor_center.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
-""""""
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
