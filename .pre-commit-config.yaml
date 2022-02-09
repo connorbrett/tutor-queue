@@ -8,15 +8,18 @@ repos:
   - repo: https://github.com/psf/black
     rev: 22.1.0
     files: server/*
+    verbose: true
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.5.1 # Use the sha or tag you want to point at
     files: front-end/*
+    verbose: true
     hooks:
       - id: prettier
   - repo: https://github.com/pre-commit/mirrors-eslint
     rev: v7.32.0 # Use the sha / tag you want to point at
     files: front-end/*
+    verbose: true
     hooks:
       - id: eslint
