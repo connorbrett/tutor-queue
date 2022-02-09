@@ -26,7 +26,7 @@ class Tutor(AbstractBaseUser):
     objects = TutorManager()
 
     USERNAME_FIELD = "email"
-    EMAIL_FIELD = 'email'
+    EMAIL_FIELD = "email"
     REQUIRED_FIELDS = ["name", "courses"]
 
     @property

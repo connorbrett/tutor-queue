@@ -5,7 +5,9 @@ from tutor_center.query_sets.djongo import DjongoQuerySetMixin
 
 
 class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetMixin)):
-    def create_user(self, email, name, courses, is_coord=False, is_active=False, password=None):
+    def create_user(
+        self, email, name, courses, is_coord=False, is_active=False, password=None
+    ):
         """
         Creates and saves a User with the given information and password.
         """

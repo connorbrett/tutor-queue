@@ -6,13 +6,12 @@ from tutor_center.serializers.base import BaseSerializer
 from tutor_center.serializers.course import CourseSerializer
 from tutor_center.serializers.tutor import TutorSerializer
 
+
 class TutoringRequestSerializerRead(BaseSerializer):
     _id = ObjectIdField(required=False, read_only=True)
     tutor = TutorSerializer(read_only=True)
 
-    requested_course = CourseSerializer(
-        read_only=True
-    )
+    requested_course = CourseSerializer(read_only=True)
 
     class Meta:
         model = TutoringRequest
@@ -27,7 +26,7 @@ class TutoringRequestSerializerRead(BaseSerializer):
             "status",
             "tutor",
             "closed_time",
-            "created_time"
+            "created_time",
         ]
 
 
@@ -74,9 +73,7 @@ class AnonTutoringRequestSerializer(BaseSerializer):
         queryset=Course.objects.all(),
     )
 
-    requested_course = CourseSerializer(
-        read_only=True
-    )
+    requested_course = CourseSerializer(read_only=True)
 
     class Meta:
         model = TutoringRequest

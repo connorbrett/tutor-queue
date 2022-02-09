@@ -19,7 +19,7 @@ class DjongoQuerySetMixin(models.query.QuerySet):
         # BooleanFields do not play well with Djongo.
         for key in kwargs:
             if type(kwargs[key]) == Boolean:
-                kwargs[key+'__in'] = [kwargs[key]]
+                kwargs[key + "__in"] = [kwargs[key]]
                 del kwargs[key]
         return super().get(**kwargs)
 

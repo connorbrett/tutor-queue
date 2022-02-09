@@ -15,5 +15,4 @@ class CourseViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = CourseSerializer
     filterset_fields = ["code"]
-    ordering_fields = ["created_time", 'code']
-
+    ordering_fields = ["created_time", "code"]

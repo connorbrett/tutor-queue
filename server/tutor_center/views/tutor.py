@@ -22,6 +22,7 @@ class TutorViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
     """
     A viewset for viewing and editing user instances.
     """
+
     permission_classes = [IsAdminUser | ReadOnly]
     queryset = Tutor.objects.all()
 
