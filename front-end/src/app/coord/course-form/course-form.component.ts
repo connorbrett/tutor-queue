@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CourseService } from '@services/course/course.service';
@@ -9,7 +9,7 @@ import { CourseService } from '@services/course/course.service';
   templateUrl: './course-form.component.html',
   styleUrls: ['./course-form.component.less'],
 })
-export class CourseFormComponent implements OnInit {
+export class CourseFormComponent {
   wasValidated = false;
   test = 1;
   requestForm = this.formBuilder.group({
