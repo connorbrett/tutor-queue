@@ -83,10 +83,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "prepare": "husky install",
-    "front-end:lint": "cd front-end && npm run lint",
-    "front-end:format": "cd front-end && npm run format:staged",
-    "back-end:lint": "cd server && source ./env/bin/activate && black ."
+    "prepare": "pip install pre-commit"
   },
   "repository": {
     "type": "git",
