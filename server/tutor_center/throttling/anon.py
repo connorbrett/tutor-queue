@@ -26,6 +26,7 @@ class OpenHoursThrottle(throttling.BaseThrottle):
     """
 
     def allow_request(self, request, view):
+        return True
         if request.user.is_authenticated:
             return True  # Only throttle unauthenticated requests.
         if settings.TUTOR_CENTER:

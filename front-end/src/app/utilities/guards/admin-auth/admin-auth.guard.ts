@@ -27,9 +27,9 @@ export class AdminAuthGuard implements CanActivate, CanActivateChild {
       this.userService.getUser().subscribe({
         next: () => {
           if (this.userService.currentUser) {
-            finish(this.userService.currentUser.is_coord);
-          }
-          this.router.navigate(['/unauthorized']);
+            if (this.userService.currentUser.is_coord) finish(true);
+            else this.router.navigate(['/unauthorized']);
+          } else finish(false);
         },
         error: (err: HttpErrorResponse) => {
           console.error(err);
