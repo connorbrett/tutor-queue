@@ -21,9 +21,9 @@ class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetM
             is_coord=is_coord,
         )
 
-        user.courses.set(courses)
-
         user.set_password(password)
+        user.save(using=self._db)
+        user.courses.set(courses)
         user.save(using=self._db)
         return user
 
@@ -35,9 +35,7 @@ class TutorManager(BaseUserManager, models.Manager.from_queryset(DjongoQuerySetM
             email,
             password=password,
             is_coord=True,
-            courses=[],
             is_active=True,
-            name="Super User",
             **kwargs,
         )
         user.save(using=self._db)
