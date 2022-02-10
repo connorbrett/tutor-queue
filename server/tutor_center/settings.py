@@ -103,10 +103,12 @@ DATABASES = {
         "NAME": "dev",
         "ENFORCE_SCHEMA": False,
         "CLIENT": {
-            "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
-            "username": "admin",
-            "password": "test123",
-            "authSource": "dev2",
+            # "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
+            # "username": "admin",
+            # "password": "test123",
+            "host": "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/tutorQueue?retryWrites=true&w=majority",
+            "username": "tutorcoords",
+            "password": "beardowntutorup",
             "authMechanism": "SCRAM-SHA-1",
             "tlsCAFile": certifi.where(),
         },
@@ -179,11 +181,11 @@ REST_FRAMEWORK = {
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
     ],
-    "DEFAULT_THROTTLE_CLASSES": [
-        "tutor_center.throttling.OpenHoursThrottle",
-        "rest_framework.throttling.AnonRateThrottle",
-        "rest_framework.throttling.UserRateThrottle",
-    ],
+    # "DEFAULT_THROTTLE_CLASSES": [
+    #     "tutor_center.throttling.OpenHoursThrottle",
+    #     "rest_framework.throttling.AnonRateThrottle",
+    #     "rest_framework.throttling.UserRateThrottle",
+    # ],
     "DEFAULT_THROTTLE_RATES": {"anon": "100/day", "user": "1000/day"},
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.LimitOffsetPagination",
     "PAGE_SIZE": 100,
@@ -242,4 +244,5 @@ EMAIL_HOST_PASSWORD = "mlhzajgyzmiyjbbd"
 
 AUTH_USER_MODEL = "tutor_center.Tutor"
 
-TUTOR_CENTER = {"OPEN_HOUR": 9, "CLOSE_HOUR": 17, "TIME_ZONE": "America/Phoenix"}
+TUTOR_CENTER = {"OPEN_HOUR": 9, "CLOSE_HOUR": 17,
+                "TIME_ZONE": "America/Phoenix"}
