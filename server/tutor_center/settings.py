@@ -100,7 +100,7 @@ WSGI_APPLICATION = "tutor_center.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
-        "NAME": "dev",
+        "NAME": "tutorQueue",
         "ENFORCE_SCHEMA": False,
         "CLIENT": {
             # "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
