@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-coord-nav-bar',
@@ -7,9 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavBarComponent {
   routes = [
-    { path: '/tutor', label: 'Dashboard' },
     { path: 'tutors', label: 'Tutors' },
+    { path: 'courses', label: 'Courses' },
     { path: 'schedule', label: 'Schedule' },
   ];
-  constructor() {}
 }

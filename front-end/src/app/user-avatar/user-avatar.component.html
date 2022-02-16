@@ -15,6 +15,10 @@
     data-placement="bottom-center"
   >
     <a class="dropdown-item" [routerLink]="['/me']">View Profile</a>
+    <a class="dropdown-item" [routerLink]="['/tutor']" [routerLinkActive]="'d-none'">Go to Tutor Dashboard</a>
+    <a *ngIf="user.is_coord" class="dropdown-item" [routerLink]="['/coord']" [routerLinkActive]="'d-none'"
+      >Go to Coord Dashboard</a
+    >
     <button class="dropdown-item" (click)="logout()">Logout</button>
   </div>
 </div>

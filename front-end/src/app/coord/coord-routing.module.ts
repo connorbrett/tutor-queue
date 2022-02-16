@@ -29,6 +29,7 @@ const routes: Routes = [
           { path: 'create', component: CourseFormComponent },
         ],
       },
+      { path: '', redirectTo: '/coord/tutors', pathMatch: 'full' },
     ],
   },
   { path: '**', component: CoordComponent },

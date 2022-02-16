@@ -22,7 +22,6 @@ export interface User {
 })
 export class UserService extends BaseService<User> {
   currentUser: User | null = null;
-  callCount = 0;
 
   constructor(http: BaseApiService, private authService: AuthenticationService) {
     super(http, 'auth/users');
@@ -35,7 +34,6 @@ export class UserService extends BaseService<User> {
   }
 
   getUser(): Observable<User> {
-    this.callCount += 1;
     if (this.authService.isAuthenticated() && this.currentUser) return of(this.currentUser);
     return this.http.get<User>('auth/users/me').pipe(
       tap({
