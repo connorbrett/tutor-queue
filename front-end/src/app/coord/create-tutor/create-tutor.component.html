@@ -77,7 +77,9 @@
       multiple
     >
       <option value="" selected disabled>No course selected</option>
-      <option *ngFor="let courseItem of courses" [value]="courseItem._id">{{ courseItem.code }}</option>
+      <option *ngFor="let courseItem of courses" [value]="courseItem._id" [disabled]="isLowerLevel(courseItem)">
+        {{ courseItem.code }}
+      </option>
     </select>
     <div class="invalid-feedback" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
       Please provide a valid course.

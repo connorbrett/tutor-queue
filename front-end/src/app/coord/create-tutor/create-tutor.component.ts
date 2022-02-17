@@ -45,9 +45,7 @@ export class CreateTutorComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.courseService
-      .getAll()
-      .subscribe((courses) => (this.courses = courses.results.filter((e) => !e.code.match(LOWER_LEVEL_CSC_CLASSES))));
+    this.courseService.getAll().subscribe((courses) => (this.courses = courses.results));
   }
 
   onSubmit() {
@@ -64,6 +62,10 @@ export class CreateTutorComponent implements OnInit {
         }
       },
     });
+  }
+
+  isLowerLevel(course: Course): boolean {
+    return !!course.code.match(LOWER_LEVEL_CSC_CLASSES);
   }
 
   get name() {
