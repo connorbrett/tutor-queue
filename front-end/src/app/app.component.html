@@ -34,6 +34,10 @@
   </header>
   <main role="main" class="flex-fill">
     <div class="container pb-4">
+      <ng-container *ngIf="showTitle">
+        <h3 class="mt-0">{{ title }}</h3>
+        <h4 *ngIf="subtitle" class="text-muted mt-0">{{ subtitle }}</h4>
+      </ng-container>
       <router-outlet></router-outlet>
     </div>
   </main>

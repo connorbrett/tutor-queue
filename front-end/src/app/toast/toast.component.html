@@ -1,0 +1,16 @@
+<ngb-toast
+  *ngFor="let toast of toastService.toasts"
+  [class]="toast.classname"
+  [autohide]="true"
+  [delay]="toast.delay || 5000"
+  (hidden)="toastService.remove(toast)"
+>
+  <ng-template [ngIf]="toast.template" [ngIfElse]="text">
+    <ng-template [ngTemplateOutlet]="toast.template"></ng-template>
+  </ng-template>
+
+  <ng-template #text>
+    <h6>{{ toast.body.header }}</h6>
+    {{ toast.body.content }}
+  </ng-template>
+</ngb-toast>

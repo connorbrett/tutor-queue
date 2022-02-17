@@ -14,6 +14,7 @@ const routes: Routes = [
         component: TutorDashboardComponent,
         data: {
           title: 'Dashboard',
+          showTitle: false,
         },
       },
       {
@@ -21,12 +22,12 @@ const routes: Routes = [
         component: StudentQueueComponent,
         data: {
           title: 'Queue',
+          showTitle: false,
         },
       },
       { path: '', redirectTo: '/tutor/dashboard', pathMatch: 'full' },
     ],
   },
-  { path: '**', component: TutorContainerComponent },
 ];
 
 @NgModule({

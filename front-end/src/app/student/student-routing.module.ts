@@ -15,6 +15,7 @@ const routes: Routes = [
         component: StudentQueueComponent,
         data: {
           title: 'Queue',
+          subtitle: 'This queue shows all students currently waiting to be met with.',
         },
       },
       {
@@ -29,12 +30,12 @@ const routes: Routes = [
         component: RequestFormComponent,
         data: {
           title: 'Request Help',
+          subtitle: 'Please enter your information and then take a seat, someone will help you momentarily.',
         },
       },
       { path: '', redirectTo: 'request', pathMatch: 'full' },
     ],
   },
-  { path: '**', component: StudentContainerComponent },
 ];
 
 @NgModule({

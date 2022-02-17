@@ -1,10 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { verifySameAsValidator } from '@coord/create-tutor/create-tutor.component';
 import { UserService } from '@services/user/user.service';
-import { switchMap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-reset-password-callback',
@@ -32,8 +31,8 @@ export class ResetPasswordCallbackComponent implements OnInit {
 
   ngOnInit(): void {
     const map = this.route.snapshot.paramMap;
-    this.uid = map.get('uid')!;
-    this.token = map.get('token')!;
+    this.uid = map.get('uid') || '';
+    this.token = map.get('token') || '';
   }
 
   onSubmit() {

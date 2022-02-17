@@ -116,7 +116,7 @@ DATABASES = {
             "version": 1,
             "loggers": {
                 "djongo": {
-                    "level": "DEBUG",
+                    "level": "INFO",
                     "propogate": False,
                 }
             },

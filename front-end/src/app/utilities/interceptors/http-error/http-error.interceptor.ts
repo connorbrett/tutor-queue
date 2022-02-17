@@ -17,9 +17,6 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           underlyingError = error.error;
         } else {
           switch (error.status) {
-            case 401:
-              this.router.navigate(['/login']);
-              break;
             case 429:
               this.router.navigate(['/throttled']);
               break;

@@ -32,7 +32,6 @@ const routes: Routes = [
       { path: '', redirectTo: '/coord/tutors', pathMatch: 'full' },
     ],
   },
-  { path: '**', component: CoordComponent },
 ];
 
 @NgModule({

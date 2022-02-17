@@ -10,6 +10,8 @@ import { filter, map } from 'rxjs/operators';
 })
 export class AppComponent {
   title = 'tutor-queue';
+  subtitle = '';
+  showTitle = true;
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title) {
     this.router.events
@@ -20,8 +22,8 @@ export class AppComponent {
           while (child) {
             if (child.firstChild) {
               child = child.firstChild;
-            } else if (child.snapshot.data && child.snapshot.data['title']) {
-              return child.snapshot.data['title'];
+            } else if (child.snapshot.data) {
+              return child.snapshot.data;
             } else {
               return null;
             }
@@ -31,7 +33,11 @@ export class AppComponent {
       )
       .subscribe((data: any) => {
         if (data) {
-          this.titleService.setTitle(data + ' | Tutor Center');
+          const { title, subtitle, showTitle } = data;
+          this.showTitle = showTitle === undefined ? true : showTitle;
+          this.title = title;
+          this.subtitle = subtitle;
+          this.titleService.setTitle(title + ' | Tutor Center');
         }
       });
   }

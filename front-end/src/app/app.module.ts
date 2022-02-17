@@ -20,6 +20,9 @@ import { GenericComponent } from './error/error-pages/generic/generic.component'
 import { ErrorHandlerService } from './error/error-handler/error-handler.service';
 import { ThrottleComponent } from './error/error-pages/throttle/throttle.component';
 import { UnauthorizedComponent } from './error/error-pages/unauthorized/unauthorized.component';
+import { ToastComponent } from './toast/toast.component';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgEventBus } from 'ng-event-bus';
 
 export function tokenGetter() {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
@@ -36,6 +39,7 @@ export function tokenGetter() {
     GenericComponent,
     ThrottleComponent,
     UnauthorizedComponent,
+    ToastComponent,
   ],
   imports: [
     CommonModule,
@@ -50,8 +54,10 @@ export function tokenGetter() {
         authScheme: 'JWT ',
       },
     }),
+    NgbModule,
   ],
   providers: [
+    NgEventBus,
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     { provide: HTTP_INTERCEPTORS, useClass: RefreshInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

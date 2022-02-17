@@ -1,5 +1,3 @@
-<h3 class="mt-0">Tutoring Request</h3>
-<h4 class="text-muted mt-0">Please enter your information and then take a seat, someone will help you momentarily.</h4>
 <form [formGroup]="requestForm" (ngSubmit)="onSubmit()" novalidate [ngClass]="{ 'was-validated': wasValidated }">
   <div class="form-group">
     <label for="name">Name</label>
@@ -44,7 +42,7 @@
     >
       <option value="" selected disabled>No course selected</option>
       <option *ngFor="let courseItem of courses" [value]="courseItem._id">{{ courseItem.code }}</option>
-      <option value="Other">Other - please describe below</option>
+      <!--<option value="Other">Other - please describe below</option>-->
     </select>
     <div class="invalid-feedback" *ngIf="course?.invalid && (course?.dirty || course?.touched)">
       Please provide a valid course.
