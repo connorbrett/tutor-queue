@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import certifi
 from datetime import timedelta
+from os import environ as env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -100,15 +101,15 @@ WSGI_APPLICATION = "tutor_center.wsgi.application"
 DATABASES = {
     "default": {
         "ENGINE": "djongo",
-        "NAME": "tutorQueue",
+        "NAME": "dev",
         "ENFORCE_SCHEMA": False,
         "CLIENT": {
-            # "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
-            # "username": "admin",
-            # "password": "test123",
-            "host": "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net",
-            "username": "tutorcoords",
-            "password": "beardowntutorup",
+            "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
+            "username": "admin",
+            "password": "test123",
+            # "host": "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net",
+            # "username": "tutorcoords",
+            # "password": "beardowntutorup",
             "authMechanism": "SCRAM-SHA-1",
             "tlsCAFile": certifi.where(),
         },
@@ -143,6 +144,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
@@ -206,7 +208,6 @@ DJOSER = {
         "user_create": "tutor_center.serializers.TutorSerializer",
         "user": "tutor_center.serializers.TutorSerializerRead",
     },
-    "SEND_ACTIVATION_EMAIL": True,
     "ACTIVATION_URL": "http://localhost:4200/activate/{uid}/{token}",
     "PASSWORD_RESET_CONFIRM_URL": "http://localhost:4200/reset-password/{uid}/{token}",
     "EMAIL": {
@@ -230,6 +231,8 @@ DJOSER = {
             "rest_framework.permissions.IsAdminUser",
         ],
         "user_list": ["rest_framework.permissions.IsAdminUser"],
+        "token_create": ["rest_framework.permissions.AllowAny"],
+        "token_destroy": ["rest_framework.permissions.IsAuthenticated"],
     },
 }
 

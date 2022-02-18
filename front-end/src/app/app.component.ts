@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { SwPush } from '@angular/service-worker';
+import { NotificationService } from '@services/notification/notification.service';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -13,7 +15,12 @@ export class AppComponent {
   subtitle = '';
   showTitle = true;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute, private titleService: Title) {
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private titleService: Title,
+    private notificationService: NotificationService
+  ) {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),

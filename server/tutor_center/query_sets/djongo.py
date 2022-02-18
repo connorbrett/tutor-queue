@@ -11,6 +11,7 @@ class DjongoQuerySetMixin(models.query.QuerySet):
     """
 
     def get(self, **kwargs):
+        print(kwargs)
         for key in PK_KEYS:
             if key in kwargs and not isinstance(kwargs[key], ObjectId):
                 kwargs[key] = ObjectId(kwargs[key])

@@ -23,8 +23,9 @@ import { UnauthorizedComponent } from './error/error-pages/unauthorized/unauthor
 import { ToastComponent } from './toast/toast.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgEventBus } from 'ng-event-bus';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
-export function tokenGetter() {
+export function tokenGetter(): string | null {
   return localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
 }
 @NgModule({
@@ -55,6 +56,11 @@ export function tokenGetter() {
       },
     }),
     NgbModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
   providers: [
     NgEventBus,

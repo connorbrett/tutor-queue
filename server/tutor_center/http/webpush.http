@@ -1,0 +1,11 @@
+# baseURL
+@baseURL = http://localhost:8000/api/webpush
+
+###
+# User Signup
+POST {{ baseURL }}/save_information
+Content-Type: application/json
+
+{
+    "email": "asennyey@email.arizona.edu"
+}

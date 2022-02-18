@@ -33,6 +33,7 @@ class TutorSerializer(BaseSerializer):
         user = Tutor.objects.create(
             email=validated_data["email"],
             name=validated_data["name"],
+            is_coord=validated_data["is_coord"],
         )
 
         user.courses.set(validated_data["courses"])
@@ -40,6 +41,12 @@ class TutorSerializer(BaseSerializer):
         user.save()
 
         return user
+
+
+class WebPushSerializer(BaseSerializer):
+    class Meta:
+        model = Tutor
+        fields = ["push_subscription"]
 
 
 class CurrentUserSerializer(BaseSerializer):

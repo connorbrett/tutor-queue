@@ -40,10 +40,11 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.isLoggedIn().pipe(
       tap((val) => {
-        if (!val)
+        if (!val) {
           this.router.navigate(['/login'], {
             queryParams: { returnUrl: state.url },
           });
+        }
       })
     );
   }

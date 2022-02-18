@@ -16,7 +16,7 @@ export class BaseService<T> {
     this.http = http;
   }
 
-  private join(...parts: string[]) {
+  public join(...parts: string[]) {
     return parts.join('/');
   }
 
