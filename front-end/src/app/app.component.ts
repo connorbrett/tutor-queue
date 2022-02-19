@@ -19,7 +19,7 @@ export class AppComponent {
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    private notificationService: NotificationService
+    public notificationService: NotificationService
   ) {
     this.router.events
       .pipe(
