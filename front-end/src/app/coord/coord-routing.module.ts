@@ -13,7 +13,13 @@ const routes: Routes = [
     path: '',
     component: CoordComponent,
     children: [
-      { path: 'schedule', component: ScheduleComponent },
+      {
+        path: 'schedule',
+        component: ScheduleComponent,
+        data: {
+          title: 'Schedule',
+        },
+      },
       {
         path: 'tutors',
         children: [
@@ -21,6 +27,9 @@ const routes: Routes = [
           { path: 'create', component: CreateTutorComponent },
           { path: 'bulk', component: BulkCreateTutorComponent },
         ],
+        data: {
+          title: 'Tutors',
+        },
       },
       {
         path: 'courses',
@@ -28,6 +37,9 @@ const routes: Routes = [
           { path: '', component: CourseListComponent },
           { path: 'create', component: CourseFormComponent },
         ],
+        data: {
+          title: 'Courses',
+        },
       },
       { path: '', redirectTo: '/coord/tutors', pathMatch: 'full' },
     ],
@@ -38,4 +50,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CoordRoutingModule {}
+export class CoordRoutingModule { }
