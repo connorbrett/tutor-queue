@@ -10,7 +10,7 @@ import {
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
-import { UserService } from '@services/user/user.service';
+import { User, UserService } from '@services/user/user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -25,9 +25,9 @@ export class AdminAuthGuard implements CanActivate, CanActivateChild {
         observer.complete();
       };
       this.userService.getUser().subscribe({
-        next: () => {
-          if (this.userService.currentUser) {
-            if (this.userService.currentUser.is_coord) finish(true);
+        next: (currentUser) => {
+          if (currentUser) {
+            if (currentUser.is_coord) finish(true);
             else this.router.navigate(['/unauthorized']);
           } else finish(false);
         },

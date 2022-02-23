@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { tap } from 'rxjs/operators';
 import { BaseApiService } from '../base-api/base-api.service';
+import { NgEventBus } from 'ng-event-bus';
+import { EventBus } from '@utilities/interfaces/event/event';
 
 export const ACCESS_TOKEN_LOCALSTORAGE = 'accessToken';
 export const REFRESH_TOKEN_LOCALSTORAGE = 'refreshToken';
@@ -25,18 +27,16 @@ export class AuthenticationService {
   private _accessToken: string | null = localStorage.getItem(ACCESS_TOKEN_LOCALSTORAGE);
   private _refreshToken: string | null = localStorage.getItem(REFRESH_TOKEN_LOCALSTORAGE);
 
-  constructor(private router: Router, private http: BaseApiService, public jwtHelper: JwtHelperService) {}
-
-  login(username: string, password: string) {
-    return this.http.post<any>(`${environment.apiHost}/auth/jwt/create/`, { email: username, password }).pipe(
-      tap((user) => {
-        this.setAuth(user);
-      })
-    );
-  }
+  constructor(
+    private router: Router,
+    private http: BaseApiService,
+    public jwtHelper: JwtHelperService,
+    private bus: NgEventBus
+  ) {}
 
   logout() {
     this.setAuth(null);
+    this.bus.cast(EventBus.User.get('logout'));
     this.router.navigate(['/login']);
   }
 

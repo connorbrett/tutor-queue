@@ -1,6 +1,8 @@
 import { environment } from '@environments/environment';
 import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { shareReplay, take } from 'rxjs/operators';
 
 const TRAILING_BACKSLASH = /\/$/g;
 
@@ -45,7 +47,7 @@ export class BaseApiService {
   }
 
   public get<T>(endpoint: string, options?: HttpOptions) {
-    return this.http.get<T>(this.makeApiUrl(endpoint), options);
+    return this.http.get<T>(this.makeApiUrl(endpoint), options).pipe(shareReplay(1), take(1));
   }
 
   public post<T>(endpoint: string, body: any | null, options?: HttpOptions) {

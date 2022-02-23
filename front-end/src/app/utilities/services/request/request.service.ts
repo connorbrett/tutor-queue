@@ -42,11 +42,15 @@ export class RequestService extends BaseService<TutoringRequest> {
   }
 
   public getCurrent() {
-    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.get({
-      status: 'INPROGRESS',
-      tutor: this.userService.currentUser._id,
-    });
+    return this.userService.getUser().pipe(
+      switchMap((currentUser: User) => {
+        if (!currentUser) return throwError(new Error('Need to be logged in'));
+        return this.get({
+          status: 'INPROGRESS',
+          tutor: currentUser._id,
+        });
+      })
+    );
   }
 
   public getRecent() {
@@ -58,20 +62,27 @@ export class RequestService extends BaseService<TutoringRequest> {
   }
 
   public assign(req: TutoringRequest) {
-    const currentUser = this.userService.currentUser;
-    if (!currentUser) return throwError(new Error('Need to be logged in'));
-    return this.update(req._id, {
-      status: 'INPROGRESS',
-      tutor: currentUser._id,
-    });
+    return this.userService.getUser().pipe(
+      switchMap((currentUser: User) => {
+        if (!currentUser) return throwError(new Error('Need to be logged in'));
+        return this.update(req._id, {
+          status: 'INPROGRESS',
+          tutor: currentUser._id,
+        });
+      })
+    );
   }
 
   public markComplete(req: TutoringRequest) {
-    if (!this.userService.currentUser) return throwError(new Error('Need to be logged in'));
-    return this.update(req._id, {
-      status: 'COMPLETE',
-      completed: new Date(),
-      tutor: this.userService.currentUser._id,
-    });
+    return this.userService.getUser().pipe(
+      switchMap((currentUser: User) => {
+        if (!currentUser) return throwError(new Error('Need to be logged in'));
+        return this.update(req._id, {
+          status: 'COMPLETE',
+          completed: new Date(),
+          tutor: currentUser._id,
+        });
+      })
+    );
   }
 }

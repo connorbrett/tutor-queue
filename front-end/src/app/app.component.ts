@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
 import { Title } from '@angular/platform-browser';
-import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationCancel,
+  NavigationEnd,
+  NavigationError,
+  NavigationStart,
+  Router,
+} from '@angular/router';
 import { SwPush } from '@angular/service-worker';
 import { NotificationService } from '@services/notification/notification.service';
+import { UserService } from '@services/user/user.service';
 import { filter, map } from 'rxjs/operators';
 
 @Component({
@@ -11,15 +19,17 @@ import { filter, map } from 'rxjs/operators';
   styleUrls: ['./app.component.less'],
 })
 export class AppComponent {
-  title = 'tutor-queue';
+  title = '';
   subtitle = '';
   showTitle = true;
+  isLoading = true;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
-    public notificationService: NotificationService
+    public notificationService: NotificationService,
+    private userService: UserService
   ) {
     this.router.events
       .pipe(
@@ -47,5 +57,24 @@ export class AppComponent {
           this.titleService.setTitle(title + ' | Tutor Center');
         }
       });
+
+    this.router.events.subscribe((event) => {
+      switch (true) {
+        case event instanceof NavigationStart: {
+          this.isLoading = true;
+          break;
+        }
+
+        case event instanceof NavigationEnd:
+        case event instanceof NavigationCancel:
+        case event instanceof NavigationError: {
+          this.isLoading = false;
+          break;
+        }
+        default: {
+          break;
+        }
+      }
+    });
   }
 }

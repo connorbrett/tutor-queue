@@ -7,12 +7,10 @@ import { User, UserService } from '@services/user/user.service';
   templateUrl: './user-avatar.component.html',
   styleUrls: ['./user-avatar.component.less'],
 })
-export class UserAvatarComponent implements OnInit {
+export class UserAvatarComponent {
   user: User | null = null;
-  constructor(private userService: UserService, private authenticationService: AuthenticationService) {}
-
-  ngOnInit() {
-    this.userService.getUser().subscribe((user) => {
+  constructor(private userService: UserService, private authenticationService: AuthenticationService) {
+    this.userService.refreshSubject.subscribe((user) => {
       this.user = user;
     });
   }

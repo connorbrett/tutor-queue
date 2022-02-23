@@ -5,6 +5,7 @@ import { BaseService } from '@services/base-service/base-service.service';
 import { User, UserService } from '@services/user/user.service';
 import { VAPID_PUBLIC_KEY } from '@utilities/const';
 import { throwError } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -41,14 +42,18 @@ export class NotificationService extends BaseService<User> {
       group?: string;
     }
   ) {
-    if (!this.userService.currentUser) return throwError(new Error('user must be authenticated'));
-    const browser = (navigator.userAgent.match(/(firefox|msie|chrome|safari|trident)/gi) || [])[0].toLowerCase();
-    return this.http.post(this.baseEndpoint, {
-      status_type: status,
-      subscription: subscription.toJSON(),
-      browser,
-      user_agent: navigator.userAgent,
-      ...options,
-    });
+    return this.userService.getUser().pipe(
+      switchMap((currentUser: User) => {
+        if (!currentUser) return throwError(new Error('user must be authenticated'));
+        const browser = (navigator.userAgent.match(/(firefox|msie|chrome|safari|trident)/gi) || [])[0].toLowerCase();
+        return this.http.post(this.baseEndpoint, {
+          status_type: status,
+          subscription: subscription.toJSON(),
+          browser,
+          user_agent: navigator.userAgent,
+          ...options,
+        });
+      })
+    );
   }
 }

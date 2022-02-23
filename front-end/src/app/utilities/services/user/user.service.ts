@@ -1,13 +1,14 @@
-import { AuthEvent, AuthResponse, AuthenticationService } from '../authentication/authentication.service';
-import { HttpClient } from '@angular/common/http';
+import { AuthResponse, AuthenticationService } from '../authentication/authentication.service';
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
-import { Pageable } from '../base-api/paging.model';
+import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
+import { switchMap, tap } from 'rxjs/operators';
 import { BaseApiService } from '../base-api/base-api.service';
 import { Course } from '../course/course.service';
 import { BaseService } from '../base-service/base-service.service';
+import { NgEventBus } from 'ng-event-bus';
+import { EventBus } from '@utilities/interfaces/event/event';
+import { CacheService } from '@services/cache/cache.service';
+import { HttpRequestCache } from '@services/cache/cache.decorator';
 
 export interface User {
   _id: string;
@@ -21,25 +22,41 @@ export interface User {
   providedIn: 'root',
 })
 export class UserService extends BaseService<User> {
-  currentUser: User | null = null;
+  refreshSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
 
-  constructor(http: BaseApiService, private authService: AuthenticationService) {
+  constructor(
+    http: BaseApiService,
+    private authService: AuthenticationService,
+    private bus: NgEventBus,
+    private cache: CacheService
+  ) {
     super(http, 'auth/users');
+    bus.on(EventBus.User.get('logout')).subscribe(() => {
+      this.refreshSubject.next(null);
+    });
   }
 
   login(email: string, password: string) {
-    return this.http
-      .post<AuthResponse>('auth/jwt/create', { email, password })
-      .pipe(tap((val) => this.authService.setAuth(val)));
-  }
-
-  getUser(): Observable<User> {
-    if (this.authService.isAuthenticated() && this.currentUser) return of(this.currentUser);
-    return this.http.get<User>('auth/users/me').pipe(
-      tap({
-        next: (user) => (this.currentUser = user),
+    return this.http.post<AuthResponse>('auth/jwt/create', { email, password }).pipe(
+      tap((val) => {
+        this.authService.setAuth(val);
+        this.getUser();
       })
     );
+  }
+
+  @HttpRequestCache<UserService>(function () {
+    return {
+      storage: this.cache,
+      refreshSubject: this.refreshSubject,
+    };
+  })
+  getUser(): Observable<User> {
+    return this.http.get<User>('auth/users/me');
+  }
+
+  resetUser() {
+    this.refreshSubject.next(null);
   }
 
   activate(uid: string, token: string) {

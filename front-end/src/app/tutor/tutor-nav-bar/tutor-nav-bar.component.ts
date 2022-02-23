@@ -9,6 +9,6 @@ export class TutorNavBarComponent {
   routes = [
     // For true relative base url, ie /tutor, you need to do ./
     { path: 'dashboard', label: 'Dashboard' },
-    { path: 'queue', label: 'Queue' },
+    //{ path: 'queue', label: 'Queue' },
   ];
 }

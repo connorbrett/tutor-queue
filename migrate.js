@@ -1,12 +1,10 @@
 const {MongoClient} = require('mongodb');
 
-async function listDatabases(client){
-    databasesList = await client.db("tutorQueue").listCollections().toArray();
-    console.log(databasesList)
-};
+const FROM_DB = 'tutorQueue';
+const TO_DB = 'tutorCenter';
 
-async function getItems(client, collectionName){
-    const items = await client.db("tutorQueue").collection(collectionName).find({}).toArray();
+async function getItems(client, dbName, collectionName){
+    const items = await client.db(dbName).collection(collectionName).find({}).toArray();
     return items;
 }
 
@@ -15,11 +13,11 @@ async function main(){
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const fromUri = "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/tutorQueue?retryWrites=true&w=majority";
+    const fromUri = "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority";
 
     const fromClient = new MongoClient(fromUri);
 
-    const toUri = "mongodb+srv://admin:test123@dev.vbai1.mongodb.net/dev?retryWrites=true&w=majority";
+    const toUri = "mongodb+srv://admin:test123@dev.vbai1.mongodb.net/?retryWrites=true&w=majority";
     const toClient = new MongoClient(toUri);
 
     try {
@@ -28,13 +26,11 @@ async function main(){
 
         await toClient.connect();
 
-        await listDatabases(fromClient)
-
         // Make the appropriate DB calls
-        const pre = await getItems(fromClient, "tutors");
+        const pre = await getItems(fromClient, FROM_DB, "tutors");
         const courses = [...new Set(pre.map(e=>e.courses).flat())].map(e=>e.replace(" ", ''));
         for(let course of courses){
-            const res = await toClient.db('dev').collection('tutor_center_course').replaceOne(
+            const res = await toClient.db(TO_DB).collection('tutor_center_course').replaceOne(
                 {
                     code: course
                 },
@@ -50,7 +46,7 @@ async function main(){
             );
         }
 
-        const courseObjs = await toClient.db('dev').collection('tutor_center_course').find(
+        const courseObjs = await toClient.db(TO_DB).collection('tutor_center_course').find(
             {
                 code: {
                     $in: courses
@@ -58,11 +54,11 @@ async function main(){
             }
         ).toArray();
 
-        let courseTutorMax = await toClient.db('dev').collection('tutor_center_tutor_courses').find().sort({id:-1}).limit(1).toArray();
-        let courseTutorId = courseTutorMax[0].id
+        let courseTutorMax = await toClient.db(TO_DB).collection('tutor_center_tutor_courses').find().sort({id:-1}).limit(1).toArray();
+        let courseTutorId = courseTutorMax.length ? courseTutorMax[0].id : 0
 
         for(let tutor of pre){
-            const res = await toClient.db('dev').collection('tutor_center_tutor').updateOne(
+            const res = await toClient.db(TO_DB).collection('tutor_center_tutor').updateOne(
                 {
                     email: tutor.email
                 },
@@ -74,20 +70,21 @@ async function main(){
                         modified_time: new Date(),
                         is_active: true,
                         last_login: null,
-                        is_coord: tutor.isCoord
+                        is_coord: tutor.isCoord,
+                        password: ''
                     }
                 },
                 {
                     upsert: true
                 }
             );
-            const tutorObj = await toClient.db('dev').collection('tutor_center_tutor').findOne(
+            const tutorObj = await toClient.db(TO_DB).collection('tutor_center_tutor').findOne(
                 {
                     email: tutor.email
                 }
             );
             for(let course of tutor.courses.map(e=>e.replace(" ", ''))){
-                const courseRes = await toClient.db('dev').collection('tutor_center_tutor_courses').updateOne(
+                const courseRes = await toClient.db(TO_DB).collection('tutor_center_tutor_courses').updateOne(
                     {
                         tutor_id: tutorObj._id,
                         course_id: courseObjs.filter(e=>e.code===course)[0]._id,
@@ -107,7 +104,7 @@ async function main(){
             }
         }
 
-        const migratedTutors = await toClient.db('dev').collection('tutor_center_tutor').find(
+        const migratedTutors = await toClient.db(TO_DB).collection('tutor_center_tutor').find(
             {
                 email: {
                     $in: pre.map(e=>e.email)
@@ -119,10 +116,10 @@ async function main(){
             idMap[tutor._id] = migratedTutors.find(e=>e.email === tutor.email)._id
         }
         console.log(idMap);
-        for(let request of await getItems(fromClient, "tutorrequests")){
+        for(let request of await getItems(fromClient, FROM_DB, "tutorrequests")){
             const course = courseObjs.find(e=>e.code === request.course.replace(" ", ''));
             if(course){
-                const reqRes = await toClient.db('dev').collection('tutor_center_tutoringrequest').insertOne(
+                const reqRes = await toClient.db(TO_DB).collection('tutor_center_tutoringrequest').insertOne(
                     {
                         name: request.name,
                         email: request.email,
