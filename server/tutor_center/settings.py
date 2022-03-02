@@ -13,23 +13,40 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import certifi
 from datetime import timedelta
-from os import environ as env
+import environ, os
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False),
+    interpolate=True,
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-s(u9&0t3@z#(n^$ea$gt==9k9997kyu&1#+jn5=fipsklap5-o"
+SECRET_KEY = env("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env("DEBUG")
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "http://localhost:4200",
+    "http://localhost:8080",
+    "https://tutorqueue.cs.arizona.edu",
+]
 
+SECURE_SSL_REDIRECT = True  # Serve for HTTPS only.
+
+SESSION_COOKIE_SECURE = True
+
+CSRF_COOKIE_SECURE = True
 
 # Application definition
 
@@ -95,7 +112,6 @@ LOGGING = {
 
 WSGI_APPLICATION = "tutor_center.wsgi.application"
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 DATABASES = {
@@ -104,12 +120,9 @@ DATABASES = {
         "NAME": "tutorCenter",
         "ENFORCE_SCHEMA": False,
         "CLIENT": {
-            "host": "mongodb+srv://admin:test123@dev.vbai1.mongodb.net",
-            "username": "admin",
-            "password": "test123",
-            # "host": "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net",
-            # "username": "tutorcoords",
-            # "password": "beardowntutorup",
+            "host": env("DATABASE_URL"),
+            "username": env("DATABASE_USERNAME"),
+            "password": env("DATABASE_PASSWORD"),
             "authMechanism": "SCRAM-SHA-1",
             "tlsCAFile": certifi.where(),
         },
@@ -169,7 +182,11 @@ STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = False
-CORS_ORIGIN_WHITELIST = ("http://localhost:4200",)
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:4200",
+    "http://localhost:8080",
+    "https://tutorqueue.cs.arizona.edu",
+)
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
@@ -239,11 +256,11 @@ DJOSER = {
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "sennyeyaramis@gmail.com"
+EMAIL_HOST_USER = env("EMAIL_USERNAME")
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "tutorcenter@cs.arizona.edu"
-EMAIL_HOST_PASSWORD = "mlhzajgyzmiyjbbd"
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 
 AUTH_USER_MODEL = "tutor_center.Tutor"
 

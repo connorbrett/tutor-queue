@@ -1,13 +1,16 @@
 {
-	"folders": [
-		{
-			"path": "front-end"
-		},
-		{
-			"path": "server"
-		}
-	],
-	"settings": {
-		"editor.formatOnSave": true
-	}
+  "folders": [
+    {
+      "path": "front-end"
+    },
+    {
+      "path": "server"
+    },
+    {
+      "path": "pm2"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true
+  }
 }
