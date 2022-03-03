@@ -15,3 +15,6 @@ To initialize the project, you will have to two sets of commands.
 ### Server
 1. In the `server` folder, run `python3 -m venv env`, then `source ./env/bin/activate`, and then `pip install -r requirements.txt`. This will install all required packages into a virtual environment.
 2. In the `front-end` folder, run `npm i`.
+
+FAQ
+- You may need to run python manage.py collectstatic --no-input to copy static files for serving in PROD.

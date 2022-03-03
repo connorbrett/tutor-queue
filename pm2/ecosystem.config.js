@@ -1,6 +1,9 @@
+const baseDir = '/Users/asennyey/git/tutor-queue';
+const username = require("os").userInfo().username;
+
 module.exports = {
   apps : [{
-    cwd: '/Users/asennyey/git/tutor-queue/front-end/dist/tutor-queue',
+    cwd: `${baseDir}/front-end/dist/tutor-queue`,
     watch: '.',
     name: 'front-end',
     script: "serve",
@@ -12,22 +15,21 @@ module.exports = {
     }
   }, {
     name: 'server',
-    cwd: '/Users/asennyey/git/tutor-queue/server',
-    script: 'python3 manage.py',
-    args: 'runserver',
+    cwd: `${baseDir}/server`,
+    script: 'env/bin/gunicorn tutor_center.wsgi',
+    args: '--threads 2',
     watch: '.'
   }],
 
   deploy : {
     production : {
-      user : 'SSH_USERNAME',
-      host : 'SSH_HOSTMACHINE',
-      ref  : 'origin/master',
-      repo : 'GIT_REPOSITORY',
-      path : 'DESTINATION_PATH',
-      'pre-deploy-local': '',
-      'post-deploy' : 'npm install && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
+      user : username,
+      host : 'localhost -p 8090',
+      ref  : 'origin/main',
+      repo : 'https://github.com/connorbrett/tutor-queue',
+      path : '/var/www/tutor-center',
+      'post-setup': './prepare.sh',
+      'post-deploy' : 'pm2 reload ecosystem.config.js --env production',
     }
   }
 };

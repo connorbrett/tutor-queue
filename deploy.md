@@ -20,7 +20,7 @@ If you have access issues with the tutorqueue-vm, email the [CS Lab (ericcollins
 
 *If you get an access error, try prefxing your command with `sudo`.*
 
-*Example: if the `git pull origin main` doesn't work, try `sudo git pull origin main`* 
+*Example: if the `git pull origin main` doesn't work, try `sudo git pull origin main`*
 
 
 ## Deploying the app
@@ -32,3 +32,8 @@ Pull from git in order to get the most up to date version of the site
 Ask one of the tutor coords for access to the tutor-queue repo and following [this](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) guide to use Github's personal access tokens to log in from the command line.
 
 Coming soon...
+
+# Using PM2
+## Pre-steps
+You may need to give yourself access to the tutor-queue folder on the VM. Run `sudo usermod -a -G tutor-admins $USER`
+You will also need to setup an ssh between the VM and github, look through https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent.

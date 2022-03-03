@@ -37,16 +37,16 @@ SECRET_KEY = env("SECRET_KEY")
 DEBUG = env("DEBUG")
 
 ALLOWED_HOSTS = [
-    "http://localhost:4200",
-    "http://localhost:8080",
-    "https://tutorqueue.cs.arizona.edu",
+    "localhost",
+    "127.0.0.1",
+    "tutorqueue.cs.arizona.edu",
 ]
 
-SECURE_SSL_REDIRECT = True  # Serve for HTTPS only.
+# SECURE_SSL_REDIRECT = not env("DEBUG")  # Serve for HTTPS only.
 
-SESSION_COOKIE_SECURE = True
+# SESSION_COOKIE_SECURE = not env("DEBUG")
 
-CSRF_COOKIE_SECURE = True
+# CSRF_COOKIE_SECURE = not env("DEBUG")
 
 # Application definition
 
@@ -75,6 +75,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
 ]
 
 ROOT_URLCONF = "tutor_center.urls"
@@ -173,8 +174,11 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATIC_URL = "/static/"
 
-STATIC_URL = "static/"
+# Extra places for collectstatic to find static files.
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
@@ -265,3 +269,5 @@ EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 AUTH_USER_MODEL = "tutor_center.Tutor"
 
 TUTOR_CENTER = {"OPEN_HOUR": 9, "CLOSE_HOUR": 17, "TIME_ZONE": "America/Phoenix"}
+
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"

@@ -1,0 +1,3 @@
+#!/bin/bash
+ssh "$USER@lectura.cs.arizona.edu" -f -L 8090:tutorqueue-vm.cs.arizona.edu:22 sleep 100
+pm2 deploy production setup
