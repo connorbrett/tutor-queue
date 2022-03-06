@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  server:
+    image: uofatutorcenter/server
+  nginx:
+    image: uofatutorcenter/nginx
+    depends_on:
+      - web
+  front-end:
+    image: uofatutorcenter/front-end

@@ -187,9 +187,9 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    "http://localhost:4200",
-    "http://localhost:8080",
-    "https://tutorqueue.cs.arizona.edu",
+    "http://localhost:4200",  # DEV
+    "http://localhost:8080",  # TEST
+    "https://tutorqueue.cs.arizona.edu",  # PROD
 )
 
 REST_FRAMEWORK = {
