@@ -1,8 +1,11 @@
 version: '3.8'
 
 services:
-  server:
+  nginx:
     build: nginx
+    image: asennyey/proxy
+  server:
+    build: server
     image: asennyey/tutor-center
   front-end:
     build: front-end

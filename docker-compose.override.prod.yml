@@ -1,11 +1,9 @@
 version: '3.8'
 
 services:
-  server:
-    image: uofatutorcenter/server
   nginx:
-    image: uofatutorcenter/nginx
-    depends_on:
-      - web
+    image: asennyey/proxy:latest
+  server:
+    image: asennyey/tutor-center:latest
   front-end:
-    image: uofatutorcenter/front-end
+    image: asennyey/front-end:latest

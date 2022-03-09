@@ -5,7 +5,7 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    command: gunicorn tutor_center.wsgi --bind 0.0.0.0:8000
+    command: gunicorn tutor_center.wsgi --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --workers=2 --threads=4
     volumes:
       - static_volume:/home/app/web/staticfiles
     expose:
