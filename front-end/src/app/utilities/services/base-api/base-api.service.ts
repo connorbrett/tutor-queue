@@ -3,6 +3,7 @@ import { HttpClient, HttpContext, HttpHeaders, HttpParams } from '@angular/commo
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { shareReplay, take } from 'rxjs/operators';
+import { Location } from '@angular/common';
 
 const TRAILING_BACKSLASH = /\/$/g;
 
@@ -31,7 +32,7 @@ interface HttpOptions {
 })
 export class BaseApiService {
   baseApiUrl: string;
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private location: Location) {
     this.baseApiUrl = environment.apiHost;
   }
 
@@ -42,6 +43,9 @@ export class BaseApiService {
     }
     if (!TRAILING_BACKSLASH.test(cleanedEndpoint)) {
       cleanedEndpoint = cleanedEndpoint + '/';
+    }
+    if (environment.production) {
+      return this.location.prepareExternalUrl('api/' + cleanedEndpoint);
     }
     return this.baseApiUrl + cleanedEndpoint;
   }

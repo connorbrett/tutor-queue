@@ -44,22 +44,26 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     re_path(
-        r"^swagger(?P<format>\.json|\.yaml)$",
+        r"^api/swagger(?P<format>\.json|\.yaml)$",
         schema_view.without_ui(cache_timeout=0),
         name="schema-json",
     ),
     re_path(
-        r"^swagger/$",
+        r"^api/swagger/$",
         schema_view.with_ui("swagger", cache_timeout=0),
         name="schema-swagger-ui",
     ),
     re_path(
-        r"^redoc/$", schema_view.with_ui("redoc", cache_timeout=0), name="schema-redoc"
+        r"^api/redoc/$",
+        schema_view.with_ui("redoc", cache_timeout=0),
+        name="schema-redoc",
     ),
 ]
 
 urlpatterns += [
-    path("admin/", admin.site.urls),
+    path(
+        "admin/", admin.site.urls
+    ),  # disable admin site in prod, nginx proxy only passes api to this server.
     path("api/auth/", include("djoser.urls")),
     path("api/auth/", include("djoser.urls.jwt")),
     path("api/", include((router.urls, "tutor_center"))),

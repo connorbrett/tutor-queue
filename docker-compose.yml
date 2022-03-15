@@ -20,8 +20,8 @@ services:
       - server
   front-end:
     build: ./front-end
-    ports:
-     - 8080:80
+    expose:
+     - 80
 
 volumes:
   static_volume:

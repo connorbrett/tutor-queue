@@ -55,6 +55,7 @@ export class RequestFormComponent implements OnInit {
     delete data.otherCourse;
 
     this.requestService.create(data).subscribe((val) => {
+      localStorage.setItem(REQUEST_ID_LOCALSTORAGE, val._id);
       if (this.route.snapshot.queryParamMap.get('reload')) {
         this.router.navigate(['student', 'place'], {
           queryParams: {
@@ -62,7 +63,6 @@ export class RequestFormComponent implements OnInit {
           },
         });
       } else {
-        localStorage.setItem(REQUEST_ID_LOCALSTORAGE, val._id);
         this.router.navigate(['student', 'place']);
       }
     });

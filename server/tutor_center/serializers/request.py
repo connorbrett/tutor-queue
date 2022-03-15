@@ -47,6 +47,7 @@ class TutoringRequestSerializer(BaseSerializer):
     class Meta:
         model = TutoringRequest
         fields = [
+            "_id",
             "status",
             "description",
             "name",
@@ -94,4 +95,4 @@ class TutoringRequestAssignSerializer(BaseSerializer):
 
     class Meta:
         model = TutoringRequest
-        fields = ["status", "tutor"]
+        fields = ["_id", "status", "tutor"]
