@@ -40,6 +40,7 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "tutorqueue.cs.arizona.edu",
+    "10.192.149.102",
 ]
 
 # SECURE_SSL_REDIRECT = not env("DEBUG")  # Serve for HTTPS only.
