@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   server:
+    image: asennyey/tutor-center
     build:
       context: ./server
       dockerfile: Dockerfile
@@ -11,6 +12,7 @@ services:
     expose:
       - 8000
   nginx:
+    image: asennyey/proxy
     build: ./nginx
     volumes:
       - static_volume:/home/app/web/staticfiles
@@ -20,6 +22,7 @@ services:
       - server
       - front-end
   front-end:
+    image: asennyey/front-end
     build: ./front-end
     expose:
      - 80

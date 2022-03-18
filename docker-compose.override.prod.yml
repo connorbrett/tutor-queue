@@ -2,8 +2,8 @@ version: '3.8'
 
 services:
   nginx:
-    image: asennyey/proxy:latest
+    image: asennyey/proxy
   server:
-    image: asennyey/tutor-center:latest
+    image: asennyey/tutor-center
   front-end:
-    image: asennyey/front-end:latest
+    image: asennyey/front-end
