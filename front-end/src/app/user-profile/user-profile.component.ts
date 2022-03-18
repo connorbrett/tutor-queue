@@ -15,7 +15,7 @@ export class UserProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.userService.getUser().subscribe((user: User) => {
+    this.userService.getUser().subscribe((user: User | null) => {
       this.isLoading = false;
       if (!user) {
         this.router.navigate(['/unauthorized']);

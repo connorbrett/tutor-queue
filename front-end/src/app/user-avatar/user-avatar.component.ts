@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthenticationService } from '@services/authentication/authentication.service';
 import { User, UserService } from '@services/user/user.service';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user-avatar',
@@ -11,12 +12,21 @@ export class UserAvatarComponent implements OnInit {
   user: User | null = null;
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
     this.userService.refreshSubject.subscribe((user) => {
+      console.log(user);
       this.user = user;
     });
   }
 
   ngOnInit() {
-    this.userService.getUser().subscribe((user: User) => (this.user = user));
+    this.userService
+      .getUser()
+      .pipe(
+        tap((user) => {
+          console.log(user);
+          this.user = user;
+        })
+      )
+      .subscribe();
   }
 
   logout() {

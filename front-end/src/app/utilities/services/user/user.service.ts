@@ -1,7 +1,7 @@
 import { AuthResponse, AuthenticationService } from '../authentication/authentication.service';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, Subject } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { first, switchMap, tap } from 'rxjs/operators';
 import { BaseApiService } from '../base-api/base-api.service';
 import { Course } from '../course/course.service';
 import { BaseService } from '../base-service/base-service.service';
@@ -23,6 +23,7 @@ export interface User {
 })
 export class UserService extends BaseService<User> {
   refreshSubject: BehaviorSubject<User | null> = new BehaviorSubject<User | null>(null);
+  isUserCached = false;
 
   constructor(
     http: BaseApiService,
@@ -32,7 +33,7 @@ export class UserService extends BaseService<User> {
   ) {
     super(http, 'auth/users');
     bus.on(EventBus.User.get('logout')).subscribe(() => {
-      this.refreshSubject.next(null);
+      this.resetUser();
     });
   }
 
@@ -40,22 +41,26 @@ export class UserService extends BaseService<User> {
     return this.http.post<AuthResponse>('auth/jwt/create', { email, password }).pipe(
       tap((val) => {
         this.authService.setAuth(val);
-        this.getUser();
+        this.getUser().subscribe();
       })
     );
   }
 
-  @HttpRequestCache<UserService>(function () {
-    return {
-      storage: this.cache,
-      refreshSubject: this.refreshSubject,
-    };
-  })
-  getUser(): Observable<User> {
-    return this.http.get<User>('auth/users/me');
+  getUser(): Observable<User | null> {
+    if (this.isUserCached) return this.refreshSubject.asObservable().pipe(first());
+    return this.http.get<User>('auth/users/me').pipe(
+      tap(
+        (user: User) => {
+          this.isUserCached = true;
+          this.refreshSubject.next(user);
+        },
+        () => this.resetUser()
+      )
+    );
   }
 
   resetUser() {
+    this.isUserCached = false;
     this.refreshSubject.next(null);
   }
 

@@ -43,7 +43,7 @@ export class RequestService extends BaseService<TutoringRequest> {
 
   public getCurrent() {
     return this.userService.getUser().pipe(
-      switchMap((currentUser: User) => {
+      switchMap((currentUser: User | null) => {
         if (!currentUser) return throwError(new Error('Need to be logged in'));
         return this.get({
           status: 'INPROGRESS',
@@ -63,7 +63,7 @@ export class RequestService extends BaseService<TutoringRequest> {
 
   public assign(req: TutoringRequest) {
     return this.userService.getUser().pipe(
-      switchMap((currentUser: User) => {
+      switchMap((currentUser: User | null) => {
         if (!currentUser) return throwError(new Error('Need to be logged in'));
         return this.update(req._id, {
           status: 'INPROGRESS',
@@ -75,7 +75,7 @@ export class RequestService extends BaseService<TutoringRequest> {
 
   public markComplete(req: TutoringRequest) {
     return this.userService.getUser().pipe(
-      switchMap((currentUser: User) => {
+      switchMap((currentUser: User | null) => {
         if (!currentUser) return throwError(new Error('Need to be logged in'));
         return this.update(req._id, {
           status: 'COMPLETE',

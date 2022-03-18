@@ -25,7 +25,6 @@ from tutor_center.views.webpush import WebPushViewSet
 
 router = routers.SimpleRouter()
 router.register(r"requests", TutoringRequestViewSet)
-router.register(r"tutors", TutorViewSet)
 router.register(r"courses", CourseViewSet)
 router.register(r"webpush", WebPushViewSet)
 

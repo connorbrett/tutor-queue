@@ -43,7 +43,7 @@ export class NotificationService extends BaseService<User> {
     }
   ) {
     return this.userService.getUser().pipe(
-      switchMap((currentUser: User) => {
+      switchMap((currentUser: User | null) => {
         if (!currentUser) return throwError(new Error('user must be authenticated'));
         const browser = (navigator.userAgent.match(/(firefox|msie|chrome|safari|trident)/gi) || [])[0].toLowerCase();
         return this.http.post(this.baseEndpoint, {

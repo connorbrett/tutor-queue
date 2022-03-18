@@ -26,7 +26,6 @@ export function HttpRequestCache<T extends Record<string, any>>(optionsHandler: 
       const { storage, refreshSubject } = optionsHandler.call(this as T);
       const key = `${cacheKeyPrefix}_${JSON.stringify(args)}`;
       let observable = storage.getItem(key);
-      console.log(key);
 
       if (observable) {
         return observable;
@@ -34,15 +33,9 @@ export function HttpRequestCache<T extends Record<string, any>>(optionsHandler: 
 
       const res = originalMethod.apply(this, args);
 
-      refreshSubject.next(res);
-
       observable = of(res, refreshSubject.pipe(switchMap(() => res))).pipe(mergeAll(), shareReplay(1));
 
       storage.setItem(key, observable);
-
-      refreshSubject.subscribe((val) => {
-        if (!val) storage.deleteItem(key);
-      });
 
       return observable;
     };
