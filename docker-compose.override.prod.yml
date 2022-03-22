@@ -5,5 +5,6 @@ services:
     image: asennyey/proxy
   server:
     image: asennyey/tutor-center
+    env_file: server/.env
   front-end:
     image: asennyey/front-end

@@ -9,12 +9,14 @@ services:
     command: gunicorn tutor_center.wsgi --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --workers=2 --threads=4
     volumes:
       - static_volume:/home/app/web/staticfiles
+      - ./server/logs:/var/log
     expose:
       - 8000
   nginx:
     image: asennyey/proxy
     build: ./nginx
     volumes:
+      - ./nginx/logs:/var/log/nginx
       - static_volume:/home/app/web/staticfiles
     ports:
       - 8000:80
@@ -26,6 +28,12 @@ services:
     build: ./front-end
     expose:
      - 80
+  log-rotate:
+    image: blacklabelops/logrotate
+    volumes:
+      - ./nginx/logs:/var/log/nginx
+    environment:
+      - LOGS_DIRECTORIES=/var/log/nginx
 
 volumes:
   static_volume:
