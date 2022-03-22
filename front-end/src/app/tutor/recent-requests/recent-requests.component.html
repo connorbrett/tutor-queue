@@ -25,8 +25,8 @@
     <ng-template #requestDisplay>
       <ng-container *ngIf="requests.length; else empty">
         <tr *ngFor="let request of requests">
-          <td class="text-nowrap">{{ request.closed_time | date: 'M-d-yyyy H:mma' }}</td>
-          <td class="text-nowrap">{{ request.tutor.name }}</td>
+          <td class="text-nowrap">{{ request.created_time | date: 'M-d-yyyy H:mma' }}</td>
+          <td class="text-nowrap">{{ request.tutor?.name }}</td>
           <td>{{ request.email }}</td>
           <td class="text-nowrap">{{ request.name }}</td>
           <td>{{ request.requested_course.code }}</td>

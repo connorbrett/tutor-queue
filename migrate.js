@@ -17,7 +17,7 @@ async function main(){
 
     const fromClient = new MongoClient(fromUri);
 
-    const toUri = "mongodb+srv://admin:test123@dev.vbai1.mongodb.net/?retryWrites=true&w=majority";
+    const toUri = "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority";
     const toClient = new MongoClient(toUri);
 
     try {
@@ -69,7 +69,7 @@ async function main(){
                         created_time: new Date(),
                         modified_time: new Date(),
                         is_active: true,
-                        last_login: null,
+                        last_login: new Date(0),
                         is_coord: tutor.isCoord,
                         password: ''
                     }

@@ -55,9 +55,8 @@ export class RequestService extends BaseService<TutoringRequest> {
 
   public getRecent() {
     return this.get({
-      status: 'COMPLETE',
       limit: 10,
-      ordering: '-closed_time',
+      ordering: '-created_time',
     });
   }
 
