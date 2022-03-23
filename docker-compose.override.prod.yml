@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-  nginx:
+  proxy:
     image: asennyey/proxy
   server:
     image: asennyey/tutor-center

@@ -12,11 +12,11 @@ services:
       - ./server/logs:/var/log
     expose:
       - 8000
-  nginx:
+  proxy:
     image: asennyey/proxy
-    build: ./nginx
+    build: ./proxy
     volumes:
-      - ./nginx/logs:/var/log/nginx
+      - ./proxy/logs:/var/log/nginx
       - static_volume:/home/app/web/staticfiles
     ports:
       - 8000:80

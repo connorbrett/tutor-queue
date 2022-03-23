@@ -1,8 +1,8 @@
 version: '3.8'
 
 services:
-  nginx:
-    build: nginx
+  proxy:
+    build: proxy
     image: asennyey/proxy
   server:
     build: server
