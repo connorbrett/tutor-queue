@@ -64,8 +64,10 @@ INSTALLED_APPS = [
     "django_filters",
     "djoser",
     "drf_yasg",
-    "cacheops",
 ]
+
+if not DEBUG:  # only enable caching in PROD.
+    INSTALLED_APPS.append("cacheops")
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -257,6 +259,10 @@ SIMPLE_JWT = {
     "AUTH_HEADER_TYPES": ("JWT",),
 }
 
+BASE_URL = (
+    "http://localhost:4200" if DEBUG else "tutorqueue.cs.arizona.edu:8000"
+)  # edit when out of DEV.
+
 DJOSER = {
     "LOGIN_FIELD": "email",
     "SERIALIZERS": {
@@ -264,8 +270,8 @@ DJOSER = {
         "user_create": "tutor_center.serializers.TutorSerializer",
         "user": "tutor_center.serializers.TutorSerializerRead",
     },
-    "ACTIVATION_URL": "http://localhost:4200/activate/{uid}/{token}",
-    "PASSWORD_RESET_CONFIRM_URL": "http://localhost:4200/reset-password/{uid}/{token}",
+    "ACTIVATION_URL": f"{BASE_URL}/activate/{{uid}}/{{token}}",
+    "PASSWORD_RESET_CONFIRM_URL": f"{BASE_URL}/reset-password/{{uid}}/{{token}}",
     "EMAIL": {
         "activation": "tutor_center.emails.ActivationEmail",
         "confirmation": "tutor_center.emails.ConfirmationEmail",

@@ -43,12 +43,6 @@ class TutorSerializer(BaseSerializer):
         return user
 
 
-class WebPushSerializer(BaseSerializer):
-    class Meta:
-        model = Tutor
-        fields = ["push_subscription"]
-
-
 class CurrentUserSerializer(BaseSerializer):
     """
     Override of djoser serializer for /user/me

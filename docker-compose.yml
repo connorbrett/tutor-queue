@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   server:
+    restart: always
     image: asennyey/tutor-center
     build:
       context: ./server
@@ -13,6 +14,7 @@ services:
     expose:
       - 8000
   proxy:
+    restart: always
     image: asennyey/proxy
     build: ./proxy
     volumes:
@@ -24,17 +26,20 @@ services:
       - server
       - front-end
   front-end:
+    restart: always
     image: asennyey/front-end
     build: ./front-end
     expose:
      - 80
   log-rotate:
+    restart: always
     image: blacklabelops/logrotate
     volumes:
       - ./nginx/logs:/var/log/nginx
     environment:
       - LOGS_DIRECTORIES=/var/log/nginx
   redis:
+    restart: always
     image: redis:6.2-alpine3.15
     volumes:
       - redis_storage:/data

@@ -18,11 +18,13 @@ class DjongoQuerySetMixin(models.query.QuerySet):
 
         # related to https://github.com/nesdis/djongo/issues/465.
         # BooleanFields do not play well with Djongo.
+        new_kwargs = {}
         for key in kwargs:
             if type(kwargs[key]) == Boolean:
-                kwargs[key + "__in"] = [kwargs[key]]
-                del kwargs[key]
-        return super().get(**kwargs)
+                new_kwargs[key + "__in"] = [kwargs[key]]
+            else:
+                new_kwargs[key] = kwargs[key]
+        return super().get(**new_kwargs)
 
     def filter(self, **kwargs):
         for key in PK_KEYS:

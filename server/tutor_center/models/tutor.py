@@ -22,7 +22,6 @@ class Tutor(AbstractBaseUser):
     email = models.EmailField(unique=True)
     is_coord = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)
-    push_subscription = models.CharField(blank=True, max_length=2000)
 
     objects = TutorManager()
 

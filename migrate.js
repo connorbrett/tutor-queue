@@ -69,7 +69,7 @@ async function main(){
                         created_time: new Date(),
                         modified_time: new Date(),
                         is_active: true,
-                        last_login: new Date(0),
+                        last_login: null,
                         is_coord: tutor.isCoord,
                         password: ''
                     }
