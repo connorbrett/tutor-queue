@@ -260,7 +260,7 @@ SIMPLE_JWT = {
 }
 
 BASE_URL = (
-    "http://localhost:4200" if DEBUG else "tutorqueue.cs.arizona.edu:8000"
+    "http://localhost:4200" if DEBUG else "http://tutorqueue.cs.arizona.edu:8000"
 )  # edit when out of DEV.
 
 DJOSER = {
