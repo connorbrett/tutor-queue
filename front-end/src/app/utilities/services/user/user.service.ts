@@ -61,6 +61,7 @@ export class UserService extends BaseService<User> {
 
   resetUser() {
     this.isUserCached = false;
+    this.authService.setAuth(null);
     this.refreshSubject.next(null);
   }
 
