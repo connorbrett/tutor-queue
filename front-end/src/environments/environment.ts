@@ -5,6 +5,8 @@
 export const environment = {
   production: false,
   apiHost: 'http://localhost:8000/api/',
+  reloadTime: 60000,
+  vapidKey: 'BE3N_f3KYhVJWpuxTHyBOdRZ0wgHYaHfVJNARFgl-bwFmJzx9msshNsVIwumz-RYttPyp5euaIgd3yXEtgMeZBU',
 };
 
 /*

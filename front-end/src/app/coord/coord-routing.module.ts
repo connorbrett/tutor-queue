@@ -5,6 +5,7 @@ import { CoordComponent } from './coord.component';
 import { CourseFormComponent } from './course-form/course-form.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { CreateTutorComponent } from './create-tutor/create-tutor.component';
+import { EditTutorComponent } from './edit-tutor/edit-tutor.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { TutorListComponent } from './tutor-list/tutor-list.component';
 
@@ -18,17 +19,20 @@ const routes: Routes = [
         component: ScheduleComponent,
         data: {
           title: 'Schedule',
+          showTitle: false,
         },
       },
       {
         path: 'tutors',
         children: [
           { path: '', component: TutorListComponent },
+          { path: ':id', children: [{ path: 'edit', component: EditTutorComponent }] },
           { path: 'create', component: CreateTutorComponent },
           { path: 'bulk', component: BulkCreateTutorComponent },
         ],
         data: {
           title: 'Tutors',
+          showTitle: false,
         },
       },
       {
@@ -39,6 +43,7 @@ const routes: Routes = [
         ],
         data: {
           title: 'Courses',
+          showTitle: false,
         },
       },
       { path: '', redirectTo: '/coord/tutors', pathMatch: 'full' },
@@ -50,4 +55,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class CoordRoutingModule { }
+export class CoordRoutingModule {}

@@ -12,7 +12,6 @@ export class UserAvatarComponent implements OnInit {
   user: User | null = null;
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
     this.userService.refreshSubject.subscribe((user) => {
-      console.log(user);
       this.user = user;
     });
   }
@@ -22,7 +21,6 @@ export class UserAvatarComponent implements OnInit {
       .getUser()
       .pipe(
         tap((user) => {
-          console.log(user);
           this.user = user;
         })
       )

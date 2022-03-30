@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NgEventBus } from 'ng-event-bus';
 import { RequestService, REQUEST_ID_LOCALSTORAGE, TutoringRequest } from '@services/request/request.service';
-import { RELOAD_TIME } from '@utilities/const';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-student-queue',
@@ -16,11 +16,13 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
 
   reloadTimer = -1;
 
-  constructor(private requestService: RequestService) {}
+  constructor(private requestService: RequestService, private ngZone: NgZone) {}
 
   ngOnInit(): void {
     this.loadQueue();
-    this.reloadTimer = window.setInterval(() => this.loadQueue(), RELOAD_TIME);
+    this.reloadTimer = this.ngZone.runOutsideAngular(() =>
+      window.setInterval(() => this.loadQueue(), environment.reloadTime)
+    );
   }
 
   ngOnDestroy(): void {
@@ -30,10 +32,12 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
   loadQueue() {
     this.isLoading = true;
     this.requestService.getQueue().subscribe((queue) => {
-      this.queue = queue.results;
-      const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
-      if (requestId) this.currentRequest = this.queue.findIndex((val) => val._id === requestId);
-      this.isLoading = false;
+      this.ngZone.run(() => {
+        this.queue = queue.results;
+        const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
+        if (requestId) this.currentRequest = this.queue.findIndex((val) => val._id === requestId);
+        this.isLoading = false;
+      });
     });
   }
 }

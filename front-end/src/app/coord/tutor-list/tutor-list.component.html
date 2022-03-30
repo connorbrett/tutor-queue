@@ -1,4 +1,7 @@
-<a [routerLink]="['create']" class="btn btn-default text-sm float-right">Create a Tutor</a>
+<h3>
+  Tutors
+  <a [routerLink]="['create']" class="btn btn-default text-sm float-right">Create a Tutor</a>
+</h3>
 <p class="text-muted">This list shows all tutors in the database.</p>
 <table class="table table-striped table-responsive">
   <thead>
@@ -26,7 +29,7 @@
           <td class="text-nowrap">{{ tutor.name }}</td>
           <td>{{ getCoursesString(tutor.courses) }}</td>
           <td>
-            <a class="btn btn-primary" [routerLink]="['edit', tutor._id]">Edit</a>
+            <button class="btn btn-primary" (click)="edit(tutor)">Edit</button>
             <button class="btn btn-primary" (click)="resetPassword(tutor.email)">Reset Password</button>
           </td>
         </tr>

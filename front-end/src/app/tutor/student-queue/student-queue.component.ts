@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { NgEventBus } from 'ng-event-bus';
 import {
   RequestService,
@@ -6,7 +6,7 @@ import {
   REQUEST_UPDATE_EVENT,
   TutoringRequest,
 } from '@services/request/request.service';
-import { RELOAD_TIME } from '@utilities/const';
+import { environment } from '@environments/environment';
 
 @Component({
   selector: 'app-student-queue',
@@ -21,7 +21,7 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
 
   firstLoad = true;
 
-  constructor(private requestService: RequestService, private bus: NgEventBus) {
+  constructor(private requestService: RequestService, private bus: NgEventBus, private ngZone: NgZone) {
     bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
       this.loadQueue();
     });
@@ -34,7 +34,7 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.loadQueue();
-    this.reloadTimer = window.setInterval(() => this.loadQueue(), RELOAD_TIME);
+    this.reloadTimer = this.ngZone.run(() => window.setInterval(() => this.loadQueue(), environment.reloadTime));
 
     this.firstLoad = false;
   }
@@ -58,11 +58,13 @@ export class StudentQueueComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     const flag = this.firstLoad;
     this.requestService.getQueue().subscribe((queue) => {
-      if (!flag && queue.results.some((item) => !this.queue.find((e) => e._id === item._id))) {
-        this.beep();
-      }
-      this.queue = queue.results;
-      this.isLoading = false;
+      this.ngZone.run(() => {
+        if (!flag && queue.results.some((item) => !this.queue.find((e) => e._id === item._id))) {
+          this.beep();
+        }
+        this.queue = queue.results;
+        this.isLoading = false;
+      });
     });
   }
 }

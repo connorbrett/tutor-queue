@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
+import { environment } from '@environments/environment';
 import { BaseApiService } from '@services/base-api/base-api.service';
 import { BaseService } from '@services/base-service/base-service.service';
 import { User, UserService } from '@services/user/user.service';
-import { VAPID_PUBLIC_KEY } from '@utilities/const';
 import { throwError } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 
@@ -20,7 +20,7 @@ export class NotificationService extends BaseService<User> {
         this.userService.getUser().subscribe(() => {
           this.swPush
             .requestSubscription({
-              serverPublicKey: VAPID_PUBLIC_KEY,
+              serverPublicKey: environment.vapidKey,
             })
             .then((sub) => {
               this.addPushSubscriber(sub).subscribe();

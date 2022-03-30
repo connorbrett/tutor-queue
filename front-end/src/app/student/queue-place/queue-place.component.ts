@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, NgZone, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '@environments/environment';
 import {
   RequestService,
   REQUEST_ID_LOCALSTORAGE,
@@ -7,7 +8,6 @@ import {
   TutoringRequest,
 } from '@services/request/request.service';
 import { NgEventBus } from 'ng-event-bus';
-import { RELOAD_TIME } from '@utilities/const';
 
 @Component({
   selector: 'app-queue-place',
@@ -23,7 +23,8 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
     private requestService: RequestService,
     private activatedRoute: ActivatedRoute,
     private bus: NgEventBus,
-    private router: Router
+    private router: Router,
+    private ngZone: NgZone
   ) {
     bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
       const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
@@ -46,7 +47,9 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
           10000
         );
       } else {
-        this.reloadTimer = window.setInterval(() => this.getPlaceInQueue(requestId), RELOAD_TIME);
+        this.reloadTimer = this.ngZone.runOutsideAngular(() =>
+          window.setInterval(() => this.getPlaceInQueue(requestId), environment.reloadTime)
+        );
       }
     }
   }
@@ -58,9 +61,11 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
   getPlaceInQueue(id: string) {
     this.isLoading = true;
     this.requestService.getQueue().subscribe((queue) => {
-      this.queue = queue.results;
-      this.place = this.queue.findIndex((e) => e._id === id);
-      this.isLoading = false;
+      this.ngZone.run(() => {
+        this.queue = queue.results;
+        this.place = this.queue.findIndex((e) => e._id === id);
+        this.isLoading = false;
+      });
     });
   }
 }

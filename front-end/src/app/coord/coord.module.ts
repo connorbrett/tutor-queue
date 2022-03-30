@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.component';
 import { CourseFormComponent } from './course-form/course-form.component';
 import { CourseListComponent } from './course-list/course-list.component';
+import { EditTutorComponent } from './edit-tutor/edit-tutor.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { CourseListComponent } from './course-list/course-list.component';
     BulkCreateTutorComponent,
     CourseFormComponent,
     CourseListComponent,
+    EditTutorComponent,
   ],
   imports: [CommonModule, UtilitiesModule, ReactiveFormsModule, CoordRoutingModule],
 })

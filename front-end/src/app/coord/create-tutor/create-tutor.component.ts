@@ -52,6 +52,10 @@ export class CreateTutorComponent implements OnInit {
     this.wasValidated = true;
     if (!this.requestForm.valid) return;
 
+    this.requestForm.value.courses = (this.requestForm.value.courses as string[]).concat(
+      ...this.courses.filter((e) => e.code.match(LOWER_LEVEL_CSC_CLASSES)).map((e) => e._id)
+    );
+
     this.userService.create(this.requestForm.value).subscribe({
       next: (val) => {
         this.router.navigate(['coord', 'tutors']);

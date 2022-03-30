@@ -14,6 +14,21 @@ class TutorSerializerRead(BaseSerializer):
         model = Tutor
         fields = ["_id", "name", "email", "courses", "is_coord"]
 
+    def __init__(self, *args, **kwargs):
+        super(TutorSerializerRead, self).__init__(*args, **kwargs)
+
+        try:
+            if self.context["request"].method in ["POST", "PUT", "PATCH"]:
+                self.fields["courses"] = serializers.PrimaryKeyRelatedField(
+                    many=True,
+                    required=True,
+                    allow_null=False,
+                    pk_field=ObjectIdField(),
+                    queryset=Course.objects.all(),
+                )
+        except KeyError:
+            pass
+
 
 class TutorSerializer(BaseSerializer):
     # if you want to return _id, you need to have the following line.
