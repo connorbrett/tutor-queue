@@ -3,6 +3,9 @@ import { AuthenticationService } from '@services/authentication/authentication.s
 import { User, UserService } from '@services/user/user.service';
 import { tap } from 'rxjs/operators';
 
+/**
+ * User icon/Login Button in header.
+ */
 @Component({
   selector: 'app-user-avatar',
   templateUrl: './user-avatar.component.html',
@@ -10,13 +13,22 @@ import { tap } from 'rxjs/operators';
 })
 export class UserAvatarComponent implements OnInit {
   user: User | null = null;
+
+  /**
+   *
+   * @param userService
+   * @param authenticationService
+   */
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
     this.userService.refreshSubject.subscribe((user) => {
       this.user = user;
     });
   }
 
-  ngOnInit() {
+  /**
+   * Get the current user on startup.
+   */
+  ngOnInit(): void {
     this.userService
       .getUser()
       .pipe(
@@ -27,7 +39,10 @@ export class UserAvatarComponent implements OnInit {
       .subscribe();
   }
 
-  logout() {
-    return this.authenticationService.logout();
+  /**
+   * Logout of the application.
+   */
+  logout(): void {
+    this.authenticationService.logout();
   }
 }

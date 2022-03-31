@@ -30,6 +30,10 @@ const routes: Routes = [
   },
 ];
 
+/**
+ * Overall routing for the /tutor/ pages.
+ *
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

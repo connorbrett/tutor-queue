@@ -9,6 +9,9 @@ import {
 } from '@services/request/request.service';
 import { NgEventBus } from 'ng-event-bus';
 
+/**
+ * Component to show the student's current place in the queue.
+ */
 @Component({
   selector: 'app-queue-place',
   templateUrl: './queue-place.component.html',
@@ -19,6 +22,15 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
   place = -1;
   isLoading = false;
   reloadTimer = -1;
+
+  /**
+   *
+   * @param requestService
+   * @param activatedRoute
+   * @param bus
+   * @param router
+   * @param ngZone
+   */
   constructor(
     private requestService: RequestService,
     private activatedRoute: ActivatedRoute,
@@ -26,16 +38,21 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
     private router: Router,
     private ngZone: NgZone
   ) {
-    bus.on(REQUEST_QUEUE_EVENT).subscribe((data) => {
+    bus.on(REQUEST_QUEUE_EVENT).subscribe(() => {
       const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
       if (requestId) this.getPlaceInQueue(requestId);
     });
   }
 
+  /**
+   * On first load, get the current item from localStorage and reload every n seconds.
+   * Also handle rerouting if specific queryParam set.
+   */
   ngOnInit(): void {
     const requestId = localStorage.getItem(REQUEST_ID_LOCALSTORAGE);
     if (requestId) {
       this.getPlaceInQueue(requestId);
+      // Reroute if ?reload=true.
       if (this.activatedRoute.snapshot.queryParamMap.get('reload')) {
         setTimeout(
           () =>
@@ -54,11 +71,19 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * Remove the timer on component destroy.
+   */
   ngOnDestroy(): void {
     clearInterval(this.reloadTimer);
   }
 
-  getPlaceInQueue(id: string) {
+  /**
+   * Make API request to get current place in queue.
+   *
+   * @param {string} id Id of current request.
+   */
+  getPlaceInQueue(id: string): void {
     this.isLoading = true;
     this.requestService.getQueue().subscribe((queue) => {
       this.ngZone.run(() => {

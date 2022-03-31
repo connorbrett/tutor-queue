@@ -7,6 +7,12 @@ import { UserService } from '@services/user/user.service';
 
 const LOWER_LEVEL_CSC_CLASSES = /^CSC1/;
 
+/**
+ * Check to ensure that the control being validated has the same value as control with @param idOfOther.
+ *
+ * @param {string} idOfOther Id of the other control.
+ * @returns {ValidatorFn} Fn to return indication of validation state.
+ */
 export function verifySameAsValidator(idOfOther: string): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if (control.parent?.get(idOfOther)?.value !== control.value) {
@@ -16,6 +22,9 @@ export function verifySameAsValidator(idOfOther: string): ValidatorFn {
   };
 }
 
+/**
+ * Component to create a tutor.
+ */
 @Component({
   selector: 'app-create-tutor',
   templateUrl: './create-tutor.component.html',
@@ -36,6 +45,15 @@ export class CreateTutorComponent implements OnInit {
 
   error = '';
 
+  /**
+   * Initialize injected services.
+   *
+   * @param {FormBuilder} formBuilder FormBuilder inject.
+   * @param {UserService} userService User API service.
+   * @param {CourseService} courseService Course API service.
+   * @param {ActivatedRoute} route Current route.
+   * @param {Router} router Angular router.
+   */
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
@@ -44,51 +62,89 @@ export class CreateTutorComponent implements OnInit {
     private router: Router
   ) {}
 
+  /**
+   * Fetch courses on load.
+   */
   ngOnInit(): void {
     this.courseService.getAll().subscribe((courses) => (this.courses = courses.results));
   }
 
-  onSubmit() {
+  /**
+   * Called when the form is submitted, checks validation state and submits if valid.
+   *
+   */
+  onSubmit(): void {
     this.wasValidated = true;
-    if (!this.requestForm.valid) return;
+    if (this.requestForm.valid) {
+      this.requestForm.value.courses = (this.requestForm.value.courses as string[]).concat(
+        ...this.courses.filter((e) => e.code.match(LOWER_LEVEL_CSC_CLASSES)).map((e) => e._id)
+      );
 
-    this.requestForm.value.courses = (this.requestForm.value.courses as string[]).concat(
-      ...this.courses.filter((e) => e.code.match(LOWER_LEVEL_CSC_CLASSES)).map((e) => e._id)
-    );
-
-    this.userService.create(this.requestForm.value).subscribe({
-      next: (val) => {
-        this.router.navigate(['coord', 'tutors']);
-      },
-      error: (err: Error) => {
-        if (err instanceof HttpErrorResponse) {
-          this.error = JSON.stringify(err.error);
-        }
-      },
-    });
+      this.userService.create(this.requestForm.value).subscribe({
+        next: (val) => {
+          this.router.navigate(['coord', 'tutors']);
+        },
+        error: (err: Error) => {
+          if (err instanceof HttpErrorResponse) {
+            this.error = JSON.stringify(err.error);
+          }
+        },
+      });
+    }
   }
 
+  /**
+   * Is the passed in course a lower level, required course for tutors?
+   *
+   * @param {Course} course Course to check.
+   * @returns {boolean} Indicate if course is required.
+   */
   isLowerLevel(course: Course): boolean {
     return !!course.code.match(LOWER_LEVEL_CSC_CLASSES);
   }
 
-  get name() {
+  /**
+   * Get the form control element 'name'.
+   *
+   * @returns {AbstractControl | null } Form control element that matches name.
+   */
+  get name(): AbstractControl | null {
     return this.requestForm.get('name');
   }
 
-  get email() {
+  /**
+   * Get the form control element 'name'.
+   *
+   * @returns {AbstractControl | null } Form control element that matches name.
+   */
+  get email(): AbstractControl | null {
     return this.requestForm.get('email');
   }
 
-  get course() {
+  /**
+   * Get the form control element 'course'.
+   *
+   * @returns {AbstractControl | null } Form control element that matches course.
+   */
+  get course(): AbstractControl | null {
     return this.requestForm.get('courses');
   }
 
-  get password() {
+  /**
+   * Get the form control element 'password'.
+   *
+   * @returns {AbstractControl | null } Form control element that matches password.
+   */
+  get password(): AbstractControl | null {
     return this.requestForm.get('password');
   }
 
-  get re_password() {
+  /**
+   * Get the form control element 're_password'.
+   *
+   * @returns {AbstractControl | null } Form control element that matches re_password.
+   */
+  get re_password(): AbstractControl | null {
     return this.requestForm.get('re_password');
   }
 }

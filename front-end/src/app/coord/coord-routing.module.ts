@@ -51,6 +51,9 @@ const routes: Routes = [
   },
 ];
 
+/**
+ * Routing mechanism for coordinators.
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

@@ -4,6 +4,9 @@ import { Course } from '@services/course/course.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@services/toast/toast.service';
 
+/**
+ * Renders a list of all the current tutors.
+ */
 @Component({
   selector: 'app-tutor-list',
   templateUrl: './tutor-list.component.html',
@@ -13,6 +16,13 @@ export class TutorListComponent implements OnInit {
   tutors: User[] = [];
   isLoading = true;
 
+  /**
+   *
+   * @param userService
+   * @param router
+   * @param toastService
+   * @param activatedRoute
+   */
   constructor(
     private userService: UserService,
     private router: Router,
@@ -20,6 +30,7 @@ export class TutorListComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {}
 
+  /** Get a list of all users. */
   ngOnInit(): void {
     this.userService.getAll().subscribe((tutors) => {
       this.tutors = tutors.results;
@@ -27,8 +38,13 @@ export class TutorListComponent implements OnInit {
     });
   }
 
-  resetPassword(email: string) {
-    return this.userService.resetPassword(email).subscribe((success) => {
+  /**
+   * Begin the reset password flow for a specific passed in email.
+   *
+   * @param {string} email Email of user to reset password.
+   */
+  resetPassword(email: string): void {
+    this.userService.resetPassword(email).subscribe(() => {
       this.toastService.showSuccess({
         header: 'Email Sent!',
         content: `${email} reset email sent!`,
@@ -36,7 +52,12 @@ export class TutorListComponent implements OnInit {
     });
   }
 
-  edit(tutor: User) {
+  /**
+   * Navigate user to the correct page to edit the passed in tutor.
+   *
+   * @param {User} tutor Tutor to edit.
+   */
+  edit(tutor: User): void {
     this.router.navigate([tutor._id, 'edit'], {
       relativeTo: this.activatedRoute,
       state: {
@@ -45,7 +66,13 @@ export class TutorListComponent implements OnInit {
     });
   }
 
-  getCoursesString(courses: Course[]) {
+  /**
+   * Convert the list of course objects to a readable list.
+   *
+   * @param {Course[]} courses List of courses to be readable.
+   * @returns {string} Readable string of courses.
+   */
+  getCoursesString(courses: Course[]): string {
     return courses
       .map((e) => e.code)
       .sort()
