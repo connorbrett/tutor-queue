@@ -30,17 +30,11 @@ export class UserService extends BaseService<User> {
 
   /**
    *
-   * @param http
-   * @param authService
-   * @param bus
-   * @param cache
+   * @param http Base Http, passed to super class.
+   * @param authService Service to abstract authentication methods.
+   * @param bus Event bus.
    */
-  constructor(
-    http: BaseApiService,
-    private authService: AuthenticationService,
-    private bus: NgEventBus,
-    private cache: CacheService
-  ) {
+  constructor(http: BaseApiService, private authService: AuthenticationService, private bus: NgEventBus) {
     super(http, 'auth/users');
     bus.on(EventBus.User.get('logout')).subscribe(() => {
       this.resetUser();

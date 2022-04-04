@@ -1,4 +1,8 @@
-<a [routerLink]="['create']" class="btn btn-default text-sm float-right">Create a Course</a>
+<h4>
+  Edit Course
+  <a [routerLink]="['create']" class="btn btn-default text-sm float-right">Create a Course</a>
+</h4>
+
 <p class="text-muted">This list shows all courses in the database.</p>
 <table class="table table-striped table-responsive">
   <thead>
@@ -24,8 +28,10 @@
           <td>{{ course.code }}</td>
           <td>{{ course.name }}</td>
           <td>
-            <button class="btn btn-primary" (click)="editItem(course)">Edit</button>
-            <a class="btn btn-default" [routerLink]="['edit', course._id]">Delete</a>
+            <div class="btn-group btn-group-md" role="group">
+              <button class="btn btn-primary mr-2" (click)="editItem(course)">Edit</button>
+              <button class="btn btn-default" (click)="deleteItem(course)">Delete</button>
+            </div>
           </td>
         </tr>
       </ng-container>

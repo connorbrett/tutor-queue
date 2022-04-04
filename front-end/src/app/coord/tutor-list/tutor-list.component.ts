@@ -18,10 +18,10 @@ export class TutorListComponent implements OnInit {
 
   /**
    *
-   * @param userService
-   * @param router
-   * @param toastService
-   * @param activatedRoute
+   * @param userService Interact with /users endpoint.
+   * @param router Injected router.
+   * @param toastService Service to display toast (@todo).
+   * @param activatedRoute Injected current route.
    */
   constructor(
     private userService: UserService,

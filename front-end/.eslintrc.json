@@ -31,6 +31,7 @@
             }
           }
         ],
+        "jsdoc/require-param-type": "off",
         "@angular-eslint/directive-selector": [
           "error",
           {

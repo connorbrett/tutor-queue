@@ -1,15 +1,18 @@
 {
   "folders": [
-	{
-		"path": "front-end"
-	},
-	{
-		"path": "server"
-	},
-	{
-		"path": "nginx"
-	}
-],
+    {
+      "path": "front-end"
+    },
+    {
+      "path": "server"
+    },
+    {
+      "path": "nginx"
+    },
+    {
+      "path": "proxy"
+    }
+  ],
   "settings": {
     "editor.formatOnSave": true
   }

@@ -1,10 +1,11 @@
 from rest_framework import serializers
 from tutor_center.models import TutoringRequest, Course
 from tutor_center.fields import ObjectIdField
-from tutor_center.models.request import Tutor
+from tutor_center.models.request import Status, Tutor
 from tutor_center.serializers.base import BaseSerializer
 from tutor_center.serializers.course import CourseSerializer
 from tutor_center.serializers.tutor import TutorSerializer
+from bson.objectid import ObjectId
 
 
 class TutoringRequestSerializerRead(BaseSerializer):
@@ -43,6 +44,28 @@ class TutoringRequestSerializer(BaseSerializer):
         pk_field=ObjectIdField(),
         queryset=Course.objects.all(),
     )
+
+    def validate(self, data):
+        """
+        Check that the start is before the stop.
+        """
+        user = self.context["request"].user
+        if "tutor" in data and self.instance is not None:
+            # skip validation for super users.
+            if not user.is_superuser:
+                if self.instance.tutor and self.instance.tutor._id != data["tutor"]._id:
+                    raise serializers.ValidationError(
+                        {"tutor": "request is already assigned."}
+                    )
+                current_reqs = TutoringRequest.objects.filter(
+                    tutor___id=data["tutor"]._id, status=Status.INPROGRESS.value
+                )
+                if current_reqs.count():
+                    raise serializers.ValidationError(
+                        {"tutor": "tutor already assigned to an item."}
+                    )
+
+        return super().validate(data)
 
     class Meta:
         model = TutoringRequest

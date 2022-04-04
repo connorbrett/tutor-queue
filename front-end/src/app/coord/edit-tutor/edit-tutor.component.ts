@@ -4,7 +4,6 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from
 import { ActivatedRoute, Router } from '@angular/router';
 import { Course, CourseService } from '@services/course/course.service';
 import { User, UserService } from '@services/user/user.service';
-import { map } from 'rxjs/operators';
 
 const LOWER_LEVEL_CSC_CLASSES = /^CSC1/;
 
@@ -53,17 +52,17 @@ export class EditTutorComponent implements OnInit {
     this.user = this.router.getCurrentNavigation()?.extras?.state?.user;
     if (!this.user) {
       this.loading = true;
-      this.userService
-        .getAll()
-        .pipe(map((e) => e.results))
-        .subscribe((users) => {
-          this.user = users.find((e) => e._id === this.route.snapshot.params.id) || null;
-          console.log(this.user);
-          if (!this.user) {
-            throw new Error('User not found.');
-          }
+      this.userService.getDetail(this.route.snapshot.params.id).subscribe(
+        (user) => {
+          this.user = user;
+          this.error = '';
           this.loading = false;
-        });
+        },
+        (err) => {
+          this.error = err.message;
+          this.loading = false;
+        }
+      );
     }
   }
 

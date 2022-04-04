@@ -81,7 +81,7 @@ export class CreateTutorComponent implements OnInit {
       );
 
       this.userService.create(this.requestForm.value).subscribe({
-        next: (val) => {
+        next: () => {
           this.router.navigate(['coord', 'tutors']);
         },
         error: (err: Error) => {

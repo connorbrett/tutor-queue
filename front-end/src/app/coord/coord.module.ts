@@ -13,7 +13,11 @@ import { BulkCreateTutorComponent } from './bulk-create-tutor/bulk-create-tutor.
 import { CourseFormComponent } from './course-form/course-form.component';
 import { CourseListComponent } from './course-list/course-list.component';
 import { EditTutorComponent } from './edit-tutor/edit-tutor.component';
+import { EditCourseComponent } from './edit-course/edit-course.component';
 
+/**
+ *
+ */
 @NgModule({
   declarations: [
     CoordComponent,
@@ -25,6 +29,7 @@ import { EditTutorComponent } from './edit-tutor/edit-tutor.component';
     CourseFormComponent,
     CourseListComponent,
     EditTutorComponent,
+    EditCourseComponent,
   ],
   imports: [CommonModule, UtilitiesModule, ReactiveFormsModule, CoordRoutingModule],
 })

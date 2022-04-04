@@ -16,8 +16,8 @@ export class UserAvatarComponent implements OnInit {
 
   /**
    *
-   * @param userService
-   * @param authenticationService
+   * @param userService Service to interact with /users.
+   * @param authenticationService Service to handle current auth status.
    */
   constructor(private userService: UserService, private authenticationService: AuthenticationService) {
     this.userService.refreshSubject.subscribe((user) => {

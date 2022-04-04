@@ -27,20 +27,34 @@ export interface TutoringRequest {
   created_time: string;
 }
 
+/**
+ *
+ */
 @Injectable({
   providedIn: 'root',
 })
 export class RequestService extends BaseService<TutoringRequest> {
+  /**
+   *
+   * @param http
+   * @param userService
+   */
   constructor(http: BaseApiService, private userService: UserService) {
     super(http, 'requests');
   }
 
+  /**
+   *
+   */
   public getQueue() {
     return this.get({
       status: 'WAITING',
     });
   }
 
+  /**
+   *
+   */
   public getCurrent() {
     return this.userService.getUser().pipe(
       switchMap((currentUser: User | null) => {
@@ -53,6 +67,9 @@ export class RequestService extends BaseService<TutoringRequest> {
     );
   }
 
+  /**
+   *
+   */
   public getRecent() {
     return this.get({
       limit: 10,
@@ -60,6 +77,10 @@ export class RequestService extends BaseService<TutoringRequest> {
     });
   }
 
+  /**
+   *
+   * @param req
+   */
   public assign(req: TutoringRequest) {
     return this.userService.getUser().pipe(
       switchMap((currentUser: User | null) => {
@@ -72,6 +93,10 @@ export class RequestService extends BaseService<TutoringRequest> {
     );
   }
 
+  /**
+   *
+   * @param req
+   */
   public markComplete(req: TutoringRequest) {
     return this.userService.getUser().pipe(
       switchMap((currentUser: User | null) => {
@@ -79,7 +104,6 @@ export class RequestService extends BaseService<TutoringRequest> {
         return this.update(req._id, {
           status: 'COMPLETE',
           completed: new Date(),
-          tutor: currentUser._id,
         });
       })
     );

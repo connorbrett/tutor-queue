@@ -2,7 +2,6 @@ from django.contrib.auth.base_user import AbstractBaseUser
 from djongo import models
 from tutor_center.models.course import Course
 from tutor_center.managers.tutor import TutorManager
-from django.contrib.postgres.fields import ArrayField
 
 
 class Tutor(AbstractBaseUser):
