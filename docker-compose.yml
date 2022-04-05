@@ -21,7 +21,7 @@ services:
       - ./proxy/logs:/var/log/nginx
       - static_volume:/home/app/web/staticfiles
     ports:
-      - 8000:80
+      - 3000:80
     depends_on:
       - server
       - front-end
