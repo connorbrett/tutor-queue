@@ -307,11 +307,10 @@ SWAGGER_SETTINGS = {
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_USERNAME")
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "tutorcenter@cs.arizona.edu"
+DEFAULT_FROM_EMAIL = "tutorcoords@cs.arizona.edu"
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 
 AUTH_USER_MODEL = "tutor_center.Tutor"
