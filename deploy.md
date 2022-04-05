@@ -1,39 +1,43 @@
 # Deployment Guide
 
-## SSH into Lectura
+## Pre-steps
+Ensure you have access to lectura and the tutorqueue-vm.
 
-`ssh <your netID here>@lectura.cs.arizona.edu`
+You can test this by running
+
+`ssh <your netID>@lectura.cs.arizona.edu`
 
 For help with lectura, visit the CS lab [help desk](https://helpdesk.cs.arizona.edu/)
 
-## SSH into the tutorqueue-vm
+And then running
 
-`ssh <you netID here>@tutorqueue-vm.cs.arizona.edu`
+`ssh <your netID>@tutorqueue-vm.cs.arizona.edu`
 
 If you have access issues with the tutorqueue-vm, email the [CS Lab (ericcollins@cs.arizona.edu)](mailto:ericcollins@cs.arizona.edu)
 
-##  cd into tutorqueue directory
+You may need to give yourself access to the tutor-queue folder on the VM. Run `sudo usermod -a -G tutor-admins $USER`.
 
-`cd /var/www/tutorqueue/tutor-queue`
-
-### Note:
-
-*If you get an access error, try prefxing your command with `sudo`.*
-
-*Example: if the `git pull origin main` doesn't work, try `sudo git pull origin main`*
-
+You will also need to setup an ssh key between the VM and github, look through https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent.
 
 ## Deploying the app
+1. `ssh <your username>@lectura.cs.arizona.edu`, this will log you into lectura.
+2. `ssh <your username>@tutorqueue-vm.cs.arizona.edu`, this will log you into the vm.
+3. `./build.prod.sh`, this will deploy all of the necessary code and changes.
 
-Pull from git in order to get the most up to date version of the site
+# FAQs
+### Access Error in Linux
+Try prefixing commands with sudo, your user probably doesn't have permission to access what you were trying to access, but root does (most of the time).
+For example: `git pull` would become `sudo git pull`.
+*_Caveat_: the /home/ folder is mounted from lectura and inaccessible.
 
-`sudo git pull origin main`
-
+## Git Authentication Error
 Ask one of the tutor coords for access to the tutor-queue repo and following [this](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) guide to use Github's personal access tokens to log in from the command line.
 
-Coming soon...
+## Docker Error
+Ensure the docker daemon is running with `sudo top` or `sudo systemctl status docker`.
 
-# Using PM2
-## Pre-steps
-You may need to give yourself access to the tutor-queue folder on the VM. Run `sudo usermod -a -G tutor-admins $USER`
-You will also need to setup an ssh between the VM and github, look through https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent.
+## Location of Logs
+Logs will be stored in each folder of the repository.
+- For overall reverse proxy logs (to check for access stats and locations), go to `proxy/logs`, there will be an `access.log` file and an `error.log` file.
+- A similar pattern is in place for the `server` folder.
+- The front-end does not collect logs as any logs would be redundant to the reverse proxy logs.
