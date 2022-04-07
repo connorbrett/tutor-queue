@@ -70,7 +70,7 @@ export class EditCourseComponent {
     if (this.requestForm.valid) {
       console.log(this.requestForm.value);
       if (this.course) {
-        this.userService.update(this.course?._id, this.requestForm.value).subscribe({
+        this.courseService.update(this.course?._id, this.requestForm.value).subscribe({
           next: () => {
             this.router.navigate(['coord', 'courses']);
           },
