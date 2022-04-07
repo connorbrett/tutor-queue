@@ -41,3 +41,6 @@ Logs will be stored in each folder of the repository.
 - For overall reverse proxy logs (to check for access stats and locations), go to `proxy/logs`, there will be an `access.log` file and an `error.log` file.
 - A similar pattern is in place for the `server` folder.
 - The front-end does not collect logs as any logs would be redundant to the reverse proxy logs.
+
+## Reset the Cache
+Run `sudo docker exec -it tutor-center_redis_1 redis-cli`, once a promp opens, run `flushall`. This will reset the cache. Type `quit` to exit the prompt.
