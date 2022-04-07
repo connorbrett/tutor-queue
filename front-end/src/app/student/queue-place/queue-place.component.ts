@@ -61,7 +61,7 @@ export class QueuePlaceComponent implements OnInit, OnDestroy {
                 reload: true,
               },
             }),
-          10000
+          5000
         );
       } else {
         this.reloadTimer = this.ngZone.runOutsideAngular(() =>

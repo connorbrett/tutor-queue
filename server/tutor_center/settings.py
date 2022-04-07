@@ -310,6 +310,7 @@ EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_USERNAME")
 EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = "tutorcoords@cs.arizona.edu"
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 
@@ -325,11 +326,11 @@ CACHEOPS_REDIS = {
 }
 
 CACHEOPS = {
-    # Automatically cache any User.objects.get() calls for 15 minutes
+    # Automatically cache any User.objects.get() calls for 2 hours.
     # This also includes .first() and .last() calls,
     # as well as request.user or post.author access,
     # where Post.author is a foreign key to auth.User
-    "auth.user": {"ops": "get", "timeout": 60 * 15},
+    "auth.user": {"ops": "get", "timeout": 60 * 120},
     # Automatically cache all gets and queryset fetches
     # to other django.contrib.auth models for an hour
     "auth.*": {"ops": {"fetch", "get"}, "timeout": 60 * 60},

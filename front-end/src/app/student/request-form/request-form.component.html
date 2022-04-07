@@ -41,7 +41,9 @@
       [ngClass]="{ 'is-valid': course?.valid }"
     >
       <option value="" selected disabled>No course selected</option>
-      <option *ngFor="let courseItem of courses" [value]="courseItem._id">{{ courseItem.code }}</option>
+      <option *ngFor="let courseItem of courses" [value]="courseItem._id">
+        {{ courseItem.code }}: {{ courseItem.name }}
+      </option>
       <!--<option value="Other">Other - please describe below</option>-->
     </select>
     <div class="invalid-feedback" *ngIf="course?.invalid && (course?.dirty || course?.touched)">

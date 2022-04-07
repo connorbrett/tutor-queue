@@ -13,6 +13,8 @@ services:
       - ./server/logs:/var/log
     expose:
       - 8000
+    depends_on:
+      - redis
   proxy:
     restart: always
     image: asennyey/proxy
@@ -21,7 +23,7 @@ services:
       - ./proxy/logs:/var/log/nginx
       - static_volume:/home/app/web/staticfiles
     ports:
-      - 3000:80
+      - 8000:80
     depends_on:
       - server
       - front-end
@@ -38,6 +40,8 @@ services:
       - ./nginx/logs:/var/log/nginx
     environment:
       - LOGS_DIRECTORIES=/var/log/nginx
+    depends_on:
+      - proxy
   redis:
     restart: always
     image: redis:6.2-alpine3.15

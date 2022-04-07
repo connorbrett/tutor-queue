@@ -1,7 +1,15 @@
 const {MongoClient} = require('mongodb');
 
+// Set these to the appropriate variables.
+const fromDbUsername = process.env.FROM_DB_USERNAME;
+const fromDbPassword = process.env.FROM_DB_PASSWORD;
+const toDbUsername = process.env.TO_DB_USERNAME;
+const toDbPassword = process.env.TO_DB_PASSWORD;
+
 const FROM_DB = 'tutorQueue';
 const TO_DB = 'tutorCenter';
+const fromUri = `mongodb+srv://${fromDbUsername}:${fromDbPassword}@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority`;
+const toUri = `mongodb+srv://${toDbUsername}:${toDbPassword}@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority`;
 
 async function getItems(client, dbName, collectionName){
     const items = await client.db(dbName).collection(collectionName).find({}).toArray();
@@ -13,11 +21,9 @@ async function main(){
      * Connection URI. Update <username>, <password>, and <your-cluster-url> to reflect your cluster.
      * See https://docs.mongodb.com/ecosystem/drivers/node/ for more details
      */
-    const fromUri = "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority";
 
     const fromClient = new MongoClient(fromUri);
 
-    const toUri = "mongodb+srv://tutorcoords:beardowntutorup@cluster0.qs95z.mongodb.net/?retryWrites=true&w=majority";
     const toClient = new MongoClient(toUri);
 
     try {

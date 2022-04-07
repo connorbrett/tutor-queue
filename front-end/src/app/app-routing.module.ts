@@ -22,6 +22,7 @@ const routes: Routes = [
   },
   {
     path: 'tutor',
+    canLoad: [AuthGuard],
     canActivate: [AuthGuard],
     canActivateChild: [AuthGuard],
     loadChildren: () => import('./tutor/tutor.module').then((m) => m.TutorModule),
@@ -29,9 +30,17 @@ const routes: Routes = [
   { path: 'student', loadChildren: () => import('./student/student.module').then((m) => m.StudentModule) },
   {
     path: 'coord',
+    canLoad: [AuthGuard, AdminAuthGuard],
     canActivate: [AuthGuard, AdminAuthGuard],
     canActivateChild: [AuthGuard, AdminAuthGuard],
     loadChildren: () => import('./coord/coord.module').then((m) => m.CoordModule),
+  },
+  {
+    /**
+     * This 'module' is a series of redirects accessible for the kiosk.
+     */
+    path: 'kiosk',
+    children: [{ path: 'request', redirectTo: '/student/request?reload=true' }],
   },
   {
     path: 'activate/:uid/:token',
@@ -90,6 +99,9 @@ const routes: Routes = [
   },
 ];
 
+/**
+ *
+ */
 @NgModule({
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
   imports: [
