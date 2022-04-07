@@ -46,11 +46,8 @@ class TutoringRequestSerializer(BaseSerializer):
     )
 
     def validate(self, data):
-        """
-        Check that the start is before the stop.
-        """
-        user = self.context["request"].user
         if "tutor" in data and self.instance is not None:
+            user = self.context["request"].user
             # skip validation for super users.
             if not user.is_superuser:
                 if self.instance.tutor and self.instance.tutor._id != data["tutor"]._id:
@@ -72,7 +69,6 @@ class TutoringRequestSerializer(BaseSerializer):
         fields = [
             "_id",
             "status",
-            "description",
             "name",
             "email",
             "requested_course",
@@ -91,8 +87,8 @@ class AnonTutoringRequestSerializer(BaseSerializer):
         queryset=Tutor.objects.all(),
     )
     requested_course_id = serializers.PrimaryKeyRelatedField(
-        required=True,
-        allow_null=False,
+        required=False,
+        allow_null=True,
         pk_field=ObjectIdField(),
         queryset=Course.objects.all(),
     )
