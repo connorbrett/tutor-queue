@@ -18,6 +18,7 @@ import environ, os
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False),
+    EMAIL_USE_TLS=(bool, False),
     interpolate=True,
 )
 
@@ -309,9 +310,9 @@ SWAGGER_SETTINGS = {
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_HOST = env("EMAIL_HOST")
 EMAIL_HOST_USER = env("EMAIL_USERNAME")
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "tutorcoords@cs.arizona.edu"
+EMAIL_PORT = env("EMAIL_PORT", default=25)
+EMAIL_USE_TLS = env("EMAIL_USE_TLS", default=False)
+DEFAULT_FROM_EMAIL = "Do Not Reply <tutorcoords@cs.arizona.edu>"
 EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
 
 AUTH_USER_MODEL = "tutor_center.Tutor"

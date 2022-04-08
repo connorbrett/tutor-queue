@@ -19,7 +19,7 @@
       <ng-container *ngIf="queue.length; else empty">
         <tr *ngFor="let queueItem of queue; let i = index" [class.font-weight-bold]="i === currentRequest">
           <td class="text-nowrap">{{ i + 1 }} <span *ngIf="i === currentRequest">(You)</span></td>
-          <td>{{ queueItem.requested_course.code }}</td>
+          <td>{{ queueItem.requested_course?.code }}</td>
         </tr>
       </ng-container>
 
