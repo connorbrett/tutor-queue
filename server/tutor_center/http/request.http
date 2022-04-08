@@ -12,12 +12,14 @@ PUT {{ baseURL }}/request/1
 
 ###
 # Create User
-POST {{ baseURL }}/request
+POST {{ baseURL }}/
 Content-Type: application/json
 
 {
+    "name": "Armi",
     "email": "example@email.com",
-    "password": "password"
+    "requested_course": "",
+    "description": "password"
 }
 
 ###

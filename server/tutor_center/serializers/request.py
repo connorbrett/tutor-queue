@@ -79,18 +79,32 @@ class TutoringRequestSerializer(BaseSerializer):
 
 
 class AnonTutoringRequestSerializer(BaseSerializer):
+    requested_course = serializers.PrimaryKeyRelatedField(
+        write_only=True,
+        allow_null=False,
+        pk_field=ObjectIdField(),
+        queryset=Course.objects.all(),
+    )
+
+    class Meta:
+        model = TutoringRequest
+        fields = [
+            "_id",
+            "name",
+            "email",
+            "requested_course",
+            "description",
+            "status",
+        ]
+
+
+class AnonTutoringRequestSerializerRead(BaseSerializer):
     _id = ObjectIdField(required=False, read_only=True)
     tutor = serializers.PrimaryKeyRelatedField(
         required=False,
         allow_null=True,
         pk_field=ObjectIdField(),
         queryset=Tutor.objects.all(),
-    )
-    requested_course_id = serializers.PrimaryKeyRelatedField(
-        required=False,
-        allow_null=True,
-        pk_field=ObjectIdField(),
-        queryset=Course.objects.all(),
     )
 
     requested_course = CourseSerializer(read_only=True)
@@ -101,7 +115,6 @@ class AnonTutoringRequestSerializer(BaseSerializer):
             "_id",
             "status",
             "description",
-            "requested_course_id",
             "requested_course",
             "description",
             "status",

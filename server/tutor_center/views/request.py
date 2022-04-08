@@ -2,6 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from tutor_center.serializers.request import (
+    AnonTutoringRequestSerializerRead,
     TutoringRequestSerializer,
     TutoringRequest,
     TutoringRequestAssignSerializer,
@@ -38,4 +39,6 @@ class TutoringRequestViewSet(viewsets.ModelViewSet, DjongoViewSetMixin):
                 return TutoringRequestSerializerRead
             return TutoringRequestSerializer
         else:
+            if self.request.method in SAFE_METHODS:
+                return AnonTutoringRequestSerializerRead
             return AnonTutoringRequestSerializer
