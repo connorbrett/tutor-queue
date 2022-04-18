@@ -112,22 +112,22 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console", "file"],
+            "handlers": ["console"],
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console", "error_file"],
+            "handlers": ["console"],
             "level": "ERROR",
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console", "file"],
+            "handlers": ["console"],
             "level": "DEBUG",
             "propagate": True,
         },
     },
     "root": {
-        "handlers": ["console", "file"],
+        "handlers": ["console"],
         "level": "DEBUG",
     },
 }

@@ -11,6 +11,7 @@ services:
     volumes:
       - static_volume:/home/app/web/staticfiles
       - ./server/logs:/var/log
+    env_file: server/.env
     expose:
       - 8000
     depends_on:
