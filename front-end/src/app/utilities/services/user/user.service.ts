@@ -8,7 +8,7 @@ import { BaseService } from '../base-service/base-service.service';
 import { NgEventBus } from 'ng-event-bus';
 import { EventBus } from '@utilities/interfaces/event/event';
 import { CacheService } from '@services/cache/cache.service';
-import { HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 
 export interface User {
   _id: string;
@@ -70,7 +70,11 @@ export class UserService extends BaseService<User> {
           this.isUserCached = true;
           this.refreshSubject.next(user);
         },
-        () => this.resetUser()
+        (err) => {
+          if (err instanceof HttpErrorResponse && err.status === 401) {
+            this.resetUser();
+          }
+        }
       )
     );
   }

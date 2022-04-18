@@ -40,6 +40,6 @@ export class SwUpdateService {
     console.log('can update to new version');
     this.updates
       .activateUpdate()
-      .then(() => alert('There is a new version available, please restart the app to apply updates.'));
+      .then(() => alert('There is a new version available, please refresh the page to apply updates.'));
   }
 }
