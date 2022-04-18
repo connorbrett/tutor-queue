@@ -32,7 +32,7 @@ environ.Env.read_env(os.path.join(BASE_DIR, ".env"))
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = env("SECRET_KEY")
+SECRET_KEY = env("SECRET_KEY", default="insecure_key")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env("DEBUG")
@@ -112,22 +112,22 @@ LOGGING = {
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console"],
+            "handlers": ["console", "error_file"],
             "level": "ERROR",
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "level": "DEBUG",
             "propagate": True,
         },
     },
     "root": {
-        "handlers": ["console"],
+        "handlers": ["console", "file"],
         "level": "DEBUG",
     },
 }
@@ -143,9 +143,9 @@ DATABASES = {
         "NAME": "tutorCenter",
         "ENFORCE_SCHEMA": False,
         "CLIENT": {
-            "host": env("DATABASE_URL"),
-            "username": env("DATABASE_USERNAME"),
-            "password": env("DATABASE_PASSWORD"),
+            "host": env("DATABASE_URL", default="localhost"),
+            "username": env("DATABASE_USERNAME", default="admin"),
+            "password": env("DATABASE_PASSWORD", default="test"),
             "authMechanism": "SCRAM-SHA-1",
             "tlsCAFile": certifi.where(),
         },
@@ -292,12 +292,12 @@ SWAGGER_SETTINGS = {
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = env("EMAIL_HOST")
-EMAIL_HOST_USER = env("EMAIL_USERNAME")
+EMAIL_HOST = env("EMAIL_HOST", default="localhost")
+EMAIL_HOST_USER = env("EMAIL_USERNAME", default="admin")
 EMAIL_PORT = env("EMAIL_PORT", default=25)
 EMAIL_USE_TLS = env("EMAIL_USE_TLS", default=False)
 DEFAULT_FROM_EMAIL = "Do Not Reply <tutorcoords@cs.arizona.edu>"
-EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD")
+EMAIL_HOST_PASSWORD = env("EMAIL_PASSWORD", default="")
 
 AUTH_USER_MODEL = "tutor_center.Tutor"
 
