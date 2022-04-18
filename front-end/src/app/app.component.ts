@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ApplicationRef, Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import {
   ActivatedRoute,
@@ -12,7 +12,12 @@ import { SwPush } from '@angular/service-worker';
 import { NotificationService } from '@services/notification/notification.service';
 import { UserService } from '@services/user/user.service';
 import { filter, map } from 'rxjs/operators';
+import { SwUpdate } from '@angular/service-worker';
+import { SwUpdateService } from '@services/sw-update/sw-update.service';
 
+/**
+ *
+ */
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -24,13 +29,26 @@ export class AppComponent {
   showTitle = true;
   isLoading = true;
 
+  /**
+   *
+   * @param router
+   * @param activatedRoute
+   * @param titleService
+   * @param notificationService
+   * @param userService
+   * @param sw
+   * @param appRef
+   */
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private titleService: Title,
     public notificationService: NotificationService,
-    private userService: UserService
+    private userService: UserService,
+    private sw: SwUpdateService,
+    private appRef: ApplicationRef
   ) {
+    this.sw.checkForUpdates();
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
