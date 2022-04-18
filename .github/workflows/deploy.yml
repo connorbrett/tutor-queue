@@ -33,16 +33,16 @@ jobs:
 
       # Pull the latest image to build, and avoid caching pull-only images.
       # (docker pull is faster than caching in most cases.)
-      #- name: Pull the latest image
-      #  run: docker-compose -f docker-compose.yml -f docker-compose.override.build.yml pull
+      - name: Pull the latest image
+        run: docker-compose -f docker-compose.yml -f docker-compose.override.build.yml pull
 
       # In this step, this action saves a list of existing images,
       # the cache is created without them in the post run.
       # It also restores the cache if it exists.
-      #- name: Cache the values into the data layer.
-      #  uses: satackey/action-docker-layer-caching@v0.0.11
-      # Ignore the failure of a step and avoid terminating the job.
-      #  continue-on-error: true
+      - name: Cache the values into the data layer.
+        uses: satackey/action-docker-layer-caching@v0.0.11
+        # Ignore the failure of a step and avoid terminating the job.
+        continue-on-error: true
 
       - name: Build the stack
         run: docker-compose -f docker-compose.yml -f docker-compose.override.build.yml build
