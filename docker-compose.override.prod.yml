@@ -1,5 +1,10 @@
 version: '3.8'
 
 services:
+  proxy:
+    image: ghcr.io/connorbrett/tutor-queue:proxy
   server:
+    image: ghcr.io/connorbrett/tutor-queue:server
     env_file: server/.env
+  front-end:
+    image: ghcr.io/connorbrett/tutor-queue:front-end
