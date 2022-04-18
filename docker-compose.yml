@@ -10,7 +10,6 @@ services:
     command: gunicorn tutor_center.wsgi --bind 0.0.0.0:8000 --worker-tmp-dir /dev/shm --workers=2 --threads=4
     volumes:
       - static_volume:/home/app/web/staticfiles
-      - ./server/logs:/var/log
     expose:
       - 8000
     depends_on:
@@ -20,7 +19,6 @@ services:
     image: asennyey/proxy
     build: ./proxy
     volumes:
-      - ./proxy/logs:/var/log/nginx
       - static_volume:/home/app/web/staticfiles
     ports:
       - 3000:80

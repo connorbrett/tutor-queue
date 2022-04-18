@@ -109,25 +109,41 @@ LOGGING = {
         "console": {
             "class": "logging.StreamHandler",
         },
+        "error_file": {
+            "level": "ERROR",
+            "filters": ["require_debug_false"],
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "error.log" if DEBUG else "/var/log/error.log",
+            "maxBytes": 1024 * 1024 * 15,  # 15MB
+            "backupCount": 10,
+        },
+        "file": {
+            "level": "DEBUG",
+            "filters": ["require_debug_false"],
+            "class": "logging.handlers.RotatingFileHandler",
+            "filename": "app.log" if DEBUG else "/var/log/app.log",
+            "maxBytes": 1024 * 1024 * 15,  # 15MB
+            "backupCount": 10,
+        },
     },
     "loggers": {
         "django": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console"],
+            "handlers": ["console", "error_file"],
             "level": "ERROR",
             "propagate": True,
         },
         "django.request": {
-            "handlers": ["console"],
+            "handlers": ["console", "file"],
             "level": "DEBUG",
             "propagate": True,
         },
     },
     "root": {
-        "handlers": ["console"],
+        "handlers": ["console", "file"],
         "level": "DEBUG",
     },
 }
