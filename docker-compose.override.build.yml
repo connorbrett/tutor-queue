@@ -3,10 +3,10 @@ version: '3.8'
 services:
   proxy:
     build: proxy
-    image: asennyey/proxy
+    image: "${REGISTRY}/${IMAGE_NAME}:proxy"
   server:
     build: server
-    image: asennyey/tutor-center
+    image: "${REGISTRY}/${IMAGE_NAME}:server"
   front-end:
     build: front-end
-    image: asennyey/front-end
+    image: "${REGISTRY}/${IMAGE_NAME}:front-end"
