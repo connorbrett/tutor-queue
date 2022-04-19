@@ -1,4 +1,4 @@
-# University of Arizona Computer Science Tutoring Center Queue
+# University of Arizona Computer Science Tutor Center Queue
 
 ## Contributors:
 - Aramis Sennyey
