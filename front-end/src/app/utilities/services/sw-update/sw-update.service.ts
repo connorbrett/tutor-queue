@@ -2,7 +2,7 @@ import { Injectable, NgZone } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
 import { interval } from 'rxjs';
 
-const SW_UPDATE_INTERVAL = 6 * 60 * 60;
+const SW_UPDATE_INTERVAL = 5 * 60 * 1000;
 
 /**
  *
@@ -19,7 +19,8 @@ export class SwUpdateService {
   constructor(public updates: SwUpdate, private ngZone: NgZone) {
     if (updates.isEnabled) {
       ngZone.runOutsideAngular(() => {
-        interval(1000).subscribe(() => {
+        updates.checkForUpdate();
+        interval(SW_UPDATE_INTERVAL).subscribe(() => {
           updates.checkForUpdate();
         });
       });
