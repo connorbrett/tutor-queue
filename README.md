@@ -1,8 +1,9 @@
-University of Arizona: Computer Science Tutoring Center Queue
+# University of Arizona Computer Science Tutor Center Queue
 
-Contributors:
-Connor Brett
-Hung Le Ba
+## Contributors:
+- Aramis Sennyey
+- Connor Brett
+- Hung Le Ba
 
 # How to Run Locally
 1. Open the workspace file in the directory in VSCode. You will see two folders, front-end and server.
