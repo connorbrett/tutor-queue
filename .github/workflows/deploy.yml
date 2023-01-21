@@ -12,7 +12,6 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
-  NODE_OPTIONS: '--openssl-legacy-provider'
 
 jobs:
   build-and-push-image:
