@@ -61,6 +61,17 @@
       Passwords don't match.
     </div>
   </div>
+  <div class="form-group form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="is_coord"
+      placeholder="Is coordinator?"
+      formControlName="is_coord"
+      [ngClass]="{ 'is-valid': is_coord?.valid }"
+    />
+    <label for="is_coord" class="form-check-label text-black">Is this tutor a coordinator?</label>
+  </div>
   <div class="form-group">
     <label for="courses">What course do you want to tutor for?</label>
     <p>
