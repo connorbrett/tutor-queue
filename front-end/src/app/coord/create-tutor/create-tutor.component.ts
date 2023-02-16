@@ -41,6 +41,7 @@ export class CreateTutorComponent implements OnInit {
     re_password: new FormControl('', [Validators.required, verifySameAsValidator('password')]),
     email: new FormControl('', [Validators.required, Validators.email]),
     courses: new FormControl('', Validators.required),
+    is_coord: new FormControl(false),
   });
 
   error = '';
@@ -79,7 +80,6 @@ export class CreateTutorComponent implements OnInit {
       this.requestForm.value.courses = (this.requestForm.value.courses as string[]).concat(
         ...this.courses.filter((e) => e.code.match(LOWER_LEVEL_CSC_CLASSES)).map((e) => e._id)
       );
-
       this.userService.create(this.requestForm.value).subscribe({
         next: () => {
           this.router.navigate(['coord', 'tutors']);
@@ -146,5 +146,14 @@ export class CreateTutorComponent implements OnInit {
    */
   get re_password(): AbstractControl | null {
     return this.requestForm.get('re_password');
+  }
+
+  /**
+   * Get the form control element `is_coord`.
+   *
+   * @returns Form control element for this component.
+   */
+  get is_coord(): AbstractControl | null {
+    return this.requestForm.get('is_coord');
   }
 }
